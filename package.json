@@ -8,6 +8,7 @@
     "picklify": "github:lwoites/picklify"
   },
   "devDependencies": {
+    "@types/node": "^11.13.6",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.10.0",
