@@ -1,15 +1,21 @@
 
-const picklify = require('picklify'); // para cargar/guarfar unqfy
-const fs = require('fs'); // para cargar/guarfar unqfy
+import picklify from 'picklify'; // para cargar/guarfar unqfy
+import fs from 'fs'; // para cargar/guarfar unqfy
+import { Artist } from './Artist';
+import { Album } from './Album';
+import { Track } from './Track';
+import { Playlist } from './Playlist';
 
 
-class UNQfy {
+export class UNQfy {
+
+  private listeners: any[]
 
   // artistData: objeto JS con los datos necesarios para crear un artista
   //   artistData.name (string)
   //   artistData.country (string)
   // retorna: el nuevo artista creado
-  addArtist(artistData) {
+  addArtist(artistData: {name: string, country: string}): Artist {
   /* Crea un artista y lo agrega a unqfy.
   El objeto artista creado debe soportar (al menos):
     - una propiedad name (string)
@@ -22,7 +28,7 @@ class UNQfy {
   //   albumData.name (string)
   //   albumData.year (number)
   // retorna: el nuevo album creado
-  addAlbum(artistId, albumData) {
+  addAlbum(artistId: number, albumData: {name: string, year: number}): Album {
   /* Crea un album y lo agrega al artista con id artistId.
     El objeto album creado debe tener (al menos):
      - una propiedad name (string)
@@ -36,7 +42,7 @@ class UNQfy {
   //   trackData.duration (number)
   //   trackData.genres (lista de strings)
   // retorna: el nuevo track creado
-  addTrack(albumId, trackData) {
+  addTrack(albumId: number, trackData: {name: string, duration: number, genres: string[]}): Track {
   /* Crea un track y lo agrega al album con id albumId.
   El objeto track creado debe tener (al menos):
       - una propiedad name (string),
@@ -45,31 +51,31 @@ class UNQfy {
   */
   }
 
-  getArtistById(id) {
+  getArtistById(id: number): Artist {
+    
+  }
+
+  getAlbumById(id: number): Album {
 
   }
 
-  getAlbumById(id) {
+  getTrackById(id: number): Track {
 
   }
 
-  getTrackById(id) {
-
-  }
-
-  getPlaylistById(id) {
+  getPlaylistById(id: number): Playlist {
 
   }
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
-  getTracksMatchingGenres(genres) {
+  getTracksMatchingGenres(genres: string[]): Track[] {
 
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
-  getTracksMatchingArtist(artistName) {
+  getTracksMatchingArtist(artistName: string): Track[] {
 
   }
 
@@ -78,7 +84,7 @@ class UNQfy {
   // genresToInclude: array de generos
   // maxDuration: duración en segundos
   // retorna: la nueva playlist creada
-  createPlaylist(name, genresToInclude, maxDuration) {
+  createPlaylist(name: string, genresToInclude: string[], maxDuration: number): Playlist {
   /*** Crea una playlist y la agrega a unqfy. ***
     El objeto playlist creado debe soportar (al menos):
       * una propiedad name (string)
@@ -88,7 +94,7 @@ class UNQfy {
 
   }
 
-  save(filename) {
+  save(filename: string): void {
     const listenersBkp = this.listeners;
     this.listeners = [];
 
@@ -98,7 +104,7 @@ class UNQfy {
     fs.writeFileSync(filename, JSON.stringify(serializedData, null, 2));
   }
 
-  static load(filename) {
+  static load(filename: string): any {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
     const classes = [UNQfy];
@@ -107,7 +113,4 @@ class UNQfy {
 }
 
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
-module.exports = {
-  UNQfy,
-};
 

@@ -1,28 +1,29 @@
 /* eslint-env node, mocha */
 
-const assert = require('chai').assert;
-const libunqfy = require('./unqfy');
+import { assert } from 'chai'
+import { UNQfy } from '../modelo/unqfy'
+import { Artist } from '../modelo/Artist';
+import { Album } from '../modelo/Album';
 
-
-function createAndAddArtist(unqfy, artistName, country) {
+function createAndAddArtist(unqfy: UNQfy, artistName: string, country: string): Artist {
   const artist = unqfy.addArtist({ name: artistName, country });
   return artist;
 }
 
-function createAndAddAlbum(unqfy, artistId, albumName, albumYear) {
+function createAndAddAlbum(unqfy: UNQfy, artistId: number, albumName: string, albumYear: number): Album {
   return unqfy.addAlbum(artistId, { name: albumName, year: albumYear });
 }
 
-function createAndAddTrack(unqfy, albumName, trackName, trackDuraction, trackGenres) {
-  return unqfy.addTrack(albumName, { name: trackName, duration: trackDuraction, genres: trackGenres });
+function createAndAddTrack(unqfy: UNQfy, albumId: number, trackName: string, trackDuraction: number, trackGenres: string[]): Track {
+  return unqfy.addTrack(albumId, { name: trackName, duration: trackDuraction, genres: trackGenres });
 }
 
 
 describe('Add, remove and filter data', () => {
-  let unqfy = null;
+  let unqfy: UNQfy = null;
 
   beforeEach(() => {
-    unqfy = new libunqfy.UNQfy();
+    unqfy = new UNQfy();
   });
 
   it('should add an artist', () => {
@@ -106,7 +107,7 @@ describe('Add, remove and filter data', () => {
     createAndAddTrack(unqfy, album3.id, 'Another song', 500, ['classic']);
     createAndAddTrack(unqfy, album3.id, 'Another song II', 500, ['movie']);
 
-    const matchingTracks = unqfy.getTracksMatchingArtist(artist);
+    const matchingTracks = unqfy.getTracksMatchingArtist(artist.name);
 
     assert.isArray(matchingTracks);
     assert.lengthOf(matchingTracks, 3);
@@ -120,7 +121,7 @@ describe('Playlist Creation and properties', () => {
   let unqfy = null;
 
   beforeEach(() => {
-    unqfy = new libunqfy.UNQfy();
+    unqfy = new UNQfy();
   });
 
   it('should create a playlist as requested', () => {
