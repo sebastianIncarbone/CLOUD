@@ -26,7 +26,7 @@
     "lint": "modelo/**/*.ts"
   },
   "scripts": {
-    "test": "mocha --require ts-node/register test/**/*.ts",
+    "test": "mocha --require ts-node/register test/tdd/*.ts",
     "lint": "tslint --project tsconfig.json --config tslint.json --format codeframe modelo/**/*.ts",
     "watch": "npm-watch"
   },
