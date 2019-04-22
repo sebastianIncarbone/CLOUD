@@ -11,7 +11,7 @@ describe('playlist', () => {
     it('tiene una duracion', () =>{
         const duration: number = 1400;
         const nvaPlaylist = new Playlist('Roses playlist', ['pop'], duration);
-        assert.equal(nvaPlaylist.getmaxDuration(), duration);
+        assert.equal(nvaPlaylist.duration(), duration);
     })    
     it('conoce si tiene un Track en su lista', () =>{
         const durationPlaylist: number = 1400;

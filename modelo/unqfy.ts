@@ -6,17 +6,19 @@ import { Album } from './Album';
 import { Track } from './Track';
 import { Playlist } from './Playlist';
 
-
+//refactor para hacer, tener una funcion que te de las listas de todo y no usar el colaborador
 
 export class UNQfy {
   artists: Artist[];
   albums: Album[];
-  playsLists: Playlist[];
+  playlists: Playlist[];
+  tracks: Track[]
 
   constructor(){
     this.artists = [];
     this.albums = [];
-    this.playsLists = [];
+    this.playlists = [];
+    this.tracks = [];
   }
 
   getAlbums() :Album[] {
@@ -26,7 +28,7 @@ export class UNQfy {
     return this.artists;
   }
   getPlaysLists(): Playlist[]{
-    return this.playsLists;
+    return this.playlists;
   }
   private listeners: any[]
 
@@ -40,7 +42,7 @@ export class UNQfy {
     - una propiedad name (string)
     - una propiedad country (string)
   */
-    const newArtist = new Artist(artistData.name, artistData.country)
+    const newArtist = new Artist(artistData.name, artistData.country);
     this.artists.push(newArtist);
 
     return newArtist;
@@ -81,43 +83,63 @@ export class UNQfy {
  const newTrack = new Track(trackData.name, trackData.duration, trackData.genres);
     const album   = this.getAlbumById(albumId);
     album.addTrack(newTrack);
-    //this.Tracks.push(newTrack); ??????????????????¿¿¿¿¿¿¿¿¿¿¿¿¿¿
+    this.tracks.push(newTrack); 
 
     return newTrack;
   }
 
   getArtistById(id: number): Artist {
-    const index = this.artists.findIndex(Artist => Artist.getId() == id);
-    return this.artists[index];
+    const artist =  this.artists.find(artist => artist.getId() == id);
+      if(artist){
+        return artist;
+      }else{
+        throw new Error("The artist does not exist in the application");
+      }
   }
 
   getAlbumById(id: number): Album {
-    const index = this.albums.findIndex(album => album.getId() == id);
-    return this.albums[index];
+    const album =  this.albums.find(album => album.getId() == id);
+      if(album){
+        return album;
+      }else{
+        throw new Error("The album does not exist in the application");
+      }
   }
 
   getTrackById(id: number): Track{
-    //tenemos que tener los tracks en una lista o recorrer todos los albums?
+    const track = this.tracks.find(track => track.getId() == id);
+      if(track){
+        return track;
+      }else{
+        throw new Error("The track does not exist in the application");
+      }
   }
 
   getPlaylistById(id: number): Playlist {
-    const index = this.playsLists.findIndex(Playlist => Playlist.getId() == id);
-    return this.playsLists[index];
+    const playlist = this.playlists.find(playlist => playlist.getId() == id);
+      if(playlist){
+        return playlist;
+      }else{
+        throw new Error("The playlist does not exist in the aplication");
+      }
   }
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres: string[]): Track[] {
-      const tracks: Track[] = [] 
-      this.albums.forEach(albums => tracks.concat(albums.getTracks()))
-
-      return tracks.filter(track => track.shareAnyGenre(genres)); //Nose estoy muy quemado 
+      return this.tracks.filter(track => track.shareAnyGenre(genres));  
   }
-
+  findArtistByName(artistName: string): Artist{
+    return this.artists.find(artist => artist.getName() == artistName)! 
+  }
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName: string): Track[] {
-      
+    x //estaria bueno que alguien revise esta funcion 
+      const artist = this.findArtistByName(artistName);
+      let tracksOfArtist: Track[] = [];
+     artist.getAlbums().forEach(album => tracksOfArtist = tracksOfArtist.concat(album.getTracks()));
+     return tracksOfArtist; 
   }
 
 
@@ -132,9 +154,56 @@ export class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
+    const playList = new Playlist(name, genresToInclude, maxDuration);
+    this.playlists.push(playList);
 
+    return playList;
   }
+  searchByName(name: string): UNQfy{
+    const albumsWithString   = this.searchAlbumByName(name);
+    const artistsWithString  = this.searchArtistsByName(name);
+    const tracksWithstring   = this.searchTrackByName(name);
+    const playListWithString = this.searchPlayListByName(name);
+   
+    const unqfyResult = new UNQfy();
+    unqfyResult.setAlbums(albumsWithString);
+    unqfyResult.setArtists(artistsWithString);
+    unqfyResult.setTracks(tracksWithstring);
+    unqfyResult.setPlayList(playListWithString);
 
+    return unqfyResult;
+  }
+  filterByName(arrayList: any[], name:string){
+    return arrayList.filter(parameter => parameter.getName().includes(name))
+  }
+  searchAlbumByName(name: string): Album[] {
+    const albums: Album[] = this.filterByName(this.albums, name);
+    return albums;
+  }
+  searchArtistsByName(name: string): Artist[] {
+    const artists: Artist[]=  this.filterByName(this.artists, name);
+    return artists;
+  }
+  searchPlayListByName(name: string): Playlist[] {
+    const playList: Playlist[] =  this.filterByName(this.playlists, name);
+    return playList;
+  }
+  searchTrackByName(name: string): Track[] {
+    const track: Track[]= this.filterByName(this.tracks, name);
+    return track;
+  }
+  setAlbums(newAlbums: Album[]): void{
+    this.albums = newAlbums;
+  }
+  setArtists(newArtists: Artist[]): void{
+    this.artists = newArtists;
+  }
+  setTracks(newTracks: Track[]): void{
+    this.tracks = newTracks;
+  }
+  setPlayList(newPlaylists: Playlist[]): void{
+    this.playlists = newPlaylists
+  }
   save(filename: string): void {
     const listenersBkp = this.listeners;
     this.listeners = [];

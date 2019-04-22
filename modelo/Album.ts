@@ -12,7 +12,9 @@ export class Album {
         this.tracks = []
         this.id = 1;
     }
-
+    getId(): number{
+        return this.id;
+    }
     getName() : string {
         return this.name;
     }

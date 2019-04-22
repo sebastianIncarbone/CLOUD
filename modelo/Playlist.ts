@@ -24,7 +24,7 @@ export class Playlist {
        return this.genders;
     }
 
-    getmaxDuration(): number {
+    duration(): number {
        return this.maxDuration;
     }
     
