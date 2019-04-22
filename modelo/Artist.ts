@@ -2,7 +2,7 @@ import { Album } from "./Album";
 
 export class Artist {
     id: number;
-    name: string ;
+    name: string;
     country: string;
     albums: Album[];
 
@@ -16,10 +16,10 @@ export class Artist {
     getId(): number {
         return this.id
     }
-    getName() : string {
+    getName(): string {
         return this.name;
     }
-    getCountry() : string {
+    getCountry(): string {
         return this.country;
     }
     getAlbums() {

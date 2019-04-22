@@ -1,6 +1,7 @@
 import { Artist } from "../../modelo/Artist";
 import { assert } from "chai";
-import { Album } from "../../modelo/Album";
+import { Album } from "../../modelo/Album"
+
 
 describe('artista' ,() => {
     it('El artista se crea con un id, un nombre y un pais', () => {

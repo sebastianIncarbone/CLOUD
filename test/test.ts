@@ -1,12 +1,13 @@
 /* eslint-env node, mocha */
 
 import { assert } from 'chai'
-import { UNQfy } from '../modelo/unqfy'
+import { UNQfy  } from '../modelo/unqfy'
 import { Artist } from '../modelo/Artist';
-import { Album } from '../modelo/Album';
+import { Album  } from '../modelo/Album';
+import { Track  } from '../modelo/Track';
 
 function createAndAddArtist(unqfy: UNQfy, artistName: string, country: string): Artist {
-  const artist = unqfy.addArtist({ name: artistName, country });
+  const artist = unqfy.addArtist({ name: artistName, country: country });
   return artist;
 }
 
@@ -20,7 +21,7 @@ function createAndAddTrack(unqfy: UNQfy, albumId: number, trackName: string, tra
 
 
 describe('Add, remove and filter data', () => {
-  let unqfy: UNQfy = null;
+  let unqfy: UNQfy;
 
   beforeEach(() => {
     unqfy = new UNQfy();
@@ -118,7 +119,7 @@ describe('Add, remove and filter data', () => {
 });
 
 describe('Playlist Creation and properties', () => {
-  let unqfy = null;
+  let unqfy: UNQfy;
 
   beforeEach(() => {
     unqfy = new UNQfy();
