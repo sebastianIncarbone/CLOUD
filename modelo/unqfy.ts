@@ -1,5 +1,5 @@
 
-import picklify from 'picklify'; // para cargar/guarfar unqfy
+import picklify from '../node_modules/picklify'; // para cargar/guarfar unqfy
 import fs from 'fs'; // para cargar/guarfar unqfy
 import { Artist } from './Artist';
 import { Album } from './Album';
@@ -7,8 +7,27 @@ import { Track } from './Track';
 import { Playlist } from './Playlist';
 
 
-export class UNQfy {
 
+export class UNQfy {
+  artists: Artist[];
+  albums: Album[];
+  playsLists: Playlist[];
+
+  constructor(){
+    this.artists = [];
+    this.albums = [];
+    this.playsLists = [];
+  }
+
+  getAlbums() :Album[] {
+    return this.albums;
+  }
+  getArtists(): Artist[]{
+    return this.artists;
+  }
+  getPlaysLists(): Playlist[]{
+    return this.playsLists;
+  }
   private listeners: any[]
 
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -21,6 +40,10 @@ export class UNQfy {
     - una propiedad name (string)
     - una propiedad country (string)
   */
+    const newArtist = new Artist(artistData.name, artistData.country)
+    this.artists.push(newArtist);
+
+    return newArtist;
   }
 
 
@@ -34,6 +57,12 @@ export class UNQfy {
      - una propiedad name (string)
      - una propiedad year (number)
   */
+    const newAlbum = new Album(albumData.name, albumData.year)
+    const artist   = this.getArtistById(artistId);
+    artist.addAlbum(newAlbum);
+    this.albums.push(newAlbum);
+
+    return newAlbum;
   }
 
 
@@ -49,34 +78,46 @@ export class UNQfy {
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
+ const newTrack = new Track(trackData.name, trackData.duration, trackData.genres);
+    const album   = this.getAlbumById(albumId);
+    album.addTrack(newTrack);
+    //this.Tracks.push(newTrack); ??????????????????¿¿¿¿¿¿¿¿¿¿¿¿¿¿
+
+    return newTrack;
   }
 
   getArtistById(id: number): Artist {
-    
+    const index = this.artists.findIndex(Artist => Artist.getId() == id);
+    return this.artists[index];
   }
 
   getAlbumById(id: number): Album {
-
+    const index = this.albums.findIndex(album => album.getId() == id);
+    return this.albums[index];
   }
 
-  getTrackById(id: number): Track {
-
+  getTrackById(id: number): Track{
+    //tenemos que tener los tracks en una lista o recorrer todos los albums?
   }
 
   getPlaylistById(id: number): Playlist {
-
+    const index = this.playsLists.findIndex(Playlist => Playlist.getId() == id);
+    return this.playsLists[index];
   }
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres: string[]): Track[] {
+      const tracks: Track[] = [] 
+      this.albums.forEach(albums => tracks.concat(albums.getTracks()))
 
+      return tracks.filter(track => track.shareAnyGenre(genres)); //Nose estoy muy quemado 
   }
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName: string): Track[] {
-
+      
   }
 
 

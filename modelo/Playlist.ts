@@ -6,12 +6,14 @@ export class Playlist {
     genders: string[];
     maxDuration: number;
     tracks: Track[];
+    id: number
 
     constructor(newName: string, newGenders: string[], newMaxDuration: number) {
         this.name = newName;
         this.genders = newGenders;
         this.maxDuration = newMaxDuration;
         this.tracks = [];
+        this.id = 1;
     }
 
     getName(): string {
@@ -26,8 +28,11 @@ export class Playlist {
        return this.maxDuration;
     }
     
-    addTrack(newTrack: Track) {
+    addTrack(newTrack: Track): void {
         this.tracks.push(newTrack);
+    }
+    getId(): number{
+        return this.id;
     }
 
     hasTrack(aTrack: Track): boolean {
