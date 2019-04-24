@@ -1,5 +1,4 @@
 
-
 import fs from 'fs'; // necesitado para guardar/cargar unqfy
 import { UNQfy } from './modelo/unqfy';
 
@@ -16,6 +15,7 @@ function saveUNQfy(unqfy: UNQfy, filename = 'data.json'): void {
   unqfy.save(filename);
 }
 
+// tslint:disable-next-line:max-line-length
 /*
  En esta funcion deberán interpretar los argumentos pasado por linea de comandos
  e implementar los diferentes comandos.

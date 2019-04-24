@@ -1,36 +1,37 @@
-
-import picklify from '../node_modules/picklify'; // para cargar/guarfar unqfy
+// @ts-ignore
+import picklify from 'picklify'; // para cargar/guarfar unqfy
 import fs from 'fs'; // para cargar/guarfar unqfy
 import { Artist } from './Artist';
 import { Album } from './Album';
 import { Track } from './Track';
 import { Playlist } from './Playlist';
 
-//refactor para hacer, tener una funcion que te de las listas de todo y no usar el colaborador
+// refactor para hacer, tener una funcion que te de las listas de todo y no usar el colaborador
 
 export class UNQfy {
   artists: Artist[];
   albums: Album[];
   playlists: Playlist[];
-  tracks: Track[]
+  tracks: Track[];
+  private listeners: any[];
 
-  constructor(){
+  constructor() {
     this.artists = [];
     this.albums = [];
     this.playlists = [];
     this.tracks = [];
+    this.listeners = [];
   }
 
   getAlbums() :Album[] {
     return this.albums;
   }
-  getArtists(): Artist[]{
+  getArtists(): Artist[] {
     return this.artists;
   }
-  getPlaysLists(): Playlist[]{
+  getPlaysLists(): Playlist[] {
     return this.playlists;
   }
-  private listeners: any[]
 
   // artistData: objeto JS con los datos necesarios para crear un artista
   //   artistData.name (string)
@@ -48,18 +49,17 @@ export class UNQfy {
     return newArtist;
   }
 
-
   // albumData: objeto JS con los datos necesarios para crear un album
   //   albumData.name (string)
   //   albumData.year (number)
   // retorna: el nuevo album creado
-  addAlbum(artistId: number, albumData: {name: string, year: number}): Album {
+  addAlbum(artistId: string, albumData: {name: string, year: number}): Album {
   /* Crea un album y lo agrega al artista con id artistId.
     El objeto album creado debe tener (al menos):
      - una propiedad name (string)
      - una propiedad year (number)
   */
-    const newAlbum = new Album(albumData.name, albumData.year)
+    const newAlbum = new Album(albumData.name, albumData.year);
     const artist   = this.getArtistById(artistId);
     artist.addAlbum(newAlbum);
     this.albums.push(newAlbum);
@@ -67,82 +67,84 @@ export class UNQfy {
     return newAlbum;
   }
 
-
   // trackData: objeto JS con los datos necesarios para crear un track
   //   trackData.name (string)
   //   trackData.duration (number)
   //   trackData.genres (lista de strings)
   // retorna: el nuevo track creado
-  addTrack(albumId: number, trackData: {name: string, duration: number, genres: string[]}): Track {
+  addTrack(albumId: string, trackData: {name: string, duration: number, genres: string[]}): Track {
   /* Crea un track y lo agrega al album con id albumId.
   El objeto track creado debe tener (al menos):
       - una propiedad name (string),
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
- const newTrack = new Track(trackData.name, trackData.duration, trackData.genres);
+    const newTrack = new Track(trackData.name, trackData.duration, trackData.genres);
     const album   = this.getAlbumById(albumId);
     album.addTrack(newTrack);
-    this.tracks.push(newTrack); 
+    this.tracks.push(newTrack);
 
     return newTrack;
   }
 
-  getArtistById(id: number): Artist {
-    const artist =  this.artists.find(artist => artist.getId() == id);
-      if(artist){
-        return artist;
-      }else{
-        throw new Error("The artist does not exist in the application");
-      }
+  getArtistById(id: string): Artist {
+    const artist =  this.artists.find(artist => artist.getId() === id);
+    if (artist) {
+      return artist;
+    }
+    throw new Error('Artsit not found');
+
   }
 
-  getAlbumById(id: number): Album {
-    const album =  this.albums.find(album => album.getId() == id);
-      if(album){
-        return album;
-      }else{
-        throw new Error("The album does not exist in the application");
-      }
+  getAlbumById(id: string): Album {
+    const album =  this.albums.find(album => album.getId() === id);
+    if (album) {
+      return album;
+    }
+    throw new Error('Album not found');
+
   }
 
-  getTrackById(id: number): Track{
-    const track = this.tracks.find(track => track.getId() == id);
-      if(track){
-        return track;
-      }else{
-        throw new Error("The track does not exist in the application");
-      }
+  getTrackById(id: string): Track {
+    const track = this.tracks.find(track => track.getId() === id);
+    if (track) {
+      return track;
+    }
+    throw new Error('Track not found');
+
   }
 
-  getPlaylistById(id: number): Playlist {
-    const playlist = this.playlists.find(playlist => playlist.getId() == id);
-      if(playlist){
-        return playlist;
-      }else{
-        throw new Error("The playlist does not exist in the aplication");
-      }
+  getPlaylistById(id: string): Playlist {
+    const playlist = this.playlists.find(playlist => playlist.getId() === id);
+    if (playlist) {
+      return playlist;
+    }
+    throw new Error('Playlist not found');
+
   }
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres: string[]): Track[] {
-      return this.tracks.filter(track => track.shareAnyGenre(genres));  
+    return this.tracks.filter(track => track.shareAnyGenre(genres));
   }
-  findArtistByName(artistName: string): Artist{
-    return this.artists.find(artist => artist.getName() == artistName)! 
+  findArtistByName(artistName: string): Artist {
+    const artist =  this.artists.find(artist => artist.getName() === artistName);
+    if (artist) {
+      return artist;
+    }
+    throw new Error('Artist not found');
+
   }
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName: string): Track[] {
-    x //estaria bueno que alguien revise esta funcion 
-      const artist = this.findArtistByName(artistName);
-      let tracksOfArtist: Track[] = [];
-     artist.getAlbums().forEach(album => tracksOfArtist = tracksOfArtist.concat(album.getTracks()));
-     return tracksOfArtist; 
+     // estaria bueno que alguien revise esta funcion
+    const artist = this.findArtistByName(artistName);
+    let tracksOfArtist: Track[] = [];
+    artist.getAlbums().forEach(album => tracksOfArtist = tracksOfArtist.concat(album.getTracks()));
+    return tracksOfArtist;
   }
-
-
   // name: nombre de la playlist
   // genresToInclude: array de generos
   // maxDuration: duración en segundos
@@ -155,33 +157,37 @@ export class UNQfy {
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
     const playList = new Playlist(name, genresToInclude, maxDuration);
+    let variableDuration = maxDuration;
+    const tracksToAdd = this.tracks.forEach((track) => {
+      if (track.duration <= variableDuration && genresToInclude.some(genre => track.genres.includes(genre))) {
+        playList.tracks.push(track);
+        variableDuration -= track.duration;
+      }
+    });
     this.playlists.push(playList);
-
     return playList;
   }
-  searchByName(name: string): UNQfy{
+  searchByName(name: string): {albums: Album[], artists: Artist[], playlists: Playlist[], tracks: Track[]} {
     const albumsWithString   = this.searchAlbumByName(name);
     const artistsWithString  = this.searchArtistsByName(name);
     const tracksWithstring   = this.searchTrackByName(name);
     const playListWithString = this.searchPlayListByName(name);
-   
-    const unqfyResult = new UNQfy();
-    unqfyResult.setAlbums(albumsWithString);
-    unqfyResult.setArtists(artistsWithString);
-    unqfyResult.setTracks(tracksWithstring);
-    unqfyResult.setPlayList(playListWithString);
-
-    return unqfyResult;
+    return {
+      albums: albumsWithString,
+      artists: artistsWithString,
+      playlists: playListWithString,
+      tracks: tracksWithstring,
+    };
   }
-  filterByName(arrayList: any[], name:string){
-    return arrayList.filter(parameter => parameter.getName().includes(name))
+  filterByName(arrayList: any[], name:string) {
+    return arrayList.filter(parameter => parameter.getName().includes(name));
   }
   searchAlbumByName(name: string): Album[] {
     const albums: Album[] = this.filterByName(this.albums, name);
     return albums;
   }
   searchArtistsByName(name: string): Artist[] {
-    const artists: Artist[]=  this.filterByName(this.artists, name);
+    const artists: Artist[] =  this.filterByName(this.artists, name);
     return artists;
   }
   searchPlayListByName(name: string): Playlist[] {
@@ -189,38 +195,32 @@ export class UNQfy {
     return playList;
   }
   searchTrackByName(name: string): Track[] {
-    const track: Track[]= this.filterByName(this.tracks, name);
+    const track: Track[] = this.filterByName(this.tracks, name);
     return track;
   }
-  setAlbums(newAlbums: Album[]): void{
+  setAlbums(newAlbums: Album[]): void {
     this.albums = newAlbums;
   }
-  setArtists(newArtists: Artist[]): void{
+  setArtists(newArtists: Artist[]): void {
     this.artists = newArtists;
   }
-  setTracks(newTracks: Track[]): void{
+  setTracks(newTracks: Track[]): void {
     this.tracks = newTracks;
   }
-  setPlayList(newPlaylists: Playlist[]): void{
-    this.playlists = newPlaylists
+  setPlayList(newPlaylists: Playlist[]): void {
+    this.playlists = newPlaylists;
   }
   save(filename: string): void {
-    const listenersBkp = this.listeners;
-    this.listeners = [];
-
     const serializedData = picklify.picklify(this);
 
-    this.listeners = listenersBkp;
     fs.writeFileSync(filename, JSON.stringify(serializedData, null, 2));
   }
 
   static load(filename: string): any {
-    const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
-    //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
+    const serializedData = fs.readFileSync(filename, { encoding: 'utf-8' });
+    // COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
     const classes = [UNQfy];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
-
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
-

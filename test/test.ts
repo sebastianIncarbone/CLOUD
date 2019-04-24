@@ -1,24 +1,23 @@
 /* eslint-env node, mocha */
 
-import { assert } from 'chai'
-import { UNQfy  } from '../modelo/unqfy'
+import { assert } from 'chai';
+import { UNQfy  } from '../modelo/unqfy';
 import { Artist } from '../modelo/Artist';
 import { Album  } from '../modelo/Album';
 import { Track  } from '../modelo/Track';
 
 function createAndAddArtist(unqfy: UNQfy, artistName: string, country: string): Artist {
-  const artist = unqfy.addArtist({ name: artistName, country: country });
+  const artist = unqfy.addArtist({ country, name: artistName });
   return artist;
 }
 
-function createAndAddAlbum(unqfy: UNQfy, artistId: number, albumName: string, albumYear: number): Album {
+function createAndAddAlbum(unqfy: UNQfy, artistId: string, albumName: string, albumYear: number): Album {
   return unqfy.addAlbum(artistId, { name: albumName, year: albumYear });
 }
 
-function createAndAddTrack(unqfy: UNQfy, albumId: number, trackName: string, trackDuraction: number, trackGenres: string[]): Track {
+function createAndAddTrack(unqfy: UNQfy, albumId: string, trackName: string, trackDuraction: number, trackGenres: string[]): Track {
   return unqfy.addTrack(albumId, { name: trackName, duration: trackDuraction, genres: trackGenres });
 }
-
 
 describe('Add, remove and filter data', () => {
   let unqfy: UNQfy;
@@ -46,7 +45,8 @@ describe('Add, remove and filter data', () => {
   it('should add a track to an album', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+    const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200,
+                                    ['rock', 'hard rock']);
 
     assert.equal(track.name, 'Welcome to the jungle');
     assert.strictEqual(track.duration, 200);
@@ -73,8 +73,10 @@ describe('Add, remove and filter data', () => {
   it('should get all tracks matching genres', () => {
     const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album1 = createAndAddAlbum(unqfy, artist1.id, 'Appetite for Destruction', 1987);
-    const t0 = createAndAddTrack(unqfy, album1.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
-    const t1 = createAndAddTrack(unqfy, album1.id, 'Sweet Child o\' Mine', 500, ['rock', 'hard rock', 'pop', 'movie']);
+    const t0 = createAndAddTrack(unqfy, album1.id, 'Welcome to the jungle', 200,
+                                 ['rock', 'hard rock', 'movie']);
+    const t1 = createAndAddTrack(unqfy, album1.id, 'Sweet Child o\' Mine', 500,
+                                 ['rock', 'hard rock', 'pop', 'movie']);
 
     const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
     const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
@@ -96,8 +98,10 @@ describe('Add, remove and filter data', () => {
   it('should get all tracks matching artist', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
-    const t2 = createAndAddTrack(unqfy, album.id, 'It\'s so easy', 200, ['rock', 'hard rock']);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200,
+                                 ['rock', 'hard rock']);
+    const t2 = createAndAddTrack(unqfy, album.id, 'It\'s so easy', 200,
+                                 ['rock', 'hard rock']);
 
     const album2 = createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion I', 1992);
     const t3 = createAndAddTrack(unqfy, album2.id, 'Don\'t Cry', 500, ['rock', 'hard rock']);
@@ -128,8 +132,10 @@ describe('Playlist Creation and properties', () => {
   it('should create a playlist as requested', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
-    createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200,
+                                 ['rock', 'hard rock', 'movie']);
+    createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500,
+                      ['rock', 'hard rock', 'pop', 'movie']);
 
     const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
     const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
