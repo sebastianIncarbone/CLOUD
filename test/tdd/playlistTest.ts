@@ -3,28 +3,55 @@ import { Playlist } from '../../modelo/Playlist';
 import { Track } from '../../modelo/Track';
 
 describe('playlist', () => {
+  let nombre: string;
+  let durationPlaylist: number;
+  let nvaPlaylist: Playlist;
+  let genders: string[];
+  let duration: number;
+  let name: string;
+  let teParaTres: Track;
+  beforeEach(() => {
+    nombre = 'Roses playlist';
+    durationPlaylist = 1400;
+    nvaPlaylist = new Playlist(nombre, ['pop'], durationPlaylist);
+    genders = ['Rock Argentino', 'Calm Rock', 'Sad Rock'];
+    duration = 380;
+    name = 'Te Para Tres';
+    teParaTres = new Track(name, duration, genders);
+  });
   it('tiene nombre', () => {
-    const nombre: string = 'Roses playlist';
-    const nvaPlaylist = new Playlist(nombre, ['pop'], 1400);
     assert.equal(nvaPlaylist.getName(), nombre);
   });
   it('tiene una duracion', () => {
-    const duration: number = 1400;
-    const nvaPlaylist = new Playlist('Roses playlist', ['pop'], duration);
-    assert.equal(nvaPlaylist.duration(), duration);
+    assert.equal(nvaPlaylist.duration(), durationPlaylist);
   });
   it('conoce si tiene un Track en su lista', () => {
-    const durationPlaylist: number = 1400;
-    const nvaPlaylist = new Playlist('Roses playlist', ['pop'], durationPlaylist);
-
-    const genders  = ['Rock Argentino', 'Calm Rock', 'Sad Rock'];
-    const duration = 380;
-    const name = 'Te Para Tres';
-
-    const teParaTres = new Track(name, duration, genders);
-
     nvaPlaylist.addTrack(teParaTres);
 
     assert.isOk(nvaPlaylist.hasTrack(teParaTres));
+  });
+  it('no se agregan Tracks duplicados', () => {
+    const demoliendoHoteles = new Track('Demoliendo Hoteles', 272, ['Rock Nacional', 'Rock de verdad']);
+
+    nvaPlaylist.addTrack(demoliendoHoteles);
+    nvaPlaylist.addTrack(demoliendoHoteles);
+
+    assert.equal(nvaPlaylist.tracks.length, 1);
+  });
+  it('elimina automaticamente generos duplicados mal asignados', () => {
+    const otraPlaylist: Playlist = new Playlist(nombre, ['pop', 'pop', 'pop'], durationPlaylist);
+
+    assert.equal(otraPlaylist.getgenders().length, 1);
+  });
+  it('si esta vacía y se le borra un elemento sólo sigue vacía', () => {
+    nvaPlaylist.deleteTrack(teParaTres);
+
+    assert.equal(nvaPlaylist.tracks.length, 0);
+  });
+  it('al eliminar el único Track de una playlist esta queda vacía', () => {
+    nvaPlaylist.addTrack(teParaTres);
+    nvaPlaylist.deleteTrack(teParaTres);
+
+    assert.equal(nvaPlaylist.tracks.length, 0);
   });
 });

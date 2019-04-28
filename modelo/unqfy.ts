@@ -10,21 +10,18 @@ import { Playlist } from './Playlist';
 
 export class UNQfy {
   artists: Artist[];
-  albums: Album[];
   playlists: Playlist[];
-  tracks: Track[];
   private listeners: any[];
 
   constructor() {
     this.artists = [];
-    this.albums = [];
     this.playlists = [];
-    this.tracks = [];
     this.listeners = [];
   }
 
-  getAlbums() :Album[] {
-    return this.albums;
+  getAlbums(): Album[]{
+    const albums: Album[] = []
+    return this.artists
   }
   getArtists(): Artist[] {
     return this.artists;

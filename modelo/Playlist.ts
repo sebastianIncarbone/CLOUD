@@ -11,7 +11,7 @@ export class Playlist {
 
   constructor(newName: string, newGenders: string[], newMaxDuration: number) {
     this.name = newName;
-    this.genders = newGenders;
+    this.genders = this.removerDuplicados(newGenders);
     this.maxDuration = newMaxDuration;
     this.tracks = [];
     this.id = uniqid();
@@ -31,7 +31,9 @@ export class Playlist {
 
   addTrack(newTrack: Track): void {
     this.tracks.push(newTrack);
+    this.tracks = this.removerDuplicados(this.tracks);
   }
+
   getId(): string {
     return this.id;
   }
@@ -39,5 +41,23 @@ export class Playlist {
   hasTrack(aTrack: Track): boolean {
     return this.tracks.includes(aTrack);
   }
+
+  deleteTrack(aTrack: Track): void {
+    const index = this.tracks.indexOf(aTrack);
+    this.tracks.splice(index);
+  }
+
+  private removerDuplicados = function (anArray: any[]): any[] {
+    // tslint:disable-next-line: prefer-const
+    let resultado: any[] = [];
+    const noExiste: number = -1;
+    // tslint:disable-next-line: no-increment-decrement
+    for (let i = 0; i < anArray.length; i++) {
+      if (resultado.indexOf(anArray[i]) === noExiste) {
+        resultado.push(anArray[i]);
+      }
+    }
+    return resultado;
+  };
 
 }

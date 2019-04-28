@@ -7,11 +7,23 @@ export class Track {
   id: string;
 
   constructor(newName: string, newDuration:number, newGender: string[]) {
-    this.genres = newGender;
+    this.genres = this.removerDuplicados(newGender);
     this.name = newName;
     this.duration = newDuration;
     this.id = uniqid();
   }
+  private removerDuplicados = function (anArray: any[]): any[] {
+    // tslint:disable-next-line: prefer-const
+    let resultado: any[] = [];
+    const noExiste: number = -1;
+    // tslint:disable-next-line: no-increment-decrement
+    for (let i = 0; i < anArray.length; i++) {
+      if (resultado.indexOf(anArray[i]) === noExiste) {
+        resultado.push(anArray[i]);
+      }
+    }
+    return resultado;
+  };
   getName(): string {
     return this.name;
   }

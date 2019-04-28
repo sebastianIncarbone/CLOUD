@@ -21,4 +21,31 @@ describe('artista' , () => {
     fitoPaez.addAlbum(circoBeat);
     assert.isOk(fitoPaez.getAlbums().includes(circoBeat));
   });
+  it('agrega varios discos a su discografía', () => {
+    const callejeros: Artist = new Artist('Callejeros', 'Argentina');
+    const presion: Album = new Album('Presión', 2003);
+    const roncanrolesSinDestino: Album = new Album('Roncanroles Sin Destino', 2004);
+    const senhales: Album = new Album('Señales', 2006);
+
+    callejeros.addAlbum(presion);
+    callejeros.addAlbum(roncanrolesSinDestino);
+    callejeros.addAlbum(senhales);
+
+    assert.equal(callejeros.getAlbums().length, 3);
+  });
+  it('no tiene discos duplicados en su discografía', () => {
+    const callejeros: Artist = new Artist('Callejeros', 'Argentina');
+    const presion: Album = new Album('Presión', 2003);
+    const roncanrolesSinDestino: Album = new Album('Roncanroles Sin Destino', 2004);
+    const senhales: Album = new Album('Señales', 2006);
+
+    callejeros.addAlbum(presion);
+    callejeros.addAlbum(roncanrolesSinDestino);
+    callejeros.addAlbum(senhales);
+    callejeros.addAlbum(presion);
+    callejeros.addAlbum(roncanrolesSinDestino);
+    callejeros.addAlbum(senhales);
+
+    assert.equal(callejeros.getAlbums().length, 3);
+  });
 });
