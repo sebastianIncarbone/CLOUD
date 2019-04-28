@@ -19,15 +19,20 @@ export class UNQfy {
     this.listeners = [];
   }
 
-  getAlbums(): Album[]{
-    const albums: Album[] = []
-    return this.artists
+  getAlbums(): Album[] {
+    let albums: Album[] = [];
+    this.artists.forEach((artist: Artist) => {
+      albums = albums.concat(artist.getAlbums());
+    });
+    return albums;
   }
-  getArtists(): Artist[] {
-    return this.artists;
-  }
-  getPlaysLists(): Playlist[] {
-    return this.playlists;
+
+  getTracks(): Track[] {
+    let tracks: Track[] = [];
+    this.getAlbums().forEach((album: Album) => {
+      tracks = tracks.concat(album.getTracks());
+    });
+    return tracks;
   }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -59,7 +64,6 @@ export class UNQfy {
     const newAlbum = new Album(albumData.name, albumData.year);
     const artist   = this.getArtistById(artistId);
     artist.addAlbum(newAlbum);
-    this.albums.push(newAlbum);
 
     return newAlbum;
   }
@@ -79,7 +83,6 @@ export class UNQfy {
     const newTrack = new Track(trackData.name, trackData.duration, trackData.genres);
     const album   = this.getAlbumById(albumId);
     album.addTrack(newTrack);
-    this.tracks.push(newTrack);
 
     return newTrack;
   }
@@ -94,7 +97,7 @@ export class UNQfy {
   }
 
   getAlbumById(id: string): Album {
-    const album =  this.albums.find(album => album.getId() === id);
+    const album =  this.getAlbums().find(album => album.getId() === id);
     if (album) {
       return album;
     }
@@ -103,7 +106,7 @@ export class UNQfy {
   }
 
   getTrackById(id: string): Track {
-    const track = this.tracks.find(track => track.getId() === id);
+    const track = this.getTracks().find(track => track.getId() === id);
     if (track) {
       return track;
     }
@@ -123,7 +126,7 @@ export class UNQfy {
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
   getTracksMatchingGenres(genres: string[]): Track[] {
-    return this.tracks.filter(track => track.shareAnyGenre(genres));
+    return this.getTracks().filter(track => track.shareAnyGenre(genres));
   }
   findArtistByName(artistName: string): Artist {
     const artist =  this.artists.find(artist => artist.getName() === artistName);
@@ -155,7 +158,7 @@ export class UNQfy {
   */
     const playList = new Playlist(name, genresToInclude, maxDuration);
     let variableDuration = maxDuration;
-    const tracksToAdd = this.tracks.forEach((track) => {
+    const tracksToAdd = this.getTracks().forEach((track) => {
       if (track.duration <= variableDuration && genresToInclude.some(genre => track.genres.includes(genre))) {
         playList.tracks.push(track);
         variableDuration -= track.duration;
@@ -180,7 +183,7 @@ export class UNQfy {
     return arrayList.filter(parameter => parameter.getName().includes(name));
   }
   searchAlbumByName(name: string): Album[] {
-    const albums: Album[] = this.filterByName(this.albums, name);
+    const albums: Album[] = this.filterByName(this.getAlbums(), name);
     return albums;
   }
   searchArtistsByName(name: string): Artist[] {
@@ -192,21 +195,15 @@ export class UNQfy {
     return playList;
   }
   searchTrackByName(name: string): Track[] {
-    const track: Track[] = this.filterByName(this.tracks, name);
+    const track: Track[] = this.filterByName(this.getTracks(), name);
     return track;
   }
-  setAlbums(newAlbums: Album[]): void {
-    this.albums = newAlbums;
+
+  deleteArtist(artist: Artist) {
+    const index = this.artists.indexOf(artist);
+    this.artists.splice(index, 1);
   }
-  setArtists(newArtists: Artist[]): void {
-    this.artists = newArtists;
-  }
-  setTracks(newTracks: Track[]): void {
-    this.tracks = newTracks;
-  }
-  setPlayList(newPlaylists: Playlist[]): void {
-    this.playlists = newPlaylists;
-  }
+
   save(filename: string): void {
     const serializedData = picklify.picklify(this);
 
