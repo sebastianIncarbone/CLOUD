@@ -4,12 +4,14 @@ export class Track {
   genres: string[];
   name: string;
   duration: number; // in seconds
+  albumName: string;
   id: string;
 
-  constructor(newName: string, newDuration:number, newGender: string[]) {
+  constructor(newName: string, newDuration:number, newGender: string[], newAlbumName: string) {
     this.genres = this.removerDuplicados(newGender);
     this.name = newName;
     this.duration = newDuration;
+    this.albumName = newAlbumName;
     this.id = uniqid();
   }
   private removerDuplicados = function (anArray: any[]): any[] {
@@ -35,6 +37,9 @@ export class Track {
   }
   getId(): string {
     return this.id;
+  }
+  getAlbumName(): string {
+    return this.albumName;
   }
   shareAnyGenre(genresP: string[]) : boolean {
     return this.genres.some(aGender => genresP.includes(aGender));

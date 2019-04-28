@@ -15,7 +15,7 @@ describe('track' , () => {
   it('a track has a name, a duration and a gender', () => {
     const genders  = ['Trap'];
 
-    const ouke = new Track(name, duration, genders);
+    const ouke = new Track(name, duration, genders, 'Catri7el');
 
     assert.equal(ouke.getName(), 'mariposa Multicolor');
     assert.equal(ouke.getDuration(), 200);
@@ -24,7 +24,7 @@ describe('track' , () => {
   it('a track has only one gender in his list', () => {
       // aca le pasan un genero pero un track tiene una lista de generos
     const genders: string[] = ['Rock'];
-    const mariposaMulticolor: Track = new Track(name, duration, genders);
+    const mariposaMulticolor: Track = new Track(name, duration, genders, 'Circo Beat');
 
     assert.isOk(mariposaMulticolor.getGenders().includes('Rock'));
     assert.equal(mariposaMulticolor.getGenders().length, 1);
@@ -32,7 +32,7 @@ describe('track' , () => {
   });
   it('a track has many genders in his list', () => {
     const genders: string[]  = ['Rock', 'Hard Rock', 'Rock Argentino'];
-    const mariposaMulticolor: Track = new Track(name, duration, genders);
+    const mariposaMulticolor: Track = new Track(name, duration, genders, 'Circo Beat');
 
     assert.isOk(mariposaMulticolor.getGenders().includes('Rock'));
     assert.isOk(mariposaMulticolor.getGenders().includes('Hard Rock'));
@@ -43,7 +43,7 @@ describe('track' , () => {
   });
   it('a track doesnt have repeated genres', () => {
     const genders: string[] = ['Rock', 'Hard Rock', 'Rock', 'Rock Argentino', 'Hard Rock'];
-    const mariposaMulticolor: Track = new Track(name, duration, genders);
+    const mariposaMulticolor: Track = new Track(name, duration, genders, 'Circo Beat');
     const expected: string[] = ['Rock', 'Hard Rock', 'Rock Argentino'];
 
     const result: boolean = compararArreglos(expected, mariposaMulticolor.genres);

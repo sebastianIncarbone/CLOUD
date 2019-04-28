@@ -25,6 +25,10 @@ export class Playlist {
     return this.genders;
   }
 
+  getTracks(): Track[] {
+    return this.tracks;
+  }
+
   duration(): number {
     return this.maxDuration;
   }

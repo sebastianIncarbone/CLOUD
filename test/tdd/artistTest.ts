@@ -16,16 +16,16 @@ describe('artista' , () => {
   });
   it('agrega un nuevo disco a su discografia', () => {
     const fitoPaez  = new Artist('Fito Paez', 'Argentina');
-    const circoBeat = new Album('CircoBeat', 1994);
+    const circoBeat = new Album('CircoBeat', 1994, 'Fito Paez');
 
     fitoPaez.addAlbum(circoBeat);
     assert.isOk(fitoPaez.getAlbums().includes(circoBeat));
   });
   it('agrega varios discos a su discografía', () => {
     const callejeros: Artist = new Artist('Callejeros', 'Argentina');
-    const presion: Album = new Album('Presión', 2003);
-    const roncanrolesSinDestino: Album = new Album('Roncanroles Sin Destino', 2004);
-    const senhales: Album = new Album('Señales', 2006);
+    const presion: Album = new Album('Presión', 2003, 'Callejeros');
+    const roncanrolesSinDestino: Album = new Album('Roncanroles Sin Destino', 2004, 'Callejeros');
+    const senhales: Album = new Album('Señales', 2006, 'Callejeros');
 
     callejeros.addAlbum(presion);
     callejeros.addAlbum(roncanrolesSinDestino);
@@ -35,9 +35,9 @@ describe('artista' , () => {
   });
   it('no tiene discos duplicados en su discografía', () => {
     const callejeros: Artist = new Artist('Callejeros', 'Argentina');
-    const presion: Album = new Album('Presión', 2003);
-    const roncanrolesSinDestino: Album = new Album('Roncanroles Sin Destino', 2004);
-    const senhales: Album = new Album('Señales', 2006);
+    const presion: Album = new Album('Presión', 2003, 'Callejeros');
+    const roncanrolesSinDestino: Album = new Album('Roncanroles Sin Destino', 2004, 'Callejeros');
+    const senhales: Album = new Album('Señales', 2006, 'Callejeros');
 
     callejeros.addAlbum(presion);
     callejeros.addAlbum(roncanrolesSinDestino);

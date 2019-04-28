@@ -17,7 +17,7 @@ describe('playlist', () => {
     genders = ['Rock Argentino', 'Calm Rock', 'Sad Rock'];
     duration = 380;
     name = 'Te Para Tres';
-    teParaTres = new Track(name, duration, genders);
+    teParaTres = new Track(name, duration, genders, 'Cerati');
   });
   it('tiene nombre', () => {
     assert.equal(nvaPlaylist.getName(), nombre);
@@ -29,14 +29,6 @@ describe('playlist', () => {
     nvaPlaylist.addTrack(teParaTres);
 
     assert.isOk(nvaPlaylist.hasTrack(teParaTres));
-  });
-  it('no se agregan Tracks duplicados', () => {
-    const demoliendoHoteles = new Track('Demoliendo Hoteles', 272, ['Rock Nacional', 'Rock de verdad']);
-
-    nvaPlaylist.addTrack(demoliendoHoteles);
-    nvaPlaylist.addTrack(demoliendoHoteles);
-
-    assert.equal(nvaPlaylist.tracks.length, 1);
   });
   it('elimina automaticamente generos duplicados mal asignados', () => {
     const otraPlaylist: Playlist = new Playlist(nombre, ['pop', 'pop', 'pop'], durationPlaylist);
