@@ -55,22 +55,58 @@ function addArtist(name: string, country: string) {
   saveUNQfy(unqfy);
 }
 
-function printArtist(artistId: string) {
+function writeOperation(lambda: any) {
   const unqfy = getUNQfy();
-  const artist = unqfy.findArtistByName(artistId);
+  lambda(unqfy);
+  saveUNQfy(unqfy);
+}
+
+function printArtist(artistName: string) {
+  const unqfy = getUNQfy();
+  const artist = unqfy.findArtistByName(artistName);
   console.log(`artista: ${artist.name}`);
   console.log(`pai: ${artist.country}`);
+  console.log(`id: ${artist.id}`);
+}
+
+function printAlbum(albumName: string) {
+    const unqfy = getUNQfy();
+    const album = unqfy.findAlbumByName(albumName);
+    console.log(`artista: ${album.artistName}`);
+    console.log(`id: ${album.id}`);
 }
 
 function main(): void {
   const params = process.argv.slice(2);
   const commandName = params[0];
   const commandArgs = params.slice(1);
-  if (commandName === 'addArtist') {
-    return addArtist(commandArgs[0], commandArgs[1]);
+  if (commandName.includes('add')) {
+    if (commandName === 'addArtist') {
+      return writeOperation((unqfy: UNQfy) => unqfy.addArtist({ name: commandArgs[0], country: commandArgs[1] }));
+    }
+    if (commandName === 'addAlbum') {
+      return writeOperation((unqfy: UNQfy) => unqfy.addAlbum(commandArgs[0], {name: commandArgs[1], year: parseInt(commandArgs[2], 10) }));
+    }
+    if (commandName === 'addTrack') {
+      return writeOperation((unqfy: UNQfy) => unqfy.addTrack(commandArgs[0], {name: commandArgs[1], duration: parseInt(commandArgs[2], 10), genres: JSON.parse(commandArgs[3]) }));
+    }
+  }
+  if (commandName.includes('delete')) {
+    if (commandName === 'deleteArtist') {
+      return writeOperation((unqfy: UNQfy) => unqfy.deleteArtist(commandArgs[0]));
+    }
+    if (commandName === 'deleteAlbum') {
+      return writeOperation((unqfy: UNQfy) => unqfy.deleteAlbum(commandArgs[0]));
+    }
+    if (commandName === 'deleteTrack') {
+      return writeOperation((unqfy: UNQfy) => unqfy.deleteTrack(commandArgs[0]));
+    }
   }
   if (commandName === 'printArtist') {
     return printArtist(commandArgs[0]);
+  }
+  if (commandName === 'printAlbum') {
+      return printAlbum(commandArgs[0]);
   }
 }
 

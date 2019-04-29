@@ -41,13 +41,4 @@ describe('track' , () => {
     assert.equal(mariposaMulticolor.getGenders().length, 3);
 
   });
-  it('a track doesnt have repeated genres', () => {
-    const genders: string[] = ['Rock', 'Hard Rock', 'Rock', 'Rock Argentino', 'Hard Rock'];
-    const mariposaMulticolor: Track = new Track(name, duration, genders, 'Circo Beat');
-    const expected: string[] = ['Rock', 'Hard Rock', 'Rock Argentino'];
-
-    const result: boolean = compararArreglos(expected, mariposaMulticolor.genres);
-    assert.isTrue(result);
-  });
-
 });

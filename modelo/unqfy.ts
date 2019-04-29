@@ -92,7 +92,7 @@ export class UNQfy {
     if (artist) {
       return artist;
     }
-    throw new Error('Artsit not found');
+    throw new Error('Artist not found');
 
   }
 
@@ -130,6 +130,8 @@ export class UNQfy {
   }
 
   findArtistByName(artistName: string): Artist {
+    console.log('Artist name is', artistName)
+    console.log('All artists', this.artists.map((artist) => artist.getName()))
     const artist = this.artists.find(artist => artist.getName() === artistName);
     if (artist) {
       return artist;
@@ -137,6 +139,7 @@ export class UNQfy {
     throw new Error('Artist not found');
   }
   findAlbumByName(albumName: string): Album {
+    console.log(this.artists)
     const album = this.getAlbums().find(album => album.getName() === albumName);
     if (album) {
       return album;
@@ -214,17 +217,20 @@ export class UNQfy {
     return track;
   }
 
-  deleteArtist(artist: Artist) {
+  deleteArtist(artistId: string) {
+    const artist = this.getArtistById(artistId)
     const index = this.artists.indexOf(artist);
     this.artists.splice(index, 1);
   }
-  deleteAlbum(album: Album) {
+  deleteAlbum(albumId: string) {
+    const album = this.getAlbumById(albumId)
     const artist = this.findArtistByName(album.getArtistName())
     const index = artist.getAlbums().indexOf(album);
     album.getTracks().splice(index, 1);
   }
 
-  deleteTrack(track: Track) {
+  deleteTrack(trackId: string) {
+    const track = this.getTrackById(trackId)
     const album = this.findAlbumByName(track.getAlbumName());
     const index = album.getTracks().indexOf(track);
     album.getTracks().splice(index, 1);
@@ -245,7 +251,7 @@ export class UNQfy {
   static load(filename: string): any {
     const serializedData = fs.readFileSync(filename, { encoding: 'utf-8' });
     // COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy];
+    const classes = [UNQfy, Artist, Album, Track, Playlist];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }

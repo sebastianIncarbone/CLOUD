@@ -8,57 +8,89 @@
   "objects": {
     "__00001__": {
       "artists": "__00002__",
-      "albums": "__00003__",
-      "playlists": "__00004__",
-      "tracks": "__00005__",
-      "listeners": "__00006__"
+      "playlists": "__00003__",
+      "listeners": "__00004__",
+      "albums": "__00005__",
+      "tracks": "__00006__"
     },
     "__00002__": {
       "0": "__00007__",
       "1": "__00008__",
       "2": "__00009__",
       "3": "__00010__",
-      "4": "__00011__"
+      "4": "__00011__",
+      "5": "__00012__"
     },
     "__00003__": {},
     "__00004__": {},
     "__00005__": {},
     "__00006__": {},
     "__00007__": {
+      "removerDuplicados": "__00013__",
       "id": "7twv968jv1ejdus",
-      "name": "name",
-      "country": "juan",
-      "albums": "__00012__"
-    },
-    "__00008__": {
-      "id": "7twv690jv1ekhr7",
-      "name": "name",
-      "country": "juan",
-      "albums": "__00013__"
-    },
-    "__00009__": {
-      "id": "7twvvojv1emroh",
       "name": "name",
       "country": "juan",
       "albums": "__00014__"
     },
+    "__00008__": {
+      "removerDuplicados": "__00015__",
+      "id": "7twv690jv1ekhr7",
+      "name": "name",
+      "country": "juan",
+      "albums": "__00016__"
+    },
+    "__00009__": {
+      "removerDuplicados": "__00017__",
+      "id": "7twvvojv1emroh",
+      "name": "name",
+      "country": "juan",
+      "albums": "__00018__"
+    },
     "__00010__": {
+      "removerDuplicados": "__00019__",
       "id": "7twv1iwjv1enajc",
       "name": "name",
       "country": "juan",
-      "albums": "__00015__"
+      "albums": "__00020__"
     },
     "__00011__": {
+      "removerDuplicados": "__00021__",
       "id": "7twv3k0jv1eu9b2",
       "name": "gonza",
       "country": "republica del libano",
-      "albums": "__00016__"
+      "albums": "__00022__"
     },
-    "__00012__": {},
+    "__00012__": {
+      "removerDuplicados": "__00023__",
+      "id": "7twv130jv1l5b4k",
+      "name": "montaner",
+      "country": "argentina",
+      "albums": "__00024__"
+    },
     "__00013__": {},
     "__00014__": {},
     "__00015__": {},
-    "__00016__": {}
+    "__00016__": {},
+    "__00017__": {},
+    "__00018__": {},
+    "__00019__": {},
+    "__00020__": {},
+    "__00021__": {},
+    "__00022__": {},
+    "__00023__": {},
+    "__00024__": {
+      "0": "__00025__"
+    },
+    "__00025__": {
+      "removerDuplicados": "__00026__",
+      "name": "grandes exitos we",
+      "year": 2001,
+      "tracks": "__00027__",
+      "artistName": "montaner",
+      "id": "7twv7ngjv1lhv3k"
+    },
+    "__00026__": {},
+    "__00027__": {}
   },
   "types": {
     "__00001__": "UNQfy",
@@ -72,10 +104,21 @@
     "__00009__": "Artist",
     "__00010__": "Artist",
     "__00011__": "Artist",
-    "__00012__": "Array",
-    "__00013__": "Array",
+    "__00012__": "Artist",
+    "__00013__": "Function",
     "__00014__": "Array",
-    "__00015__": "Array",
-    "__00016__": "Array"
+    "__00015__": "Function",
+    "__00016__": "Array",
+    "__00017__": "Function",
+    "__00018__": "Array",
+    "__00019__": "Function",
+    "__00020__": "Array",
+    "__00021__": "Function",
+    "__00022__": "Array",
+    "__00023__": "Function",
+    "__00024__": "Array",
+    "__00025__": "Album",
+    "__00026__": "Function",
+    "__00027__": "Array"
   }
 }

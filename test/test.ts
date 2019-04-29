@@ -69,14 +69,6 @@ describe('Add, remove and filter data', () => {
       playlists: [playlist],
     });
 
-    it('should erase all tracks from playlist when an artist is delete', () => {
-      const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-      const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-      const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
-
-      unqfy.deleteArtist(artist);
-    });
-
     it('should get all tracks matching genres', () => {
       const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
       const album1 = createAndAddAlbum(unqfy, artist1.id, 'Appetite for Destruction', 1987);

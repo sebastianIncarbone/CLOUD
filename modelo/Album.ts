@@ -32,22 +32,9 @@ export class Album {
   }
   addTrack(newTrack: Track): void {
     this.tracks.push(newTrack);
-    this.tracks = this.removerDuplicados(this.tracks);
   }
   deleteTrack(track: Track): void {
     const index = this.tracks.indexOf(track);
     this.tracks.splice(index);
   }
-  private removerDuplicados = function (anArray: any[]): any[] {
-    // tslint:disable-next-line: prefer-const
-    let resultado: any[] = [];
-    const noExiste: number = -1;
-    // tslint:disable-next-line: no-increment-decrement
-    for (let i = 0; i < anArray.length; i++) {
-      if (resultado.indexOf(anArray[i]) === noExiste) {
-        resultado.push(anArray[i]);
-      }
-    }
-    return resultado;
-  };
 }

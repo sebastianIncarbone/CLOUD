@@ -30,11 +30,6 @@ describe('playlist', () => {
 
     assert.isOk(nvaPlaylist.hasTrack(teParaTres));
   });
-  it('elimina automaticamente generos duplicados mal asignados', () => {
-    const otraPlaylist: Playlist = new Playlist(nombre, ['pop', 'pop', 'pop'], durationPlaylist);
-
-    assert.equal(otraPlaylist.getgenders().length, 1);
-  });
   it('si esta vacía y se le borra un elemento sólo sigue vacía', () => {
     nvaPlaylist.deleteTrack(teParaTres);
 

@@ -33,19 +33,4 @@ describe('artista' , () => {
 
     assert.equal(callejeros.getAlbums().length, 3);
   });
-  it('no tiene discos duplicados en su discografía', () => {
-    const callejeros: Artist = new Artist('Callejeros', 'Argentina');
-    const presion: Album = new Album('Presión', 2003, 'Callejeros');
-    const roncanrolesSinDestino: Album = new Album('Roncanroles Sin Destino', 2004, 'Callejeros');
-    const senhales: Album = new Album('Señales', 2006, 'Callejeros');
-
-    callejeros.addAlbum(presion);
-    callejeros.addAlbum(roncanrolesSinDestino);
-    callejeros.addAlbum(senhales);
-    callejeros.addAlbum(presion);
-    callejeros.addAlbum(roncanrolesSinDestino);
-    callejeros.addAlbum(senhales);
-
-    assert.equal(callejeros.getAlbums().length, 3);
-  });
 });
