@@ -181,6 +181,7 @@ export class UNQfy {
         variableDuration -= track.duration;
       }
     });
+    console.log(this.getTracks())
     this.playlists.push(playList);
     return playList;
   }
