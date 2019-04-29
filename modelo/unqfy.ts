@@ -46,9 +46,11 @@ export class UNQfy {
       - una propiedad country (string)
     */
     const newArtist = new Artist(artistData.name, artistData.country);
-    this.artists.push(newArtist);
-
-    return newArtist;
+    if (this.artists.some((artist: Artist) => artist.name !== artistData.name)) {
+      this.artists.push(newArtist);
+      return newArtist;
+    }
+    throw new Error('That artist already exists');
   }
 
   // albumData: objeto JS con los datos necesarios para crear un album
