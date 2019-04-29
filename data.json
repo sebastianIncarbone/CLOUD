@@ -26,46 +26,46 @@
     "__00005__": {},
     "__00006__": {},
     "__00007__": {
-      "removerDuplicados": "__00013__",
       "id": "7twv968jv1ejdus",
       "name": "name",
       "country": "juan",
-      "albums": "__00014__"
+      "albums": "__00013__",
+      "removerDuplicados": "__00014__"
     },
     "__00008__": {
-      "removerDuplicados": "__00015__",
       "id": "7twv690jv1ekhr7",
       "name": "name",
       "country": "juan",
-      "albums": "__00016__"
+      "albums": "__00015__",
+      "removerDuplicados": "__00016__"
     },
     "__00009__": {
-      "removerDuplicados": "__00017__",
       "id": "7twvvojv1emroh",
       "name": "name",
       "country": "juan",
-      "albums": "__00018__"
+      "albums": "__00017__",
+      "removerDuplicados": "__00018__"
     },
     "__00010__": {
-      "removerDuplicados": "__00019__",
       "id": "7twv1iwjv1enajc",
       "name": "name",
       "country": "juan",
-      "albums": "__00020__"
+      "albums": "__00019__",
+      "removerDuplicados": "__00020__"
     },
     "__00011__": {
-      "removerDuplicados": "__00021__",
       "id": "7twv3k0jv1eu9b2",
       "name": "gonza",
       "country": "republica del libano",
-      "albums": "__00022__"
+      "albums": "__00021__",
+      "removerDuplicados": "__00022__"
     },
     "__00012__": {
-      "removerDuplicados": "__00023__",
       "id": "7twv130jv1l5b4k",
       "name": "montaner",
       "country": "argentina",
-      "albums": "__00024__"
+      "albums": "__00023__",
+      "removerDuplicados": "__00024__"
     },
     "__00013__": {},
     "__00014__": {},
@@ -77,20 +77,32 @@
     "__00020__": {},
     "__00021__": {},
     "__00022__": {},
-    "__00023__": {},
-    "__00024__": {
+    "__00023__": {
       "0": "__00025__"
     },
+    "__00024__": {},
     "__00025__": {
-      "removerDuplicados": "__00026__",
       "name": "grandes exitos we",
       "year": 2001,
-      "tracks": "__00027__",
+      "tracks": "__00026__",
       "artistName": "montaner",
-      "id": "7twv7ngjv1lhv3k"
+      "id": "7twv7ngjv1lhv3k",
+      "removerDuplicados": "__00027__"
     },
-    "__00026__": {},
-    "__00027__": {}
+    "__00026__": {
+      "0": "__00028__"
+    },
+    "__00027__": {},
+    "__00028__": {
+      "genres": "__00029__",
+      "name": "alto tema",
+      "duration": 100,
+      "albumName": "grandes exitos we",
+      "id": "7twv5xwjv1n11qg"
+    },
+    "__00029__": {
+      "0": "pop"
+    }
   },
   "types": {
     "__00001__": "UNQfy",
@@ -105,20 +117,22 @@
     "__00010__": "Artist",
     "__00011__": "Artist",
     "__00012__": "Artist",
-    "__00013__": "Function",
-    "__00014__": "Array",
-    "__00015__": "Function",
-    "__00016__": "Array",
-    "__00017__": "Function",
-    "__00018__": "Array",
-    "__00019__": "Function",
-    "__00020__": "Array",
-    "__00021__": "Function",
-    "__00022__": "Array",
-    "__00023__": "Function",
-    "__00024__": "Array",
+    "__00013__": "Array",
+    "__00014__": "Function",
+    "__00015__": "Array",
+    "__00016__": "Function",
+    "__00017__": "Array",
+    "__00018__": "Function",
+    "__00019__": "Array",
+    "__00020__": "Function",
+    "__00021__": "Array",
+    "__00022__": "Function",
+    "__00023__": "Array",
+    "__00024__": "Function",
     "__00025__": "Album",
-    "__00026__": "Function",
-    "__00027__": "Array"
+    "__00026__": "Array",
+    "__00027__": "Function",
+    "__00028__": "Track",
+    "__00029__": "Array"
   }
 }

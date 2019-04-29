@@ -130,21 +130,26 @@ export class UNQfy {
   }
 
   findArtistByName(artistName: string): Artist {
-    console.log('Artist name is', artistName)
-    console.log('All artists', this.artists.map((artist) => artist.getName()))
-    const artist = this.artists.find(artist => artist.getName() === artistName);
+    const artist = this.artists.find(artist => artist.getName().includes(artistName));
     if (artist) {
       return artist;
     }
     throw new Error('Artist not found');
   }
   findAlbumByName(albumName: string): Album {
-    console.log(this.artists)
-    const album = this.getAlbums().find(album => album.getName() === albumName);
+    const album = this.getAlbums().find(album => album.getName().includes(albumName));
     if (album) {
       return album;
     }
     throw new Error('Album not found');
+  }
+
+  findTrackByName(trackName: string): Track {
+    const track = this.getTracks().find(track => track.getName().includes(trackName));
+    if (track) {
+      return track;
+    }
+    throw new Error('Track not found');
   }
 
   // artistName: nombre de artista(string)

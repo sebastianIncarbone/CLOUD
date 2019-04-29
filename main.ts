@@ -61,19 +61,10 @@ function writeOperation(lambda: any) {
   saveUNQfy(unqfy);
 }
 
-function printArtist(artistName: string) {
+function readOperation(lambda: any) {
   const unqfy = getUNQfy();
-  const artist = unqfy.findArtistByName(artistName);
-  console.log(`artista: ${artist.name}`);
-  console.log(`pai: ${artist.country}`);
-  console.log(`id: ${artist.id}`);
-}
-
-function printAlbum(albumName: string) {
-    const unqfy = getUNQfy();
-    const album = unqfy.findAlbumByName(albumName);
-    console.log(`artista: ${album.artistName}`);
-    console.log(`id: ${album.id}`);
+  const result = lambda(unqfy);
+  console.log(result)
 }
 
 function main(): void {
@@ -88,7 +79,7 @@ function main(): void {
       return writeOperation((unqfy: UNQfy) => unqfy.addAlbum(commandArgs[0], {name: commandArgs[1], year: parseInt(commandArgs[2], 10) }));
     }
     if (commandName === 'addTrack') {
-      return writeOperation((unqfy: UNQfy) => unqfy.addTrack(commandArgs[0], {name: commandArgs[1], duration: parseInt(commandArgs[2], 10), genres: JSON.parse(commandArgs[3]) }));
+      return writeOperation((unqfy: UNQfy) => unqfy.addTrack(commandArgs[0], {name: commandArgs[1], duration: parseInt(commandArgs[2], 10), genres: JSON.parse(commandArgs[3].replace(new RegExp("'", 'g'), '"')) }));
     }
   }
   if (commandName.includes('delete')) {
@@ -102,11 +93,22 @@ function main(): void {
       return writeOperation((unqfy: UNQfy) => unqfy.deleteTrack(commandArgs[0]));
     }
   }
-  if (commandName === 'printArtist') {
-    return printArtist(commandArgs[0]);
-  }
-  if (commandName === 'printAlbum') {
-      return printAlbum(commandArgs[0]);
+  if (commandName.includes('print')) {
+    if (commandName === 'printArtist') {
+      return readOperation((unqfy: UNQfy) => unqfy.findArtistByName(commandArgs[0]));
+    }
+    if (commandName === 'printAlbum') {
+      return readOperation((unqfy: UNQfy) => unqfy.findAlbumByName(commandArgs[0]));
+    }
+    if (commandName === 'printTrack') {
+      return readOperation((unqfy: UNQfy) => unqfy.findTrackByName(commandArgs[0]));
+    }
+    if (commandName === 'printTrackByArtist') {
+      return readOperation((unqfy: UNQfy) => unqfy.getTracksMatchingArtist(commandArgs[0]));
+    }
+    if (commandName === 'printTrackByGenre') {
+      return readOperation((unqfy: UNQfy) => unqfy.getTracksMatchingGenres([commandArgs[0]]));
+    }
   }
 }
 
