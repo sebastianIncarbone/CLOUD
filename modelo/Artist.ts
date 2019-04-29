@@ -29,4 +29,7 @@ export class Artist {
   addAlbum(newAlbum: Album) {
     this.albums.push(newAlbum);
   }
+  deleteAlbum(indexOfAlbum: number) {
+    this.albums.splice(indexOfAlbum, 1);
+  }
 }

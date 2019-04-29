@@ -50,18 +50,15 @@ function convertToArray(stringArray: string) {
   return JSON.parse(stringArray.replace(new RegExp("'", 'g'), '"'));
 }
 
-
 function writeOperation(lambda: any) {
-  const unqfy = getUNQfy();
+  const unqfy: UNQfy = getUNQfy();
   lambda(unqfy);
-  console.log(unqfy.playlists);
   saveUNQfy(unqfy);
 }
 
 function readOperation(lambda: any) {
-  const unqfy = getUNQfy();
-  const result = lambda(unqfy);
-  console.log(result)
+  const unqfy: UNQfy = getUNQfy();
+  lambda(unqfy);
 }
 
 function main(): void {
@@ -73,10 +70,10 @@ function main(): void {
       return writeOperation((unqfy: UNQfy) => unqfy.addArtist({ name: commandArgs[0], country: commandArgs[1] }));
     }
     if (commandName === 'addAlbum') {
-      return writeOperation((unqfy: UNQfy) => unqfy.addAlbum(commandArgs[0], {name: commandArgs[1], year: parseInt(commandArgs[2], 10) }));
+      return writeOperation((unqfy: UNQfy) => unqfy.addAlbum(commandArgs[0], { name: commandArgs[1], year: parseInt(commandArgs[2], 10) }));
     }
     if (commandName === 'addTrack') {
-      return writeOperation((unqfy: UNQfy) => unqfy.addTrack(commandArgs[0], {name: commandArgs[1], duration: parseInt(commandArgs[2], 10), genres: convertToArray(commandArgs[3]) }));
+      return writeOperation((unqfy: UNQfy) => unqfy.addTrack(commandArgs[0], { name: commandArgs[1], duration: parseInt(commandArgs[2], 10), genres: convertToArray(commandArgs[3]) }));
     }
   }
   if (commandName.includes('delete')) {

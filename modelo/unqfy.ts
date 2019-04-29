@@ -6,8 +6,6 @@ import { Album } from './Album';
 import { Track } from './Track';
 import { Playlist } from './Playlist';
 
-// refactor para hacer, tener una funcion que te de las listas de todo y no usar el colaborador
-
 export class UNQfy {
   artists: Artist[];
   playlists: Playlist[];
@@ -46,11 +44,12 @@ export class UNQfy {
       - una propiedad country (string)
     */
     const newArtist = new Artist(artistData.name, artistData.country);
-    if (this.artists.some((artist: Artist) => artist.name !== artistData.name)) {
+    if (this.artists.some((artist: Artist) => artist.getName() === newArtist.getName())) {
+      throw new Error('That artist already exists');
+    }else {
       this.artists.push(newArtist);
       return newArtist;
     }
-    throw new Error('That artist already exists');
   }
 
   // albumData: objeto JS con los datos necesarios para crear un album
@@ -177,13 +176,12 @@ export class UNQfy {
      */
     const playList = new Playlist(name, genresToInclude, maxDuration);
     let variableDuration = maxDuration;
-    const tracksToAdd = this.getTracks().forEach((track) => {
+    this.getTracks().forEach((track) => {
       if (track.duration <= variableDuration && genresToInclude.some(genre => track.genres.includes(genre))) {
         playList.tracks.push(track);
         variableDuration -= track.duration;
       }
     });
-    console.log(this.getTracks())
     this.playlists.push(playList);
     return playList;
   }
@@ -206,39 +204,48 @@ export class UNQfy {
   }
 
   searchAlbumByName(name: string): Album[] {
-    const albums: Album[] = this.filterByName(this.getAlbums(), name);
-    return albums;
+    return this.filterByName(this.getAlbums(), name);
   }
 
   searchArtistsByName(name: string): Artist[] {
-    const artists: Artist[] = this.filterByName(this.artists, name);
-    return artists;
+    return  this.filterByName(this.artists, name);
   }
 
   searchPlayListByName(name: string): Playlist[] {
-    const playList: Playlist[] = this.filterByName(this.playlists, name);
-    return playList;
+    return this.filterByName(this.playlists, name);
   }
 
   searchTrackByName(name: string): Track[] {
-    const track: Track[] = this.filterByName(this.getTracks(), name);
-    return track;
+    return this.filterByName(this.getTracks(), name);
   }
 
   deleteArtist(artistId: string) {
-    const artist = this.getArtistById(artistId)
+    const artist = this.getArtistById(artistId);
     const index = this.artists.indexOf(artist);
+    const tracksToDeleteFromArtist = this.getTracksOfArtist(artist);
     this.artists.splice(index, 1);
+    this.deleteTracksFromPlaylist(tracksToDeleteFromArtist);
+  }
+  getTracksOfArtist(artist : Artist): Track[] {
+    const albums = artist.getAlbums();
+    let tracks : Track[] = [];
+    albums.forEach((album : Album) => tracks = tracks.concat(album.getTracks()));
+
+    return tracks;
   }
   deleteAlbum(albumId: string) {
-    const album = this.getAlbumById(albumId)
-    const artist = this.findArtistByName(album.getArtistName())
+    const album = this.getAlbumById(albumId);
+    const artist = this.findArtistByName(album.getArtistName());
     const index = artist.getAlbums().indexOf(album);
-    album.getTracks().splice(index, 1);
+    artist.deleteAlbum(index);
+    this.deleteTracksFromPlaylist(album.getTracks());
+  }
+  deleteTracksFromPlaylist(tracksToDelete: Track[]) {
+    this.playlists.forEach((playList : Playlist) => playList.deleteTracks(tracksToDelete));
   }
 
   deleteTrack(trackId: string) {
-    const track = this.getTrackById(trackId)
+    const track = this.getTrackById(trackId);
     const album = this.findAlbumByName(track.getAlbumName());
     const index = album.getTracks().indexOf(track);
     album.getTracks().splice(index, 1);

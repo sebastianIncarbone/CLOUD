@@ -49,4 +49,7 @@ export class Playlist {
     const index = this.tracks.indexOf(aTrack);
     this.tracks.splice(index);
   }
+  deleteTracks(tracksToDelete: Track[]) : void {
+    this.tracks = this.tracks.filter((track : Track) => !tracksToDelete.includes(track));
+  }
 }

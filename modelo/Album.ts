@@ -1,6 +1,5 @@
 import { Track } from './Track';
 import uniqid from 'uniqid';
-import {Artist} from "./Artist";
 
 export class Album {
   id: string;
@@ -32,13 +31,14 @@ export class Album {
     return this.artistName;
   }
   addTrack(newTrack: Track): void {
-    if (this.tracks.some((track: Track) => track.getName() !== newTrack.getName())) {
+    if (this.getTracks().some((track: Track) => track.getName() === newTrack.getName())) {
+      throw new Error('That Track already exists');
+    }else {
       this.tracks.push(newTrack);
     }
-    throw new Error('That Track already exists');
   }
   deleteTrack(track: Track): void {
     const index = this.tracks.indexOf(track);
-    this.tracks.splice(index);
+    this.tracks.splice(index, 1);
   }
 }
