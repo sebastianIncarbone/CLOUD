@@ -96,10 +96,10 @@ function main(): void {
     if (commandName === 'printTrack') {
       return printOperation((unqfy: UNQfy) => unqfy.findTrackByName(commandArgs[0]));
     }
-    if (commandName === 'printTrackByArtist') {
+    if (commandName === 'printTracksByArtist') {
       return printOperation((unqfy: UNQfy) => unqfy.getTracksMatchingArtist(commandArgs[0]));
     }
-    if (commandName === 'printTrackByGenre') {
+    if (commandName === 'printTracksByGenre') {
       return printOperation((unqfy: UNQfy) => unqfy.getTracksMatchingGenres([commandArgs[0]]));
     }
   }
