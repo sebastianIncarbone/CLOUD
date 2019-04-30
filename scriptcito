@@ -1,0 +1,33 @@
+#!/bin/bash
+
+ts-node main.ts addArtist "Ricardo Montaner" "Argentina"
+ts-node main.ts addAlbum "Ricardo Montaner" "Ida y Vuelta" 2016
+ts-node main.ts addTrack "Ida y Vuelta" "Aunque Ahora Estés Con El" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Por Mujeres Como Tu" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Vuelve Conmigo" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Te Hubieras Ido Antes" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Hombre Normal" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Te Amo Y Te Amo" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Eres Mi Cenicienta Con El" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Perdóname Con El" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Quien Diría" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Estoy Contento" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Sera" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "La Cima Del Cielo" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Déjame Llorar" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Me Va A Extrañar" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Tan Enamorados" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Bésame" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Solo Con un Beso" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Quien diría" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Solo Con un Beso" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Estoy Contento" 5 "['pop']"
+ts-node main.ts addTrack "Ida y Vuelta" "Yo Puedo Hacer" 5 "['pop']"
+
+ts-node main.ts addArtist "Arctic Monkeys" "USA"
+ts-node main.ts addAlbum "Arctic Monkeys" "AM" 2013
+ts-node main.ts addTrack "r u mine?" "AM" 193 "['Indie Rock']"
+
+ts-node main.ts addArtist "Charly Garcia" "Argentina"
+ts-node main.ts addAlbum "Charly Garcia" "Clicks Modernos" 1983
+ts-node main.ts addTrack "Nos siguen pegando abajo" "Clicks Modernos" 900 "['rock argentino', 'rock']" 
