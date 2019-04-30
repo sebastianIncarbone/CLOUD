@@ -56,11 +56,10 @@ function writeOperation(lambda: any) {
   saveUNQfy(unqfy);
 }
 
-function readOperation(lambda: any) {
+function printOperation(lambda: any) {
   const unqfy: UNQfy = getUNQfy();
-  lambda(unqfy);
+  console.log(lambda(unqfy));
 }
-
 function main(): void {
   const params = process.argv.slice(2);
   const commandName = params[0];
@@ -89,19 +88,33 @@ function main(): void {
   }
   if (commandName.includes('print')) {
     if (commandName === 'printArtist') {
-      return readOperation((unqfy: UNQfy) => unqfy.findArtistByName(commandArgs[0]));
+      return printOperation((unqfy: UNQfy) => unqfy.findArtistByName(commandArgs[0]));
     }
     if (commandName === 'printAlbum') {
-      return readOperation((unqfy: UNQfy) => unqfy.findAlbumByName(commandArgs[0]));
+      return printOperation((unqfy: UNQfy) => unqfy.findAlbumByName(commandArgs[0]));
     }
     if (commandName === 'printTrack') {
-      return readOperation((unqfy: UNQfy) => unqfy.findTrackByName(commandArgs[0]));
+      return printOperation((unqfy: UNQfy) => unqfy.findTrackByName(commandArgs[0]));
     }
     if (commandName === 'printTrackByArtist') {
-      return readOperation((unqfy: UNQfy) => unqfy.getTracksMatchingArtist(commandArgs[0]));
+      return printOperation((unqfy: UNQfy) => unqfy.getTracksMatchingArtist(commandArgs[0]));
     }
     if (commandName === 'printTrackByGenre') {
-      return readOperation((unqfy: UNQfy) => unqfy.getTracksMatchingGenres([commandArgs[0]]));
+      return printOperation((unqfy: UNQfy) => unqfy.getTracksMatchingGenres([commandArgs[0]]));
+    }
+  }
+  if (commandName.includes('search')) {
+    if (commandName === 'searchTrackByID') {
+      return printOperation((unqfy: UNQfy) => unqfy.getTrackById(commandArgs[0]));
+    }
+    if (commandName === 'searchPlaylistByID') {
+      return printOperation((unqfy: UNQfy) => unqfy.getPlaylistById(commandArgs[0]));
+    }
+    if (commandName === 'searchAlbumByID') {
+      return printOperation((unqfy: UNQfy) => unqfy.getAlbumById(commandArgs[0]));
+    }
+    if (commandName === 'searchArtistByID') {
+      return printOperation((unqfy: UNQfy) => unqfy.getArtistById(commandArgs[0]));
     }
   }
   if (commandName === 'createPlaylist') {
