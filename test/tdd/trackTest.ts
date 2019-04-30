@@ -59,8 +59,8 @@ describe('track' , () => {
     const unqfy = new UNQfy();
 
     unqfy.addArtist({ name: artist.getName(), country: artist.getCountry() });
-    unqfy.addAlbum(unqfy.findArtistByName(artist.getName()).getId(), { name: album.getName() , year: album.getYear() });
-    unqfy.addTrack(unqfy.findAlbumByName(album.getName()).getId(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenders() });
+    unqfy.addAlbum(artist.getName(), { name: album.getName() , year: album.getYear() });
+    unqfy.addTrack(album.getName(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenders() });
     unqfy.deleteTrack(unqfy.findTrackByName(track.getName()).getId());
 
     assert.equal(unqfy.getTracks().length, 0);
