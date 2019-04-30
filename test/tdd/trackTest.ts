@@ -49,10 +49,7 @@ describe('track' , () => {
     const track: Track = new Track('mia', 230, genres, 'BadBunny hits');
     const unqfy = new UNQfy();
 
-    unqfy.deleteTrack(track.getId());
-
-    // @ts-ignore
-    assert.throws(unqfy.getTrackById(track.getId()), Error, 'Track not found');
+    assert.throws(() => unqfy.getTrackById(track.getId()), Error, 'Track not found');
   });
   it('can be erase from the application', () => {
     const artist = new Artist('Bad Bunny', 'Puerto Rico');
