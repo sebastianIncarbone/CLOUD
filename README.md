@@ -10,7 +10,7 @@
 
 En principio, todos los comandos deben escribirse sin especificar el nombre de cada parámetro. En el caso de aquellos comandos que requieran pasar un Array como argumento (como es el caso de addTrack), éste debe pasarse de la siguiente forma: `['genero1', 'genero2', 'genero3']`
 
-##Lista de comandos:
+## Lista de comandos:
 
 ### Adding
 
