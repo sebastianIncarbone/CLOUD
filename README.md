@@ -20,11 +20,11 @@ addArtist
 
 addAlbum
 
-`ts-node main.ts addAlbum "id del artista" "The Resistance" 2009`
+`ts-node main.ts addAlbum "Muse" "The Resistance" 2009`
 
 addTrack
 
-``ts-node main.ts addTrack "id del album" "Viva la Vida" 10 ['pop']``
+``ts-node main.ts addTrack "Viva la Vida or Death and All His Friends​" "Viva la Vida" 10 ['pop']``
 
 ### Deleting
 

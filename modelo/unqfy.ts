@@ -56,13 +56,13 @@ export class UNQfy {
   //   albumData.name (string)
   //   albumData.year (number)
   // retorna: el nuevo album creado
-  addAlbum(artistId: string, albumData: { name: string, year: number }): Album {
+  addAlbum(artistName: string, albumData: { name: string, year: number }): Album {
     /* Crea un album y lo agrega al artista con id artistId.
       El objeto album creado debe tener (al menos):
        - una propiedad name (string)
        - una propiedad year (number)
     */
-    const artist = this.getArtistById(artistId);
+    const artist = this.findArtistByName(artistName);
     const newAlbum = new Album(albumData.name, albumData.year, artist.name);
     artist.addAlbum(newAlbum);
 
@@ -74,14 +74,14 @@ export class UNQfy {
   //   trackData.duration (number)
   //   trackData.genres (lista de strings)
   // retorna: el nuevo track creado
-  addTrack(albumId: string, trackData: { name: string, duration: number, genres: string[] }): Track {
+  addTrack(albumName: string, trackData: { name: string, duration: number, genres: string[] }): Track {
     /* Crea un track y lo agrega al album con id albumId.
     El objeto track creado debe tener (al menos):
         - una propiedad name (string),
         - una propiedad duration (number),
         - una propiedad genres (lista de strings)
     */
-    const album = this.getAlbumById(albumId);
+    const album = this.findAlbumByName(albumName);
     const newTrack = new Track(trackData.name, trackData.duration, trackData.genres, album.name);
     album.addTrack(newTrack);
 

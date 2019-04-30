@@ -30,7 +30,7 @@
   },
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
-    "lint": "tslint --project tsconfig.json --config tslint.json --format codeframe modelo/**/*.ts",
+    "lint": "tslint --project tsconfig.json --config tslint.json --format codeFrame modelo/**/*.ts",
     "watch": "npm-watch"
   },
   "pre-commit": [
