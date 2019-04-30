@@ -199,7 +199,7 @@ export class UNQfy {
     };
   }
 
-  filterByName(arrayList: any[], name: string) {
+  filterByName(arrayList: any[], name: string) : any {
     return arrayList.filter(parameter => parameter.getName().includes(name));
   }
 
@@ -219,7 +219,7 @@ export class UNQfy {
     return this.filterByName(this.getTracks(), name);
   }
 
-  deleteArtist(artistId: string) {
+  deleteArtist(artistId: string): void  {
     const artist = this.getArtistById(artistId);
     const index = this.artists.indexOf(artist);
     const tracksToDeleteFromArtist = this.getTracksOfArtist(artist);
@@ -233,18 +233,18 @@ export class UNQfy {
 
     return tracks;
   }
-  deleteAlbum(albumId: string) {
+  deleteAlbum(albumId: string): void {
     const album = this.getAlbumById(albumId);
     const artist = this.findArtistByName(album.getArtistName());
     const index = artist.getAlbums().indexOf(album);
     artist.deleteAlbum(index);
     this.deleteTracksFromPlaylist(album.getTracks());
   }
-  deleteTracksFromPlaylist(tracksToDelete: Track[]) {
+  deleteTracksFromPlaylist(tracksToDelete: Track[]): void  {
     this.playlists.forEach((playList : Playlist) => playList.deleteTracks(tracksToDelete));
   }
 
-  deleteTrack(trackId: string) {
+  deleteTrack(trackId: string):void  {
     const track = this.getTrackById(trackId);
     const album = this.findAlbumByName(track.getAlbumName());
     const index = album.getTracks().indexOf(track);

@@ -1,29 +1,32 @@
 import { assert } from 'chai';
 import { Playlist } from '../../modelo/Playlist';
 import { Track } from '../../modelo/Track';
-import {UNQfy} from "../../modelo/unqfy";
-import {Artist} from "../../modelo/Artist";
-import {Album} from "../../modelo/Album";
+import { UNQfy } from '../../modelo/unqfy';
+import { Artist } from '../../modelo/Artist';
+import { Album } from '../../modelo/Album';
 
 describe('playlist', () => {
   let nombre: string;
   let durationPlaylist: number;
   let nvaPlaylist: Playlist;
-  let genders: string[];
+  let genres: string[];
   let duration: number;
   let name: string;
   let teParaTres: Track;
+  let playlistGenres: string[];
   beforeEach(() => {
     nombre = 'Roses playlist';
     durationPlaylist = 1400;
-    nvaPlaylist = new Playlist(nombre, ['pop'], durationPlaylist);
-    genders = ['Rock Argentino', 'Calm Rock', 'Sad Rock'];
+    playlistGenres = ['pop'];
+    nvaPlaylist = new Playlist(nombre, playlistGenres, durationPlaylist);
+    genres = ['Rock Argentino', 'Calm Rock', 'Sad Rock'];
     duration = 380;
     name = 'Te Para Tres';
-    teParaTres = new Track(name, duration, genders, 'Cerati');
+    teParaTres = new Track(name, duration, genres, 'Cerati');
   });
-  it('tiene nombre', () => {
+  it('tiene nombre y una lista de generos ', () => {
     assert.equal(nvaPlaylist.getName(), nombre);
+    assert.equal(nvaPlaylist.getgenders(), playlistGenres);
   });
   it('tiene una duracion', () => {
     assert.equal(nvaPlaylist.duration(), durationPlaylist);

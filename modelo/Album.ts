@@ -31,11 +31,14 @@ export class Album {
     return this.artistName;
   }
   addTrack(newTrack: Track): void {
-    if (this.getTracks().some((track: Track) => track.getName() === newTrack.getName())) {
+    if (this.alreadyHaveTheTrack(newTrack)) {
       throw new Error('That Track already exists');
     }else {
       this.tracks.push(newTrack);
     }
+  }
+  alreadyHaveTheTrack(trackToCheckName: Track) : boolean {
+    return this.getTracks().some((tracksInAlbum: Track) => tracksInAlbum.getName() === trackToCheckName.getName());
   }
   deleteTrack(track: Track): void {
     const index = this.tracks.indexOf(track);
