@@ -8,7 +8,7 @@
 
 # Como usar el CLI
 
-En principio, todos los comandos deben escribirse sin especificar el nombre de cada parámetro. En el caso de aquellos comandos que requieran pasar un Array como argumento (como es el caso de addTrack), éste debe pasarse de la siguiente forma: `['genero1', 'genero2', 'genero3']`
+En principio, todos los comandos deben escribirse sin especificar el nombre de cada parámetro. En el caso de aquellos comandos que requieran pasar un Array como argumento (como es el caso de addTrack), éste debe pasarse de la siguiente forma: `"['genero1', 'genero2', 'genero3']"`
 
 ##Lista de comandos:
 
@@ -24,7 +24,7 @@ addAlbum
 
 addTrack
 
-``ts-node main.ts addTrack "Viva la Vida or Death and All His Friends​" "Viva la Vida" 10 ['pop']``
+``ts-node main.ts addTrack "Viva la Vida or Death and All His Friends​" "Viva la Vida" 10 "['pop']"``
 
 ### Deleting
 
