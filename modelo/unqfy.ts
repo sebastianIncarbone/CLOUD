@@ -257,6 +257,11 @@ export class UNQfy {
     });
   }
 
+  getAlbumsForArtist(artistName: String): Album[] {
+    const albums: Album[] = this.getAlbums().filter(album => album.getArtistName() === artistName);
+    return albums;
+  }
+
   save(filename: string): void {
     const serializedData = picklify.picklify(this);
 
