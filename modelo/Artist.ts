@@ -1,11 +1,26 @@
-import { Album } from './Album';
+import { IAlbum } from './Album';
 import uniqid from 'uniqid';
 
-export class Artist {
+export interface IArtist {
   id: string;
   name: string;
   country: string;
-  albums: Album[];
+  albums: IAlbum[];
+
+  getId(): string;
+  getName(): string;
+  getCountry(): string;
+  getAlbums(): IAlbum[];
+  addAlbum(newAlbum: IAlbum): void;
+  deleteAlbum(indexOfAlbum: number): void;
+
+}
+
+export class Artist implements IArtist{
+  id: string;
+  name: string;
+  country: string;
+  albums: IAlbum[];
 
   constructor(newName: string, newCountry: string) {
     this.id = uniqid();
@@ -23,13 +38,13 @@ export class Artist {
   getCountry(): string {
     return this.country;
   }
-  getAlbums() {
+  getAlbums(): IAlbum[] {
     return this.albums;
   }
-  addAlbum(newAlbum: Album) {
+  addAlbum(newAlbum: IAlbum): void {
     this.albums.push(newAlbum);
   }
-  deleteAlbum(indexOfAlbum: number) {
+  deleteAlbum(indexOfAlbum: number): void {
     this.albums.splice(indexOfAlbum, 1);
   }
 }

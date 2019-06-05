@@ -1,14 +1,48 @@
 // @ts-ignore
 import picklify from 'picklify'; // para cargar/guarfar unqfy
 import fs from 'fs'; // para cargar/guarfar unqfy
-import { Artist } from './Artist';
-import { Album } from './Album';
-import { Track } from './Track';
-import { Playlist } from './Playlist';
+import { Artist, IArtist } from './Artist';
+import { Album, IAlbum } from './Album';
+import { ITrack, Track } from './Track';
+import { IPlaylist, Playlist } from './Playlist';
 
-export class UNQfy {
-  artists: Artist[];
-  playlists: Playlist[];
+export interface IUNQfy {
+  artists: IArtist[];
+  playlists: IPlaylist[];
+
+  getAlbums(): IAlbum[];
+  getTracks(): ITrack[];
+  addArtist(artistData: { name: string, country: string }): IArtist;
+  addAlbum(artistName: string, albumData: { name: string, year: number }): IAlbum;
+  addTrack(albumName: string, trackData: { name: string, duration: number, genres: string[] }): ITrack;
+  getArtistById(id: string): IArtist;
+  getAlbumById(id: string): IAlbum;
+  getTrackById(id: string): ITrack;
+  getPlaylistById(id: string): IPlaylist;
+  getTracksMatchingGenres(genres: string[]): ITrack[];
+  findArtistByName(artistName: string): IArtist;
+  findAlbumByName(albumName: string): IAlbum;
+  findTrackByName(trackName: string): ITrack;
+  getTracksMatchingArtist(artistName: string): ITrack[];
+  createPlaylist(name: string, genresToInclude: string[], maxDuration: number): IPlaylist;
+  searchByName(name: string): { albums: IAlbum[], artists: IArtist[], playlists: IPlaylist[], tracks: ITrack[] };
+  filterByName(arrayList: any[], name: string) : any;
+  searchAlbumByName(name: string): IAlbum[];
+  searchArtistsByName(name: string): IArtist[];
+  searchPlayListByName(name: string): IPlaylist[];
+  searchTrackByName(name: string): ITrack[];
+  deleteArtist(artistId: string): void;
+  getTracksOfArtist(artist : IArtist): ITrack[];
+  deleteAlbum(albumId: string): void;
+  deleteTracksFromPlaylist(tracksToDelete: ITrack[]): void;
+  deleteTrack(trackId: string):void;
+  save(filename: string): void;
+
+}
+
+export class UNQfy implements IUNQfy{
+  artists: IArtist[];
+  playlists: IPlaylist[];
   private listeners: any[];
 
   constructor() {
@@ -17,17 +51,17 @@ export class UNQfy {
     this.listeners = [];
   }
 
-  getAlbums(): Album[] {
-    let albums: Album[] = [];
-    this.artists.forEach((artist: Artist) => {
+  getAlbums(): IAlbum[] {
+    let albums: IAlbum[] = [];
+    this.artists.forEach((artist: IArtist) => {
       albums = albums.concat(artist.getAlbums());
     });
     return albums;
   }
 
-  getTracks(): Track[] {
-    let tracks: Track[] = [];
-    this.getAlbums().forEach((album: Album) => {
+  getTracks(): ITrack[] {
+    let tracks: ITrack[] = [];
+    this.getAlbums().forEach((album: IAlbum) => {
       tracks = tracks.concat(album.getTracks());
     });
     return tracks;
@@ -37,14 +71,14 @@ export class UNQfy {
   //   artistData.name (string)
   //   artistData.country (string)
   // retorna: el nuevo artista creado
-  addArtist(artistData: { name: string, country: string }): Artist {
+  addArtist(artistData: { name: string, country: string }): IArtist {
     /* Crea un artista y lo agrega a unqfy.
     El objeto artista creado debe soportar (al menos):
       - una propiedad name (string)
       - una propiedad country (string)
     */
     const newArtist = new Artist(artistData.name, artistData.country);
-    if (this.artists.some((artist: Artist) => artist.getName() === newArtist.getName())) {
+    if (this.artists.some((artist: IArtist) => artist.getName() === newArtist.getName())) {
       throw new Error('That artist already exists');
     }else {
       this.artists.push(newArtist);
@@ -56,7 +90,7 @@ export class UNQfy {
   //   albumData.name (string)
   //   albumData.year (number)
   // retorna: el nuevo album creado
-  addAlbum(artistName: string, albumData: { name: string, year: number }): Album {
+  addAlbum(artistName: string, albumData: { name: string, year: number }): IAlbum {
     /* Crea un album y lo agrega al artista con id artistId.
       El objeto album creado debe tener (al menos):
        - una propiedad name (string)
@@ -74,7 +108,7 @@ export class UNQfy {
   //   trackData.duration (number)
   //   trackData.genres (lista de strings)
   // retorna: el nuevo track creado
-  addTrack(albumName: string, trackData: { name: string, duration: number, genres: string[] }): Track {
+  addTrack(albumName: string, trackData: { name: string, duration: number, genres: string[] }): ITrack {
     /* Crea un track y lo agrega al album con id albumId.
     El objeto track creado debe tener (al menos):
         - una propiedad name (string),
@@ -88,7 +122,7 @@ export class UNQfy {
     return newTrack;
   }
 
-  getArtistById(id: string): Artist {
+  getArtistById(id: string): IArtist {
     const artist = this.artists.find(artist => artist.getId() === id);
     if (artist) {
       return artist;
@@ -97,7 +131,7 @@ export class UNQfy {
 
   }
 
-  getAlbumById(id: string): Album {
+  getAlbumById(id: string): IAlbum {
     const album = this.getAlbums().find(album => album.getId() === id);
     if (album) {
       return album;
@@ -106,7 +140,7 @@ export class UNQfy {
 
   }
 
-  getTrackById(id: string): Track {
+  getTrackById(id: string): ITrack {
     const track = this.getTracks().find(track => track.getId() === id);
     if (track) {
       return track;
@@ -115,7 +149,7 @@ export class UNQfy {
 
   }
 
-  getPlaylistById(id: string): Playlist {
+  getPlaylistById(id: string): IPlaylist {
     const playlist = this.playlists.find(playlist => playlist.getId() === id);
     if (playlist) {
       return playlist;
@@ -126,18 +160,18 @@ export class UNQfy {
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
-  getTracksMatchingGenres(genres: string[]): Track[] {
+  getTracksMatchingGenres(genres: string[]): ITrack[] {
     return this.getTracks().filter(track => track.shareAnyGenre(genres));
   }
 
-  findArtistByName(artistName: string): Artist {
+  findArtistByName(artistName: string): IArtist {
     const artist = this.artists.find(artist => artist.getName().includes(artistName));
     if (artist) {
       return artist;
     }
     throw new Error('Artist not found');
   }
-  findAlbumByName(albumName: string): Album {
+  findAlbumByName(albumName: string): IAlbum {
     const album = this.getAlbums().find(album => album.getName().includes(albumName));
     if (album) {
       return album;
@@ -145,7 +179,7 @@ export class UNQfy {
     throw new Error('Album not found');
   }
 
-  findTrackByName(trackName: string): Track {
+  findTrackByName(trackName: string): ITrack {
     const track = this.getTracks().find(track => track.getName().includes(trackName));
     if (track) {
       return track;
@@ -155,10 +189,10 @@ export class UNQfy {
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
-  getTracksMatchingArtist(artistName: string): Track[] {
+  getTracksMatchingArtist(artistName: string): ITrack[] {
     // estaria bueno que alguien revise esta funcion
     const artist = this.findArtistByName(artistName);
-    let tracksOfArtist: Track[] = [];
+    let tracksOfArtist: ITrack[] = [];
     artist.getAlbums().forEach(album => tracksOfArtist = tracksOfArtist.concat(album.getTracks()));
     return tracksOfArtist;
   }
@@ -167,7 +201,8 @@ export class UNQfy {
   // genresToInclude: array de generos
   // maxDuration: duración en segundos
   // retorna: la nueva playlist creada
-  createPlaylist(name: string, genresToInclude: string[], maxDuration: number): Playlist {
+
+  createPlaylist(name: string, genresToInclude: string[], maxDuration: number): IPlaylist {
     /*** Crea una playlist y la agrega a unqfy. ***
      El objeto playlist creado debe soportar (al menos):
      * una propiedad name (string)
@@ -186,7 +221,7 @@ export class UNQfy {
     return playList;
   }
 
-  searchByName(name: string): { albums: Album[], artists: Artist[], playlists: Playlist[], tracks: Track[] } {
+  searchByName(name: string): { albums: IAlbum[], artists: IArtist[], playlists: IPlaylist[], tracks: ITrack[] } {
     const albumsWithString = this.searchAlbumByName(name);
     const artistsWithString = this.searchArtistsByName(name);
     const tracksWithstring = this.searchTrackByName(name);
@@ -203,19 +238,19 @@ export class UNQfy {
     return arrayList.filter(parameter => parameter.getName().includes(name));
   }
 
-  searchAlbumByName(name: string): Album[] {
+  searchAlbumByName(name: string): IAlbum[] {
     return this.filterByName(this.getAlbums(), name);
   }
 
-  searchArtistsByName(name: string): Artist[] {
+  searchArtistsByName(name: string): IArtist[] {
     return  this.filterByName(this.artists, name);
   }
 
-  searchPlayListByName(name: string): Playlist[] {
+  searchPlayListByName(name: string): IPlaylist[] {
     return this.filterByName(this.playlists, name);
   }
 
-  searchTrackByName(name: string): Track[] {
+  searchTrackByName(name: string): ITrack[] {
     return this.filterByName(this.getTracks(), name);
   }
 
@@ -226,10 +261,10 @@ export class UNQfy {
     this.artists.splice(index, 1);
     this.deleteTracksFromPlaylist(tracksToDeleteFromArtist);
   }
-  getTracksOfArtist(artist : Artist): Track[] {
+  getTracksOfArtist(artist : IArtist): ITrack[] {
     const albums = artist.getAlbums();
     let tracks : Track[] = [];
-    albums.forEach((album : Album) => tracks = tracks.concat(album.getTracks()));
+    albums.forEach((album : IAlbum) => tracks = tracks.concat(album.getTracks()));
 
     return tracks;
   }
@@ -240,8 +275,8 @@ export class UNQfy {
     artist.deleteAlbum(index);
     this.deleteTracksFromPlaylist(album.getTracks());
   }
-  deleteTracksFromPlaylist(tracksToDelete: Track[]): void  {
-    this.playlists.forEach((playList : Playlist) => playList.deleteTracks(tracksToDelete));
+  deleteTracksFromPlaylist(tracksToDelete: ITrack[]): void  {
+    this.playlists.forEach((playList : IPlaylist) => playList.deleteTracks(tracksToDelete));
   }
 
   deleteTrack(trackId: string):void  {
@@ -249,7 +284,7 @@ export class UNQfy {
     const album = this.findAlbumByName(track.getAlbumName());
     const index = album.getTracks().indexOf(track);
     album.getTracks().splice(index, 1);
-    this.playlists.forEach((playlist: Playlist) => {
+    this.playlists.forEach((playlist: IPlaylist) => {
       if (playlist.getTracks().includes(track)) {
         const index = playlist.getTracks().indexOf(track);
         playlist.getTracks().splice(index, 1);

@@ -117,7 +117,7 @@ function main(): void {
       return printOperation((unqfy: UNQfy) => unqfy.getArtistById(commandArgs[0]));
     }
   }
-  if (commandName === 'createPlaylist') {
+  if (commandName === 'createPlaylistcreatePlaylist') {
     return writeOperation((unqfy: UNQfy) => unqfy.createPlaylist(commandArgs[0], convertToArray(commandArgs[1]), parseInt(commandArgs[2], 10)));
   }
 }
