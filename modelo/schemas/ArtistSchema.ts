@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Album } from '../Album';
 
 const Schema = mongoose.Schema;
 
@@ -16,7 +17,7 @@ export const albumSchema = new Schema({
     require: true,
   },
   albums: {
-    type: Schema.Types.Mixed,
+    type: [Album],
     require: true,
   },
 });

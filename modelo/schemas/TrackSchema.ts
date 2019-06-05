@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-export const albumSchema = new Schema({
+export const trackSchema = new Schema({
   id: {
     type: Schema.Types.String,
     require: true,
@@ -11,16 +11,16 @@ export const albumSchema = new Schema({
     type: Schema.Types.String,
     require: true,
   },
+  albumName: {
+    type: Schema.Types.String,
+    require: true,
+  },
   genders: {
     type: [Schema.Types.String],
     require: true,
   },
-  maxDuration: {
+  duration: {
     type: Schema.Types.Number,
-    require: true,
-  },
-  tracks: {
-    type: Schema.Types.Mixed,
     require: true,
   },
 });

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Track } from '../Track';
 
 const Schema = mongoose.Schema;
 
@@ -34,7 +35,7 @@ export const albumSchema = new Schema({
     require: true,
   },
   tracks: {
-    type: Schema.Types.Mixed,
+    type: [Track],
     require: true,
   },
 });
