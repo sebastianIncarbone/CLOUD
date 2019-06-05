@@ -1,20 +1,6 @@
-import { IAlbum } from './Album';
+import { IAlbum } from './Album.d';
+import { IArtist } from './Artist.d';
 import uniqid from 'uniqid';
-
-export interface IArtist {
-  id: string;
-  name: string;
-  country: string;
-  albums: IAlbum[];
-
-  getId(): string;
-  getName(): string;
-  getCountry(): string;
-  getAlbums(): IAlbum[];
-  addAlbum(newAlbum: IAlbum): void;
-  deleteAlbum(indexOfAlbum: number): void;
-
-}
 
 export class Artist implements IArtist{
   id: string;

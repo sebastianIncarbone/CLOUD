@@ -1,22 +1,6 @@
-import { ITrack } from './Track';
+import { ITrack } from './Track.d';
+import { IAlbum } from './Album.d';
 import uniqid from 'uniqid';
-
-export interface IAlbum {
-  id: string;
-  name: string;
-  year: number;
-  artistName: string;
-  tracks: ITrack[];
-
-  getId(): string;
-  getName() : string;
-  getYear() : number;
-  getTracks() : ITrack[];
-  getArtistName(): string;
-  addTrack(newTrack: ITrack): void;
-  alreadyHaveTheTrack(trackToCheckName: ITrack) : boolean;
-  deleteTrack(track: ITrack): void;
-}
 
 export class Album implements IAlbum{
   id: string;

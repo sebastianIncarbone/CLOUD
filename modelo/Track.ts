@@ -1,22 +1,7 @@
+import { ITrack } from './Track.d';
 import uniqid from 'uniqid';
 
-export interface ITrack {
-  genres: string[];
-  name: string;
-  duration: number; // in seconds
-  albumName: string;
-  id: string;
-
-  getName(): string;
-  getDuration(): number;
-  getGenders(): string[];
-  getId(): string;
-  getAlbumName(): string;
-  shareAnyGenre(genresP: string[]) : boolean;
-
-}
-
-export class Track {
+export class Track implements ITrack{
   genres: string[];
   name: string;
   duration: number; // in seconds
