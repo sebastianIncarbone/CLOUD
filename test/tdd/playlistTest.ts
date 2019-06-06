@@ -56,7 +56,7 @@ describe('playlist', () => {
 
     unqfy.addArtist({ name: artist.getName(), country: artist.getCountry() });
     unqfy.addAlbum(artist.getName(), { name: album.getName() , year: album.getYear() });
-    unqfy.addTrack(album.getName(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenders() });
+    unqfy.addTrack(album.getName(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenres() });
     unqfy.createPlaylist('PlayList_Test', ['rap'], 800);
 
     unqfy.deleteArtist(unqfy.findArtistByName(artist.getName()).getId());
@@ -72,7 +72,7 @@ describe('playlist', () => {
 
     unqfy.addArtist({ name: artist.getName(), country: artist.getCountry() });
     unqfy.addAlbum(artist.getName(), { name: album.getName() , year: album.getYear() });
-    unqfy.addTrack(album.getName(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenders() });
+    unqfy.addTrack(album.getName(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenres() });
     unqfy.createPlaylist('PlayList_Test', ['rap'], 800);
 
     unqfy.deleteAlbum(unqfy.findAlbumByName(album.getName()).getId());

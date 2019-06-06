@@ -131,14 +131,14 @@ export class UNQfy {
   }
 
   findArtistByName(artistName: string): Artist {
-    const artist = this.artists.find(artist => artist.getName().includes(artistName));
+    const artist = this.artists.find(artist => artist.hasPartOfName(artistName));
     if (artist) {
       return artist;
     }
     throw new Error('Artist not found');
   }
   findAlbumByName(albumName: string): Album {
-    const album = this.getAlbums().find(album => album.getName().includes(albumName));
+    const album = this.getAlbums().find(album => album.hasPartOfName(albumName));
     if (album) {
       return album;
     }
@@ -146,7 +146,7 @@ export class UNQfy {
   }
 
   findTrackByName(trackName: string): Track {
-    const track = this.getTracks().find(track => track.getName().includes(trackName));
+    const track = this.getTracks().find(track => track.hasPartOfName(trackName));
     if (track) {
       return track;
     }
@@ -176,13 +176,13 @@ export class UNQfy {
      */
     const playList = new Playlist(name, genresToInclude, maxDuration);
     let variableDuration = maxDuration;
-    this.getTracks().forEach((track) => {
-      if (track.duration <= variableDuration && genresToInclude.some(genre => track.genres.includes(genre))) {
-        playList.tracks.push(track);
-        variableDuration -= track.duration;
+    this.getTracks().forEach((track: Track) => {
+      if (track.fitsIntoDuration(variableDuration) && track.hasSomeOfGenders(genresToInclude)) {
+        playList.addTrack(track);
+        variableDuration -= track.getDuration();
       }
     });
-    this.playlists.push(playList);
+    this.addPlaylist(playList);
     return playList;
   }
 
@@ -227,17 +227,12 @@ export class UNQfy {
     this.deleteTracksFromPlaylist(tracksToDeleteFromArtist);
   }
   getTracksOfArtist(artist : Artist): Track[] {
-    const albums = artist.getAlbums();
-    let tracks : Track[] = [];
-    albums.forEach((album : Album) => tracks = tracks.concat(album.getTracks()));
-
-    return tracks;
+    return artist.getTracks();
   }
   deleteAlbum(albumId: string): void {
     const album = this.getAlbumById(albumId);
     const artist = this.findArtistByName(album.getArtistName());
-    const index = artist.getAlbums().indexOf(album);
-    artist.deleteAlbum(index);
+    artist.deleteAlbum(album);
     this.deleteTracksFromPlaylist(album.getTracks());
   }
   deleteTracksFromPlaylist(tracksToDelete: Track[]): void  {
@@ -247,12 +242,10 @@ export class UNQfy {
   deleteTrack(trackId: string):void  {
     const track = this.getTrackById(trackId);
     const album = this.findAlbumByName(track.getAlbumName());
-    const index = album.getTracks().indexOf(track);
-    album.getTracks().splice(index, 1);
+    album.deleteTrack(track);
     this.playlists.forEach((playlist: Playlist) => {
-      if (playlist.getTracks().includes(track)) {
-        const index = playlist.getTracks().indexOf(track);
-        playlist.getTracks().splice(index, 1);
+      if (playlist.hasTrack(track)) {
+        playlist.deleteTrack(track);
       }
     });
   }
@@ -274,5 +267,10 @@ export class UNQfy {
     const classes = [UNQfy, Artist, Album, Track, Playlist];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
+
+  private addPlaylist(playList: Playlist) {
+    this.playlists.push(playList);
+  }
+
 }
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente

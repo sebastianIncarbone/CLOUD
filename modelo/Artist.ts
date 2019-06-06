@@ -1,5 +1,6 @@
 import { Album } from './Album';
 import uniqid from 'uniqid';
+import {Track} from './Track';
 
 export class Artist {
   id: string;
@@ -29,7 +30,18 @@ export class Artist {
   addAlbum(newAlbum: Album) {
     this.albums.push(newAlbum);
   }
-  deleteAlbum(indexOfAlbum: number) {
-    this.albums.splice(indexOfAlbum, 1);
+  deleteAlbum(album: Album) {
+    const index = this.getAlbums().indexOf(album);
+    this.albums.splice(index, 1);
+  }
+  hasPartOfName(name: string) {
+    return this.getName().includes(name);
+  }
+
+  getTracks(): Track[] {
+    let tracks : Track[] = [];
+    this.getAlbums().forEach((album : Album) => tracks = tracks.concat(album.getTracks()));
+
+    return tracks;
   }
 }
