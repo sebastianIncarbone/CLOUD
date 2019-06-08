@@ -1,12 +1,13 @@
-import { Album } from './Album';
+import { IAlbum } from './Album.d';
+import { IArtist } from './Artist.d';
 import uniqid from 'uniqid';
 import {Track} from './Track';
 
-export class Artist {
+export class Artist implements IArtist{
   id: string;
   name: string;
   country: string;
-  albums: Album[];
+  albums: IAlbum[];
 
   constructor(newName: string, newCountry: string) {
     this.id = uniqid();
@@ -24,13 +25,13 @@ export class Artist {
   getCountry(): string {
     return this.country;
   }
-  getAlbums() {
+  getAlbums(): IAlbum[] {
     return this.albums;
   }
-  addAlbum(newAlbum: Album) {
+  addAlbum(newAlbum: IAlbum): void {
     this.albums.push(newAlbum);
   }
-  deleteAlbum(album: Album) {
+  deleteAlbum(album: IAlbum) {
     const index = this.getAlbums().indexOf(album);
     this.albums.splice(index, 1);
   }
@@ -38,7 +39,7 @@ export class Artist {
     return this.getName().includes(name);
   }
 
-  getTracks(): Track[] {
+  getTracks(): ITrack[] {
     let tracks : Track[] = [];
     this.getAlbums().forEach((album : Album) => tracks = tracks.concat(album.getTracks()));
 

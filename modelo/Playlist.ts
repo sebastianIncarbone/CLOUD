@@ -1,12 +1,13 @@
-import { Track } from './Track';
+import { ITrack } from './Track.d';
+import { IPlaylist } from './Playlist.d';
 import uniqid from 'uniqid';
 
-export class Playlist {
+export class Playlist implements IPlaylist{
 
   name: string;
   genders: string[];
   maxDuration: number;
-  tracks: Track[];
+  tracks: ITrack[];
   id: string;
 
   constructor(newName: string, newGenders: string[], newMaxDuration: number) {
@@ -25,7 +26,7 @@ export class Playlist {
     return this.genders;
   }
 
-  getTracks(): Track[] {
+  getTracks(): ITrack[] {
     return this.tracks;
   }
 
@@ -33,7 +34,7 @@ export class Playlist {
     return this.maxDuration;
   }
 
-  addTrack(newTrack: Track): void {
+  addTrack(newTrack: ITrack): void {
     this.tracks.push(newTrack);
   }
 
@@ -41,15 +42,15 @@ export class Playlist {
     return this.id;
   }
 
-  hasTrack(aTrack: Track): boolean {
+  hasTrack(aTrack: ITrack): boolean {
     return this.tracks.includes(aTrack);
   }
 
-  deleteTrack(aTrack: Track): void {
+  deleteTrack(aTrack: ITrack): void {
     const index = this.tracks.indexOf(aTrack);
     this.tracks.splice(index);
   }
-  deleteTracks(tracksToDelete: Track[]) : void {
-    this.tracks = this.tracks.filter((track : Track) => !tracksToDelete.includes(track));
+  deleteTracks(tracksToDelete: ITrack[]) : void {
+    this.tracks = this.tracks.filter((track : ITrack) => !tracksToDelete.includes(track));
   }
 }

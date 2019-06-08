@@ -1,12 +1,13 @@
-import { Track } from './Track';
+import { ITrack } from './Track.d';
+import { IAlbum } from './Album.d';
 import uniqid from 'uniqid';
 
-export class Album {
+export class Album implements IAlbum{
   id: string;
   name: string;
   year: number;
   artistName: string;
-  tracks: Track[];
+  tracks: ITrack[];
 
   constructor(newName: string, newYear: number, newArtistName: string) {
     this.name = newName;
@@ -27,28 +28,23 @@ export class Album {
   getYear(): number {
     return this.year;
   }
-
-  getTracks(): Track[] {
+  getTracks() : ITrack[] {
     return this.tracks;
   }
 
   getArtistName(): string {
     return this.artistName;
   }
-
-  addTrack(newTrack: Track): void {
+  addTrack(newTrack: ITrack): void {
     if (this.alreadyHaveTheTrack(newTrack)) {
       throw new Error('That Track already exists');
     } else {
       this.tracks.push(newTrack);
     }
   }
-
-  alreadyHaveTheTrack(trackToCheckName: Track): boolean {
-    return this.getTracks().some((tracksInAlbum: Track) => tracksInAlbum.getName() === trackToCheckName.getName());
+  alreadyHaveTheTrack(trackToCheckName: ITrack) : boolean {
+    return this.getTracks().some((tracksInAlbum: ITrack) => tracksInAlbum.getName() === trackToCheckName.getName());
   }
-
-  deleteTrack(track: Track): void {
     const index = this.tracks.indexOf(track);
     this.tracks.splice(index, 1);
   }

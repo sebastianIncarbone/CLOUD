@@ -1,6 +1,7 @@
+import { ITrack } from './Track.d';
 import uniqid from 'uniqid';
 
-export class Track {
+export class Track implements ITrack{
   genres: string[];
   name: string;
   duration: number; // in seconds
