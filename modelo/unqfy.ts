@@ -5,7 +5,7 @@ import { Artist } from './Artist';
 import { Album } from './Album';
 import { Track } from './Track';
 import { Playlist } from './Playlist';
-import {AdministradorSpotify} from './AdministradorSpotify';
+import { AdministradorSpotify } from './AdministradorSpotify';
 
 export class UNQfy {
   artists: Artist[];
@@ -275,8 +275,9 @@ export class UNQfy {
     this.playlists.push(playList);
   }
 
-  populateAlbumsForArist(artistName: string): void {
-    this.administradorSpotify.realizarConsultaASpotify(this, artistName);
+  async populateAlbumsForArtist(artistName: string): Promise<void> {
+    const albumsData: Album[] = await this.administradorSpotify.getAlbumsDataForArtist(artistName);
+    albumsData.forEach(albumData => this.addAlbum(artistName, albumData));
   }
 
 }
