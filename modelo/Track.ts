@@ -21,7 +21,7 @@ export class Track implements ITrack{
   getDuration(): number {
     return this.duration;
   }
-  getGenders(): string[] {
+  getGenres(): string[] {
     return this.genres;
   }
   getId(): string {
@@ -30,7 +30,18 @@ export class Track implements ITrack{
   getAlbumName(): string {
     return this.albumName;
   }
-  shareAnyGenre(genresP: string[]) : boolean {
-    return this.genres.some(aGender => genresP.includes(aGender));
+  shareAnyGenre(genres: string[]) : boolean {
+    return this.genres.some(aGenre => genres.includes(aGenre));
+  }
+
+  fitsIntoDuration(variableDuration: number): boolean {
+    return this.getDuration() <= variableDuration;
+  }
+
+  hasSomeOfGenders(genresToInclude: string[]): boolean {
+    return genresToInclude.some(genre => this.getGenres().includes(genre));
+  }
+  hasPartOfName(trackName: string): boolean {
+    return this.getName().includes(trackName);
   }
 }
