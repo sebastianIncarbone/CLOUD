@@ -67,8 +67,9 @@ export class UNQfy implements IUNQfy{
        - una propiedad name (string)
        - una propiedad year (number)
     */
-    const artist = this.findArtistByName(artistName);
+    let artist = this.findArtistByName(artistName);
     const newAlbum = new Album(albumData.name, albumData.year, artist.name);
+
     artist.addAlbum(newAlbum);
 
     return newAlbum;
