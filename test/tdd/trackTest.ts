@@ -29,19 +29,19 @@ describe('track' , () => {
     const genders: string[] = ['Rock'];
     const mariposaMulticolor: Track = new Track(name, duration, genders, 'Circo Beat');
 
-    assert.isOk(mariposaMulticolor.getGenders().includes('Rock'));
-    assert.equal(mariposaMulticolor.getGenders().length, 1);
+    assert.isOk(mariposaMulticolor.getGenres().includes('Rock'));
+    assert.equal(mariposaMulticolor.getGenres().length, 1);
 
   });
   it('has many genders in his list', () => {
     const genders: string[]  = ['Rock', 'Hard Rock', 'Rock Argentino'];
     const mariposaMulticolor: Track = new Track(name, duration, genders, 'Circo Beat');
 
-    assert.isOk(mariposaMulticolor.getGenders().includes('Rock'));
-    assert.isOk(mariposaMulticolor.getGenders().includes('Hard Rock'));
-    assert.isOk(mariposaMulticolor.getGenders().includes('Rock Argentino'));
+    assert.isOk(mariposaMulticolor.getGenres().includes('Rock'));
+    assert.isOk(mariposaMulticolor.getGenres().includes('Hard Rock'));
+    assert.isOk(mariposaMulticolor.getGenres().includes('Rock Argentino'));
 
-    assert.equal(mariposaMulticolor.getGenders().length, 3);
+    assert.equal(mariposaMulticolor.getGenres().length, 3);
 
   });
   it('can not be erase if it does not belongs in an application', () => {
@@ -60,7 +60,7 @@ describe('track' , () => {
 
     unqfy.addArtist({ name: artist.getName(), country: artist.getCountry() });
     unqfy.addAlbum(artist.getName(), { name: album.getName() , year: album.getYear() });
-    unqfy.addTrack(album.getName(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenders() });
+    unqfy.addTrack(album.getName(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenres() });
     unqfy.deleteTrack(unqfy.findTrackByName(track.getName()).getId());
 
     assert.equal(unqfy.getTracks().length, 0);
