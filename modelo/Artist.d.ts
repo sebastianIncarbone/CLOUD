@@ -1,16 +1,17 @@
-import { IAlbum } from './Album.d';
+import { Album } from './Album';
 
 export interface IArtist {
+  hasPartOfName(artistName: string): boolean;
   id: string;
   name: string;
   country: string;
-  albums: IAlbum[];
+  albums: Album[];
 
   getId(): string;
   getName(): string;
   getCountry(): string;
-  getAlbums(): IAlbum[];
-  addAlbum(newAlbum: IAlbum): void;
+  getAlbums(): Album[];
+  addAlbum(newAlbum: Album): void;
   deleteAlbum(indexOfAlbum: number): void;
 
 }

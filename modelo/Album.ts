@@ -1,8 +1,7 @@
 import { ITrack } from './Track.d';
-import { IAlbum } from './Album.d';
 import uniqid from 'uniqid';
 
-export class Album implements IAlbum{
+export class Album{
   id: string;
   name: string;
   year: number;
@@ -20,18 +19,15 @@ export class Album implements IAlbum{
   getId(): string {
     return this.id;
   }
-
   getName(): string {
     return this.name;
   }
-
   getYear(): number {
     return this.year;
   }
   getTracks() : ITrack[] {
     return this.tracks;
   }
-
   getArtistName(): string {
     return this.artistName;
   }
@@ -45,10 +41,6 @@ export class Album implements IAlbum{
   alreadyHaveTheTrack(trackToCheckName: ITrack) : boolean {
     return this.getTracks().some((tracksInAlbum: ITrack) => tracksInAlbum.getName() === trackToCheckName.getName());
   }
-    const index = this.tracks.indexOf(track);
-    this.tracks.splice(index, 1);
-  }
-
   hasPartOfName(albumName: string): boolean {
     return this.getName().includes(albumName);
   }

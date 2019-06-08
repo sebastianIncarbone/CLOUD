@@ -9,11 +9,11 @@ export interface IAlbum extends Document{
   tracks: ITrack[];
 
   getId(): string;
-  getName() : string;
-  getYear() : number;
+  getName(): string;
+  getYear(): number;
   getTracks() : ITrack[];
   getArtistName(): string;
   addTrack(newTrack: ITrack): void;
-  alreadyHaveTheTrack(trackToCheckName: ITrack) : boolean;
-  deleteTrack(track: ITrack): void;
+  alreadyHaveTheTrack(trackToCheckName: ITrack) : boolean ;
+  hasPartOfName(albumName: string): boolean;
 }

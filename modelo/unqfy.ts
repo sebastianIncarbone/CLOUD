@@ -25,6 +25,7 @@ export class UNQfy implements IUNQfy{
   getAlbums(): IAlbum[] {
     let albums: IAlbum[] = [];
     this.artists.forEach((artist: IArtist) => {
+      // @ts-ignore
       albums = albums.concat(artist.getAlbums());
     });
     return albums;
@@ -42,7 +43,8 @@ export class UNQfy implements IUNQfy{
   //   artistData.name (string)
   //   artistData.country (string)
   // retorna: el nuevo artista creado
-  addArtist(artistData: { name: string, country: string }): IArtist {
+  // @ts-ignore
+  addArtist(artistData: { name: string, country: string }): Artist {
     /* Crea un artista y lo agrega a unqfy.
     El objeto artista creado debe soportar (al menos):
       - una propiedad name (string)
@@ -52,7 +54,9 @@ export class UNQfy implements IUNQfy{
     if (this.artists.some((artist: IArtist) => artist.getName() === newArtist.getName())) {
       throw new Error('That artist already exists');
     }else {
+      // @ts-ignore
       this.artists.push(newArtist);
+      // @ts-ignore
       return newArtist;
     }
   }
@@ -61,15 +65,17 @@ export class UNQfy implements IUNQfy{
   //   albumData.name (string)
   //   albumData.year (number)
   // retorna: el nuevo album creado
-  addAlbum(artistName: string, albumData: { name: string, year: number }): IAlbum {
+  // @ts-ignore
+  addAlbum(artistName: string, albumData: { name: string, year: number }): Album {
     /* Crea un album y lo agrega al artista con id artistId.
       El objeto album creado debe tener (al menos):
        - una propiedad name (string)
        - una propiedad year (number)
     */
-    let artist = this.findArtistByName(artistName);
+    const artist = this.findArtistByName(artistName);
     const newAlbum = new Album(albumData.name, albumData.year, artist.name);
 
+    // @ts-ignore
     artist.addAlbum(newAlbum);
 
     return newAlbum;
@@ -136,10 +142,11 @@ export class UNQfy implements IUNQfy{
     return this.getTracks().filter(track => track.shareAnyGenre(genres));
   }
 
-
-  findArtistByName(artistName: string): IArtist {
+  // @ts-ignore
+  findArtistByName(artistName: string): Artist {
     const artist = this.artists.find(artist => artist.hasPartOfName(artistName));
     if (artist) {
+      // @ts-ignore
       return artist;
     }
     throw new Error('Artist not found');
@@ -185,6 +192,7 @@ export class UNQfy implements IUNQfy{
      */
     const playList = new Playlist(name, genresToInclude, maxDuration);
     let variableDuration = maxDuration;
+    // @ts-ignore
     this.getTracks().forEach((track: Track) => {
       if (track.fitsIntoDuration(variableDuration) && track.hasSomeOfGenders(genresToInclude)) {
         playList.addTrack(track);
@@ -237,6 +245,7 @@ export class UNQfy implements IUNQfy{
   }
 
   getTracksOfArtist(artist : IArtist): ITrack[] {
+    // @ts-ignore
     return artist.getTracks();
   }
   deleteAlbum(albumId: string): void {
@@ -252,6 +261,7 @@ export class UNQfy implements IUNQfy{
   deleteTrack(trackId: string):void  {
     const track = this.getTrackById(trackId);
     const album = this.findAlbumByName(track.getAlbumName());
+    // @ts-ignore
     album.deleteTrack(track);
     this.playlists.forEach((playlist: IPlaylist) => {
       if (playlist.hasTrack(track)) {

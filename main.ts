@@ -120,6 +120,9 @@ function main(): void {
   if (commandName === 'createPlaylistcreatePlaylist') {
     return writeOperation((unqfy: UNQfy) => unqfy.createPlaylist(commandArgs[0], convertToArray(commandArgs[1]), parseInt(commandArgs[2], 10)));
   }
+  if (commandName === 'searchTrack') {
+    return writeOperation((unqfy: UNQfy) => unqfy.searchTrackByName(commandArgs[0])[1].getLyrics());
+  }
 }
 
 main();
