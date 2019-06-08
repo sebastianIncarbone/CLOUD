@@ -1,27 +1,32 @@
-import {UNQfy} from './unqfy';
-import {Album} from './Album';
+import express from 'express';
+// @ts-ignore
+import * as rp from 'request-promise';
 
-var express = require('express');
-var app = express();
+const app = express()
 
 export class AdministradorSpotify {
+  private accessToken = 'BQAGyjcmSnHvBc2-khy5v1BjpTlHzEZaGpYssaeMcQhrEEOYgGhvOWxbGjQVZfbbVt-6gO106rq0QEHRvG9kYJtxdY7-ZbbWYq2e0g91_RkLuD3UOEFR3s5dJTWZlcD9G75kZ3ZtIFVmeRJxhHf4dePkUikznPhHoA'
 
-  realizarConsultaASpotify(unqfy: UNQfy, artistName) : void {
-    const consulta = require('request-promise');
-    const options = {
-      url: 'https://api.spotify.com/v1/artists/{id}/albums',
-      headers: { Authorization: 'Bearer' + '' },
+  getOptions(url: string) {
+    return {
+      url,
+      headers: { Authorization: `Bearer ${this.accessToken}` },
       json: true,
     };
-
-    consulta.get(options).then(albums => crearAlbumsParaApp(parseJSONtoAlbumList(albums), unqfy, artistName));
-
   }
 
-    parseJSONtoAlbumList(albumsInJSON : void) : Album[] {
-      return 0;
-    }
-  crearAlbumsParaApp(albums: Album[] , unqfy: UNQfy, artistName: string) : void {
-    albums.forEach(anAlbum => unqfy.addAlbum(artistName, { anAlbum.getName(), anAlbum.getYear() }));
+  async populateAlbumsForArtist(artistName: string) {
+    return await rp.get(this.getOptions('https://api.spotify.com/v1/search?q=chano&type=artist'));
   }
 }
+
+const asd = new AdministradorSpotify()
+
+app.get('/', async (req, res) => {
+  const response = await asd.populateAlbumsForArtist('chano');
+  res.send(response)
+})
+
+app.listen(3000, () => {
+  console.log('Example app listening on port 3000!');
+})
