@@ -26,8 +26,8 @@ ts-node main.ts addTrack "Ida y Vuelta" "Yo Puedo Hacer" 5 "['pop']"
 
 ts-node main.ts addArtist "Arctic Monkeys" "USA"
 ts-node main.ts addAlbum "Arctic Monkeys" "AM" 2013
-ts-node main.ts addTrack "r u mine?" "AM" 193 "['Indie Rock']"
+ts-node main.ts addTrack "AM" "r u mine?" 193 "['Indie Rock']"
 
 ts-node main.ts addArtist "Charly Garcia" "Argentina"
 ts-node main.ts addAlbum "Charly Garcia" "Clicks Modernos" 1983
-ts-node main.ts addTrack "Nos siguen pegando abajo" "Clicks Modernos" 900 "['rock argentino', 'rock']" 
+ts-node main.ts addTrack "Clicks Modernos" "Nos siguen pegando abajo" 900 "['rock argentino', 'rock']"

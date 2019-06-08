@@ -27,15 +27,13 @@ export class Album {
   getYear(): number {
     return this.year;
   }
-
-  getTracks(): Track[] {
+  getTracks() : Track[] {
     return this.tracks;
   }
 
   getArtistName(): string {
     return this.artistName;
   }
-
   addTrack(newTrack: Track): void {
     if (this.alreadyHaveTheTrack(newTrack)) {
       throw new Error('That Track already exists');
@@ -43,8 +41,7 @@ export class Album {
       this.tracks.push(newTrack);
     }
   }
-
-  alreadyHaveTheTrack(trackToCheckName: Track): boolean {
+  alreadyHaveTheTrack(trackToCheckName: Track) : boolean {
     return this.getTracks().some((tracksInAlbum: Track) => tracksInAlbum.getName() === trackToCheckName.getName());
   }
 
@@ -57,3 +54,4 @@ export class Album {
     return this.getName().includes(albumName);
   }
 }
+

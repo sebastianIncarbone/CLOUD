@@ -1,8 +1,8 @@
-import { Album } from './Album';
 import uniqid from 'uniqid';
 import { Track } from './Track';
+import {Album} from './Album';
 
-export class Artist {
+export class Artist{
   id: string;
   name: string;
   country: string;
@@ -24,10 +24,10 @@ export class Artist {
   getCountry(): string {
     return this.country;
   }
-  getAlbums() {
+  getAlbums(): Album[] {
     return this.albums;
   }
-  addAlbum(newAlbum: Album) {
+  addAlbum(newAlbum: Album): void {
     this.albums.push(newAlbum);
   }
   deleteAlbum(album: Album) {

@@ -1,9 +1,9 @@
 // @ts-ignore
 import picklify from 'picklify'; // para cargar/guarfar unqfy
 import fs from 'fs'; // para cargar/guarfar unqfy
+import { Track } from './Track';
 import { Artist } from './Artist';
 import { Album } from './Album';
-import { Track } from './Track';
 import { Playlist } from './Playlist';
 import { AdministradorSpotify } from './AdministradorSpotify';
 
@@ -67,6 +67,7 @@ export class UNQfy {
     */
     const artist = this.findArtistByName(artistName);
     const newAlbum = new Album(albumData.name, albumData.year, artist.name);
+
     artist.addAlbum(newAlbum);
 
     return newAlbum;
@@ -140,6 +141,7 @@ export class UNQfy {
     }
     throw new Error('Artist not found');
   }
+
   findAlbumByName(albumName: string): Album {
     const album = this.getAlbums().find(album => album.hasPartOfName(albumName));
     if (album) {
@@ -170,6 +172,7 @@ export class UNQfy {
   // genresToInclude: array de generos
   // maxDuration: duración en segundos
   // retorna: la nueva playlist creada
+
   createPlaylist(name: string, genresToInclude: string[], maxDuration: number): Playlist {
     /*** Crea una playlist y la agrega a unqfy. ***
      El objeto playlist creado debe soportar (al menos):
@@ -229,6 +232,7 @@ export class UNQfy {
     this.artists.splice(index, 1);
     this.deleteTracksFromPlaylist(tracksToDeleteFromArtist);
   }
+
   getTracksOfArtist(artist : Artist): Track[] {
     return artist.getTracks();
   }
