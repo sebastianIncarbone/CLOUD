@@ -5,16 +5,19 @@ import { Artist } from './Artist';
 import { Album } from './Album';
 import { Track } from './Track';
 import { Playlist } from './Playlist';
+import {AdministradorSpotify} from './AdministradorSpotify';
 
 export class UNQfy {
   artists: Artist[];
   playlists: Playlist[];
   private listeners: any[];
+  private administradorSpotify : AdministradorSpotify;
 
   constructor() {
     this.artists = [];
     this.playlists = [];
     this.listeners = [];
+    this.administradorSpotify = new AdministradorSpotify();
   }
 
   getAlbums(): Album[] {
@@ -270,6 +273,10 @@ export class UNQfy {
 
   private addPlaylist(playList: Playlist) {
     this.playlists.push(playList);
+  }
+
+  populateAlbumsForArist(artistName: string): void {
+    this.administradorSpotify.realizarConsultaASpotify(this, artistName);
   }
 
 }

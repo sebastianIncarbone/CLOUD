@@ -1,6 +1,6 @@
 import { Album } from './Album';
 import uniqid from 'uniqid';
-import {Track} from './Track';
+import { Track } from './Track';
 
 export class Artist {
   id: string;
