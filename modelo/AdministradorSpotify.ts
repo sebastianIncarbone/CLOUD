@@ -4,8 +4,6 @@ import express from 'express';
 import * as rp from 'request-promise';
 import { Album } from './Album';
 
-const app = express();
-
 export class AdministradorSpotify {
   private accessToken = 'BQAGyjcmSnHvBc2-khy5v1BjpTlHzEZaGpYssaeMcQhrEEOYgGhvOWxbGjQVZfbbVt-6gO106rq0QEHRvG9kYJtxdY7-ZbbWYq2e0g91_RkLuD3UOEFR3s5dJTWZlcD9G75kZ3ZtIFVmeRJxhHf4dePkUikznPhHoA';
 

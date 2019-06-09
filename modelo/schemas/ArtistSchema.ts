@@ -1,3 +1,4 @@
+// @ts-ignore
 import mongoose from 'mongoose';
 import { Album } from '../Album';
 
