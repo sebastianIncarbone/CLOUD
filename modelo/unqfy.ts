@@ -6,6 +6,7 @@ import { Artist } from './Artist';
 import { Album } from './Album';
 import { Playlist } from './Playlist';
 import { AdministradorSpotify } from './AdministradorSpotify';
+import { DuplicatedError } from './Errores/DuplicatedError';
 
 export class UNQfy {
   artists: Artist[];
@@ -48,7 +49,7 @@ export class UNQfy {
     */
     const newArtist = new Artist(artistData.name, artistData.country);
     if (this.artists.some((artist: Artist) => artist.getName() === newArtist.getName())) {
-      throw new Error('That artist already exists');
+      throw new DuplicatedError('That artist already exists');
     }else {
       this.artists.push(newArtist);
       return newArtist;
