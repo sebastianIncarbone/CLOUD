@@ -152,6 +152,7 @@ app.post('/api/albums', (req, res) => {
       });
     }catch (error) {
       if (error instanceof DuplicatedError) {
+        res.status(409);
         res.send({
           status: 409,
           errorCode: 'RESOURCE_ALREADY_EXISTS',
@@ -181,8 +182,7 @@ app.post('/api/albums', (req, res) => {
       res.status(404);
       res.send({
                  status: 404,
-                 errorCode: 'RESOURCE_NOT_FOUND',
-                 param: req.params.id
+                 errorCode: 'RESOURCE_NOT_FOUND'
                });
     }
   });
