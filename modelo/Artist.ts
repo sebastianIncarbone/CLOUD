@@ -35,7 +35,7 @@ export class Artist{
     this.albums.splice(index, 1);
   }
   hasPartOfName(name: string) {
-    return this.getName().includes(name);
+    return this.getName().toLowerCase().includes(name.toLowerCase());
   }
 
   getTracks(): Track[] {
