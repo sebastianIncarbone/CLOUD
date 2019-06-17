@@ -30,11 +30,11 @@ export class Artist{
   addAlbum(newAlbum: Album): void {
     this.albums.push(newAlbum);
   }
-  deleteAlbum(album: Album) {
+  deleteAlbum(album: Album): void {
     const index = this.getAlbums().indexOf(album);
     this.albums.splice(index, 1);
   }
-  hasPartOfName(name: string) {
+  hasPartOfName(name: string): boolean {
     return this.getName().toLowerCase().includes(name.toLowerCase());
   }
 
