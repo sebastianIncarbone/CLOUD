@@ -1,9 +1,8 @@
-import { ITrack } from './Track.d';
 import uniqid from 'uniqid';
 // @ts-ignore
 import { AdministradorDeMusixmatch } from 'AdministradorDeMusixmatch';
 
-export class Track implements ITrack{
+export class Track {
   genres: string[];
   lyric: string;
   administradorConMusicmatch: AdministradorDeMusixmatch;

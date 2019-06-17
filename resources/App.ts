@@ -1,16 +1,17 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import { DBconection } from './DBconection';
+//import { DBconection } from './DBconection';
 
 class App {
 
   public app: express.Application = express();
-  private mongoConector: any = new DBconection();
+  //private mongoConector: any = new DBconection();
 
   constructor() {
     this.config();
-    this.mongoConector().conect();
+    //this.mongoConector().conect();
     // Add rutes
+
   }
 
   private config(): void {
@@ -21,3 +22,5 @@ class App {
 }
 
 export const app = new App().app;
+
+
