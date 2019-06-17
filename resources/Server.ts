@@ -1,6 +1,6 @@
 import { app } from './App';
 import { UNQfy } from '../modelo/unqfy';
-import bodyParser = require('body-parser');
+import bodyParser from 'body-parser';
 import { DuplicatedError } from '../modelo/Errores/DuplicatedError';
 
 const PORT = 3030;
@@ -12,7 +12,7 @@ app.use(bodyParser());
 ============================= RUTAS ARTISTA ============================================
  */
 
-app.post('/artist', (req, res) => {
+app.post('/artists', (req, res) => {
   const nameOfArtist: string = req.body.name;
   const countryOfArtist: string = req.body.country;
 
@@ -89,7 +89,7 @@ app.delete('/artists/:id', (req, res) => {
 });
 
 app.get('/artists', (req, res) => {
-  const artistName = req.params.name
+  const artistName = req.query.name;
   let artists;
   if (!artistName) {
     artists = unqfy.getArtists();
@@ -98,7 +98,7 @@ app.get('/artists', (req, res) => {
   }
   res.status(200);
   res.send(artists);
-})
+});
 
 /*
 ============================= RUTAS ALBUM ============================================
@@ -184,7 +184,7 @@ app.delete('/albums/:id', (req, res) => {
 });
 
 app.get('/albums', (req, res) => {
-  const albumName = req.params.name;
+  const albumName = req.query.name;
   let albums;
   if (!albumName) {
     albums = unqfy.getAlbums();
@@ -205,10 +205,10 @@ app.get('/tracks/:id/lyrics', async (req, res) => {
   const lyrics = await track.getLyrics();
   res.status(200);
   res.send(lyrics);
-})
+});
 
 /*
 ======================================================================================
 */
 
-app.listen(PORT, () => console.log('Server started'));
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
