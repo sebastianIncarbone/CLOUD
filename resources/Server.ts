@@ -2,7 +2,7 @@ import { app } from './App';
 import { UNQfy } from '../modelo/unqfy';
 import bodyParser from 'body-parser';
 import { DuplicatedError } from '../modelo/Errores/DuplicatedError';
-import {NotFoundError} from '../modelo/Errores/NotFoundError';
+import { NotFoundError } from '../modelo/Errores/NotFoundError';
 
 const PORT = 3030;
 const unqfy = new UNQfy();
@@ -13,7 +13,7 @@ app.use(bodyParser());
 ============================= RUTAS ARTISTA ============================================
  */
 
-app.post('/artists', (req, res) => {
+app.post('/api/artists', (req, res) => {
   const nameOfArtist: string = req.body.name;
   const countryOfArtist: string = req.body.country;
 
@@ -46,7 +46,7 @@ app.post('/artists', (req, res) => {
   }
 });
 
-app.get('/artists/:id', (req, res) => {
+app.get('/api/artists/:id', (req, res) => {
 
   try {
     const artist =  unqfy.getArtistById(req.params.id);
@@ -65,7 +65,7 @@ app.get('/artists/:id', (req, res) => {
   }
 });
 
-app.patch('artists/:id', (req, res) => {
+app.patch('/api/artists/:id', (req, res) => {
   const newName = req.body.name;
   const newCountry = req.body.country;
 
@@ -97,7 +97,7 @@ app.patch('artists/:id', (req, res) => {
   }
 });
 
-app.delete('/artists/:id', (req, res) => {
+app.delete('/api/artists/:id', (req, res) => {
   try {
     unqfy.deleteArtist(req.params.id);
     res.status(204);
@@ -112,7 +112,7 @@ app.delete('/artists/:id', (req, res) => {
   }
 });
 
-app.get('/artists', (req, res) => {
+app.get('/api/artists', (req, res) => {
   const artistName = req.query.name;
   let artists;
   if (!artistName) {
@@ -128,7 +128,7 @@ app.get('/artists', (req, res) => {
 ============================= RUTAS ALBUM ============================================
  */
 
-app.post('/albums', (req, res) => {
+app.post('/api/albums', (req, res) => {
   const artistID = req.body.artistId;
   const albumName = req.body.name;
 
@@ -167,7 +167,7 @@ app.post('/albums', (req, res) => {
   }
 });
 
-app.get('/albums/:id', (req, res) => {
+app.get('/api/albums/:id', (req, res) => {
 
   try {
     const album = unqfy.getAlbumById(req.params.id);
@@ -186,7 +186,7 @@ app.get('/albums/:id', (req, res) => {
   }
 });
 
-app.put('/albums/:id', (req, res) => {
+app.put('/api/albums/:id', (req, res) => {
   const newYear = req.body.year;
 
   if (!newYear) {
@@ -218,7 +218,7 @@ app.put('/albums/:id', (req, res) => {
   }
 });
 
-app.delete('/albums/:id', (req, res) => {
+app.delete('/api/albums/:id', (req, res) => {
   try {
     unqfy.deleteAlbum(req.params.id);
     res.status(204);
@@ -233,7 +233,7 @@ app.delete('/albums/:id', (req, res) => {
 
 });
 
-app.get('/albums', (req, res) => {
+app.get('/api/albums', (req, res) => {
   const albumName = req.query.name;
   let albums;
   if (!albumName) {
@@ -249,7 +249,7 @@ app.get('/albums', (req, res) => {
 ============================= RUTAS TRACK ============================================
 */
 
-app.get('/tracks/:id/lyrics', async (req, res) => {
+app.get('/api/tracks/:id/lyrics', async (req, res) => {
   const trackId = req.params.id;
   const track = unqfy.getTrackById(trackId);
   const lyrics = await track.getLyrics();
@@ -274,10 +274,11 @@ app.get('/tracks/:id/lyrics', async (req, res) => {
 */
 
 app.all('*', (req, res) => {
+  res.status(404);
   res.send({
     status: 404,
     errorCode: 'RESOURCE_NOT_FOUND',
   });
-})
+});
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
