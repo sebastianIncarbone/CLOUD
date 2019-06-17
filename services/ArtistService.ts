@@ -1,8 +1,7 @@
 import {UNQfy} from '../modelo/unqfy';
 import {Artist} from '../modelo/Artist';
 
-
-class ArtistService {
+export class ArtistService {
 
     private unqfy:UNQfy = new UNQfy();
 
@@ -33,4 +32,3 @@ class ArtistService {
     }
 }
 
-export const artistService = new ArtistService();

@@ -2,7 +2,7 @@ import {UNQfy} from '../modelo/unqfy';
 import {Album} from '../modelo/Album';
 import {Artist} from '../modelo/Artist';
 
-class AlbumService {
+export class AlbumService {
     private unqfy:UNQfy = new UNQfy();
 
     constructor(){ }
@@ -27,5 +27,3 @@ class AlbumService {
         this.unqfy.addAlbum(artistID, { name: albumName, year: albumRealeaseDate })
     }
 }
-
-export const albumService = new AlbumService();

@@ -1,7 +1,7 @@
 import {UNQfy} from '../modelo/unqfy';
 import {Track} from '../modelo/Track';
 
-class TrackService {
+export class TrackService {
 
   private unqfy = new UNQfy();
 
@@ -12,4 +12,3 @@ class TrackService {
   }
 }
 
-export const trackService = new TrackService();
