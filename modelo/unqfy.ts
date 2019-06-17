@@ -41,6 +41,7 @@ export class UNQfy {
   //   artistData.name (string)
   //   artistData.country (string)
   // retorna: el nuevo artista creado
+
   addArtist(artistData: { name: string, country: string }): Artist {
     /* Crea un artista y lo agrega a unqfy.
     El objeto artista creado debe soportar (al menos):
@@ -51,7 +52,9 @@ export class UNQfy {
     if (this.artists.some((artist: Artist) => artist.getName() === newArtist.getName())) {
       throw new DuplicatedError('That artist already exists');
     }else {
+      // @ts-ignore
       this.artists.push(newArtist);
+      // @ts-ignore
       return newArtist;
     }
   }
@@ -60,6 +63,7 @@ export class UNQfy {
   //   albumData.name (string)
   //   albumData.year (number)
   // retorna: el nuevo album creado
+
   addAlbum(artistName: string, albumData: { name: string, year: number }): Album {
     /* Crea un album y lo agrega al artista con id artistId.
       El objeto album creado debe tener (al menos):
@@ -69,6 +73,7 @@ export class UNQfy {
     const artist = this.findArtistByName(artistName);
     const newAlbum = new Album(albumData.name, albumData.year, artist.name);
 
+    // @ts-ignore
     artist.addAlbum(newAlbum);
 
     return newAlbum;
@@ -138,6 +143,7 @@ export class UNQfy {
   findArtistByName(artistName: string): Artist {
     const artist = this.artists.find(artist => artist.hasPartOfName(artistName));
     if (artist) {
+      // @ts-ignore
       return artist;
     }
     throw new Error('Artist not found');
@@ -183,6 +189,7 @@ export class UNQfy {
      */
     const playList = new Playlist(name, genresToInclude, maxDuration);
     let variableDuration = maxDuration;
+    // @ts-ignore
     this.getTracks().forEach((track: Track) => {
       if (track.fitsIntoDuration(variableDuration) && track.hasSomeOfGenders(genresToInclude)) {
         playList.addTrack(track);
@@ -250,6 +257,7 @@ export class UNQfy {
   deleteTrack(trackId: string):void  {
     const track = this.getTrackById(trackId);
     const album = this.findAlbumByName(track.getAlbumName());
+    // @ts-ignore
     album.deleteTrack(track);
     this.playlists.forEach((playlist: Playlist) => {
       if (playlist.hasTrack(track)) {
