@@ -133,39 +133,50 @@ app.post('/api/albums', (req, res) => {
   const artistID : string  = req.body.artistId;
   const albumName: string  = req.body.name;
   const albumRealeaseDate: number  = req.body.year;
-
+/*
     if (!artistID || !albumName || !albumRealeaseDate) {
       res.status(400);
       res.send({
         status: 400,
         errorCode: 'BAD_REQUEST',
       });
+*/
 
-    }
     try {
       const album = unqfy.addAlbum(artistID, { name: albumName, year: albumRealeaseDate });
       res.status(201);
       res.send({
-        artistId: artistID,
+        artistId: unqfy.findArtistByName(album.artistName).getId(),
         name: album.getName(),
         year: album.getYear(),
+        tracks: album.getTracks()
       });
     }catch (error) {
       if (error instanceof DuplicatedError) {
         res.status(409);
         res.send({
-          status: 409,
-          errorCode: 'RESOURCE_ALREADY_EXISTS',
-        });
+                   status: 409,
+                   errorCode: 'RESOURCE_ALREADY_EXISTS',
+                 });
       } else if (error instanceof NotFoundError) {
         res.status(404);
         res.send({
-          status: 404,
-          errorCode: 'RELATED_RESOURCE_NOT_FOUND',
-        });
+                   status: 404,
+                   errorCode: 'RELATED_RESOURCE_NOT_FOUND',
+                   f: req.query,
+                   g: req.body,
+                   h: unqfy.artists
+                 });
+      } else if (!artistID || !albumName || !albumRealeaseDate) {
+        res.status(400);
+        res.send({
+                   status: 400,
+                   errorCode: 'BAD_REQUEST',
+                 });
       }
     }
 });
+
 
   app.get('/api/albums/:id', (req, res) => {
 
@@ -182,12 +193,13 @@ app.post('/api/albums', (req, res) => {
       res.status(404);
       res.send({
                  status: 404,
-                 errorCode: 'RESOURCE_NOT_FOUND'
+                 errorCode: 'RESOURCE_NOT_FOUND',
+                  f: req.params
                });
     }
   });
 
-  app.put('/api/albums/:id', (req, res) => {
+  app.patch('/api/albums/:id', (req, res) => {
     const newYear = req.body.year;
 
     if (!newYear) {
@@ -215,6 +227,7 @@ app.post('/api/albums', (req, res) => {
       res.send({
                  status: 404,
                  errorCode: 'RELATED_RESOURCE_NOT_FOUND',
+                  x: req.params.id
                });
     }
   });
