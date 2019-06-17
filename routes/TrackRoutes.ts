@@ -1,8 +1,9 @@
 import {app} from '../resources/App';
+import {trackService} from '../services/TrackService';
 
 app.get('/api/tracks/:id/lyrics', async (req, res) => {
     const trackId = req.params.id;
-    const track = unqfy.getTrackById(trackId);
+    const track = trackService.getTrackById(trackId);
     const lyrics = await track.getLyrics();
 
     if (!lyrics) {

@@ -1,8 +1,9 @@
 import { app } from "../resources/App";
 import { DuplicatedError } from "../modelo/Errores/DuplicatedError";
 import { NotFoundError } from "../modelo/Errores/NotFoundError";
+import { artistService } from '../services/ArtistService';
 
-    app.post('/api/artists', (req, res) => {
+app.post('/api/artists', (req, res) => {
     const nameOfArtist: string = req.body.name;
     const countryOfArtist: string = req.body.country;
 
@@ -15,10 +16,10 @@ import { NotFoundError } from "../modelo/Errores/NotFoundError";
     }
 
     try {
-        unqfy.addArtist({ name: nameOfArtist, country: countryOfArtist });
+        artistService.addArtist(nameOfArtist, countryOfArtist);
         res.status(201);
         res.send({
-        id: unqfy.findArtistByName(nameOfArtist).getId(),
+        id: artistService.getArtistId(nameOfArtist),
         name: nameOfArtist,
         country: countryOfArtist,
         albums: [],
@@ -38,7 +39,7 @@ import { NotFoundError } from "../modelo/Errores/NotFoundError";
 app.get('/api/artists/:id', (req, res) => {
 
     try {
-        const artist =  unqfy.getArtistById(req.params.id);
+        const artist =  artistService.getArtistById(req.params.id);
         res.send({
         id: artist.getId(),
         name: artist.getName(),
@@ -67,7 +68,7 @@ app.patch('/api/artists/:id', (req, res) => {
     }
 
     try {
-        const artist = unqfy.getArtistById(req.params.id);
+        const artist = artistService.getArtistById(req.params.id);
         artist.country = newCountry;
         artist.name = newName;
 
@@ -88,7 +89,7 @@ app.patch('/api/artists/:id', (req, res) => {
 
 app.delete('/api/artists/:id', (req, res) => {
     try {
-        unqfy.deleteArtist(req.params.id);
+        artistService.deleteArtist(req.params.id);
         res.status(204);
     }catch (error) {
         if (error instanceof NotFoundError) {
@@ -105,9 +106,9 @@ app.get('/api/artists', (req, res) => {
     const artistName = req.query.name;
     let artists;
     if (!artistName) {
-        artists = unqfy.getArtists();
+        artists = artistService.getAll();
     } else {
-        artists = unqfy.findArtistsByName(artistName);
+        artists = artistService.findArtistsByName(artistName);
     }
     res.status(200);
     res.send(artists);

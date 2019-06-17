@@ -1,24 +1,15 @@
-import mongoose from 'mongoose';
-import { trackSchema } from '../modelo/schemas/TrackSchema';
-import { Track } from '../modelo/Track';
-import { ITrack } from '../modelo/Track.d';
+import {UNQfy} from '../modelo/unqfy';
+import {Track} from '../modelo/Track';
 
-export class TrackService {
-  private static track = mongoose.model('Track', trackSchema);
+class TrackService {
 
-  static save(trackAGuardar: ITrack): void {
-    new this.track(trackAGuardar).save(this.beforeSave);
-  }
+  private unqfy = new UNQfy();
 
-  static findById(id: string): Track {
-    return this.track.findById(id, this.beforeFind).cast(Track);
-  }
+  constructor(){}
 
-  static beforeSave(err: Error) {
-
-  }
-
-  static beforeFind(err: Error, req: Request) {
-
+  public getTrackById(id: string):Track {
+    return this.unqfy.getTrackById(id);
   }
 }
+
+export const trackService = new TrackService();
