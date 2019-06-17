@@ -263,7 +263,10 @@ app.get('/tracks/:id/lyrics', async (req, res) => {
   }
 
   res.status(200);
-  res.send(lyrics);
+  res.send({
+    name: track.getName(),
+    lyrics: track.getLyrics(),
+  });
 });
 
 /*
