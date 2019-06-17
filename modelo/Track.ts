@@ -35,11 +35,11 @@ export class Track {
   getAlbumName(): string {
     return this.albumName;
   }
-  async getLyrics(trackName: string): Promise<string> {
+  async getLyrics(): Promise<string> {
     if (this.lyrics) {
       return this.lyrics;
     }
-    const lyrics = await this.administradorMusixmatch.getLyrics(trackName);
+    const lyrics = await this.administradorMusixmatch.getLyrics(this.getName());
     this.lyrics = lyrics;
     return lyrics;
   }
