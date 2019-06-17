@@ -39,9 +39,9 @@ export class Track {
     if (this.lyrics) {
       return this.lyrics;
     }
-    const lyrics = await this.administradorMusixmatch.getLyrics(this.getName());
-    this.lyrics = lyrics;
-    return lyrics;
+    const lyricsResponse = await this.administradorMusixmatch.getLyrics(this.getName());
+    this.lyrics = lyricsResponse.lyrics.lyrics_body;
+    return this.lyrics;
   }
   shareAnyGenre(genres: string[]) : boolean {
     return this.genres.some(aGenre => genres.includes(aGenre));

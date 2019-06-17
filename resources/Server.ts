@@ -131,20 +131,18 @@ app.get('/api/artists', (req, res) => {
 app.post('/api/albums', (req, res) => {
   const artistID = req.body.artistId;
   const albumName = req.body.name;
+  const albumRealeaseDate = req.body.year;
 
-  if (!artistID || !albumName) {
+  if (!artistID || !albumName || !albumRealeaseDate) {
     res.status(400);
     res.send({
       status: 400,
       errorCode: 'BAD_REQUEST',
     });
+
   }
-
   try {
-    const albumRealeaseDate = req.body.year;
-    const artistName = unqfy.getArtistById(artistID).getName();
-
-    unqfy.addAlbum(artistName, { name: albumName, year: albumRealeaseDate });
+    const album = unqfy.addAlbum(artistID, { name: albumName, year: albumRealeaseDate });
     res.status(201);
     res.send({
       artistId: artistID,
@@ -263,10 +261,8 @@ app.get('/api/tracks/:id/lyrics', async (req, res) => {
   }
 
   res.status(200);
-  res.send({
-    name: track.getName(),
-    lyrics: track.getLyrics(),
-  });
+  // tslint:disable-next-line:object-shorthand-properties-first
+  res.send({ name: track.getName(), lyrics });
 });
 
 /*
