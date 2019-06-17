@@ -7,6 +7,7 @@ import { Album } from './Album';
 import { Playlist } from './Playlist';
 import { AdministradorSpotify } from './AdministradorSpotify';
 import { DuplicatedError } from './Errores/DuplicatedError';
+import { NotFoundError } from './Errores/NotFoundError';
 
 export class UNQfy {
   artists: Artist[];
@@ -77,7 +78,11 @@ export class UNQfy {
     const artist = this.getArtistById(artistId);
     const newAlbum = new Album(albumData.name, albumData.year, artist.name);
 
-    artist.addAlbum(newAlbum);
+    if (this.getAlbums().some((album: Album) => album.getName() === newAlbum.getName())) {
+      throw new DuplicatedError('That album already exists');
+    }else {
+      artist.addAlbum(newAlbum);
+    }
 
     return newAlbum;
   }
@@ -106,7 +111,7 @@ export class UNQfy {
     if (artist) {
       return artist;
     }
-    throw new Error('Artist not found');
+    throw new NotFoundError('Artist not found');
 
   }
 
@@ -115,7 +120,7 @@ export class UNQfy {
     if (album) {
       return album;
     }
-    throw new Error('Album not found');
+    throw new NotFoundError('Album not found');
 
   }
 
@@ -124,7 +129,7 @@ export class UNQfy {
     if (track) {
       return track;
     }
-    throw new Error('Track not found');
+    throw new NotFoundError('Track not found');
 
   }
 
@@ -133,7 +138,7 @@ export class UNQfy {
     if (playlist) {
       return playlist;
     }
-    throw new Error('Playlist not found');
+    throw new NotFoundError('Playlist not found');
 
   }
 
@@ -148,7 +153,7 @@ export class UNQfy {
     if (artist) {
       return artist;
     }
-    throw new Error('Artist not found');
+    throw new NotFoundError('Artist not found');
   }
 
   findArtistsByName(artistName: string): Artist[] {
@@ -156,7 +161,7 @@ export class UNQfy {
     if (artists) {
       return artists;
     }
-    throw new Error('No artist found');
+    throw new NotFoundError('No artist found');
   }
 
   findAlbumByName(albumName: string): Album {
@@ -164,7 +169,7 @@ export class UNQfy {
     if (album) {
       return album;
     }
-    throw new Error('Album not found');
+    throw new NotFoundError('Album not found');
   }
 
   findAlbumsByName(albumName: string): Album[] {
@@ -172,7 +177,7 @@ export class UNQfy {
     if (albums) {
       return albums;
     }
-    throw new Error('No album found');
+    throw new NotFoundError('No album found');
   }
 
   findTrackByName(trackName: string): Track {
@@ -180,7 +185,7 @@ export class UNQfy {
     if (track) {
       return track;
     }
-    throw new Error('Track not found');
+    throw new NotFoundError('Track not found');
   }
 
   // artistName: nombre de artista(string)
