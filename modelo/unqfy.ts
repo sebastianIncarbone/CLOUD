@@ -21,6 +21,10 @@ export class UNQfy {
     this.administradorSpotify = new AdministradorSpotify();
   }
 
+  getArtists(): Artist[] {
+    return this.artists;
+  }
+
   getAlbums(): Album[] {
     let albums: Album[] = [];
     this.artists.forEach((artist: Artist) => {
@@ -149,12 +153,28 @@ export class UNQfy {
     throw new Error('Artist not found');
   }
 
+  findArtistsByName(artistName: string): Artist[] {
+    const artists = this.artists.filter(artist => artist.hasPartOfName(artistName));
+    if (artists) {
+      return artists;
+    }
+    throw new Error('No artist found');
+  }
+
   findAlbumByName(albumName: string): Album {
     const album = this.getAlbums().find(album => album.hasPartOfName(albumName));
     if (album) {
       return album;
     }
     throw new Error('Album not found');
+  }
+
+  findAlbumsByName(albumName: string): Album[] {
+    const albums = this.getAlbums().filter(album => album.hasPartOfName(albumName));
+    if (albums) {
+      return albums;
+    }
+    throw new Error('No album found');
   }
 
   findTrackByName(trackName: string): Track {

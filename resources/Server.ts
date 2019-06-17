@@ -8,6 +8,10 @@ const unqfy = new UNQfy();
 
 app.use(bodyParser());
 
+/*
+============================= RUTAS ARTISTA ============================================
+ */
+
 app.post('/artist', (req, res) => {
   const nameOfArtist: string = req.body.name;
   const countryOfArtist: string = req.body.country;
@@ -84,7 +88,21 @@ app.delete('/artists/:id', (req, res) => {
   }
 });
 
-app.get('artist/');
+app.get('/artists', (req, res) => {
+  const artistName = req.params.name
+  let artists;
+  if (!artistName) {
+    artists = unqfy.getArtists();
+  } else {
+    artists = unqfy.findArtistsByName(artistName);
+  }
+  res.status(200);
+  res.send(artists);
+})
+
+/*
+============================= RUTAS ALBUM ============================================
+ */
 
 app.post('/albums', (req, res) => {
   try {
@@ -165,7 +183,32 @@ app.delete('/albums/:id', (req, res) => {
 
 });
 
-app.get('/albums', (req, res) =>
-{});
+app.get('/albums', (req, res) => {
+  const albumName = req.params.name;
+  let albums;
+  if (!albumName) {
+    albums = unqfy.getAlbums();
+  } else {
+    albums = unqfy.findArtistsByName(albumName);
+  }
+  res.status(200);
+  res.send(albums);
+});
 
-app.listen(PORT, () => console.log('Server satarted'));
+/*
+============================= RUTAS TRACK ============================================
+*/
+
+app.get('/tracks/:id/lyrics', async (req, res) => {
+  const trackId = req.params.id;
+  const track = unqfy.getTrackById(trackId);
+  const lyrics = await track.getLyrics();
+  res.status(200);
+  res.send(lyrics);
+})
+
+/*
+======================================================================================
+*/
+
+app.listen(PORT, () => console.log('Server started'));

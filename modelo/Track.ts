@@ -53,6 +53,6 @@ export class Track {
     return genresToInclude.some(genre => this.getGenres().includes(genre));
   }
   hasPartOfName(trackName: string): boolean {
-    return this.getName().includes(trackName);
+    return this.getName().toLowerCase().includes(trackName.toLowerCase());
   }
 }

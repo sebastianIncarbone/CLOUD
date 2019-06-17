@@ -48,7 +48,7 @@ export class Album {
   }
 
   hasPartOfName(albumName: string): boolean {
-    return this.getName().includes(albumName);
+    return this.getName().toLowerCase().includes(albumName.toLowerCase());
   }
 }
 
