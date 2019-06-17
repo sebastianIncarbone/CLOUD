@@ -1,15 +1,14 @@
 import uniqid from 'uniqid';
-// @ts-ignore
-import { AdministradorDeMusixmatch } from 'AdministradorDeMusixmatch';
+import { AdministradorMusixmatch } from './AdministradorMusixmatch';
 
 export class Track {
   genres: string[];
-  lyric: string;
-  administradorConMusicmatch: AdministradorDeMusixmatch;
   name: string;
   duration: number; // in seconds
   albumName: string;
   id: string;
+  lyrics: string;
+  administradorMusixmatch: AdministradorMusixmatch;
 
   constructor(newName: string, newDuration:number, newGenres: string[], newAlbumName: string) {
     this.genres = newGenres;
@@ -17,20 +16,10 @@ export class Track {
     this.duration = newDuration;
     this.albumName = newAlbumName;
     this.id = uniqid();
-    this.administradorConMusicmatch = new AdministradorDeMusixmatch();
-    this.lyric = '';
+    this.lyrics = '';
+    this.administradorMusixmatch = new AdministradorMusixmatch();
   }
 
-  setLyric(lyric: string): void {
-    this.lyric = lyric;
-  }
-  getLyrics(): string {
-    if (this.lyric !== '') {
-      return this.lyric;
-    }
-
-    return this.administradorConMusicmatch.searchtrack(this.name);
-  }
   getName(): string {
     return this.name;
   }
@@ -46,6 +35,14 @@ export class Track {
   getAlbumName(): string {
     return this.albumName;
   }
+  async getLyrics(trackName: string): Promise<string> {
+    if (this.lyrics) {
+      return this.lyrics;
+    }
+    const lyrics = await this.administradorMusixmatch.getLyrics(trackName);
+    this.lyrics = lyrics;
+    return lyrics;
+  }
   shareAnyGenre(genres: string[]) : boolean {
     return this.genres.some(aGenre => genres.includes(aGenre));
   }
@@ -57,8 +54,5 @@ export class Track {
   }
   hasPartOfName(trackName: string): boolean {
     return this.getName().includes(trackName);
-  }
-  getGenders(): string[] {
-    return [];
   }
 }
