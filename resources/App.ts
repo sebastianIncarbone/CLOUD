@@ -1,5 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import { AlbumRoutes } from '../routes/AlbumRoutes';
+import { ArtistRoutes } from '../routes/ArtistRoutes';
+import { TrackRoutes } from '../routes/TrackRoutes';
 //import { DBconection } from './DBconection';
 
 class App {
@@ -10,8 +13,9 @@ class App {
   constructor() {
     this.config();
     //this.mongoConector().conect();
-    // Add rutes
-
+    new AlbumRoutes(this.app);
+    new ArtistRoutes(this.app);
+    new TrackRoutes(this.app);
   }
 
   private config(): void {

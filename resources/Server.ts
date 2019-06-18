@@ -1,5 +1,4 @@
 import { app } from './App';
-
 const PORT = 3030;
 
 app.all('*', (req, res) => {
