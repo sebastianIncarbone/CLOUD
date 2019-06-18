@@ -1,8 +1,8 @@
 import { Track } from './Track';
-import uniqid from 'uniqid';
+import {UniqueIdGenerator} from './UniqueIdGenerator';
 
 export class Album {
-  id: string;
+  id: number;
   name: string;
   year: number;
   artistName: string;
@@ -13,10 +13,10 @@ export class Album {
     this.year = newYear;
     this.tracks = [];
     this.artistName = newArtistName;
-    this.id = uniqid();
+    this.id = UniqueIdGenerator.get();
   }
 
-  getId(): string {
+  getId(): number {
     return this.id;
   }
   getName(): string {

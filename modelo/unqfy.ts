@@ -69,7 +69,7 @@ export class UNQfy {
   //   albumData.year (number)
   // retorna: el nuevo album creado
 
-  addAlbum(artistId: string, albumData: { name: string, year: number }): Album {
+  addAlbum(artistId: number, albumData: { name: string, year: number }): Album {
     /* Crea un album y lo agrega al artista con id artistId.
       El objeto album creado debe tener (al menos):
        - una propiedad name (string)
@@ -92,7 +92,7 @@ export class UNQfy {
   //   trackData.duration (number)
   //   trackData.genres (lista de strings)
   // retorna: el nuevo track creado
-  addTrack(albumId: string, trackData: { name: string, duration: number, genres: string[] }): Track {
+  addTrack(albumId: number, trackData: { name: string, duration: number, genres: string[] }): Track {
     /* Crea un track y lo agrega al album con id albumId.
     El objeto track creado debe tener (al menos):
         - una propiedad name (string),
@@ -106,7 +106,7 @@ export class UNQfy {
     return newTrack;
   }
 
-  getArtistById(id: string): Artist {
+  getArtistById(id: number): Artist {
     const artist = this.artists.find(artist => artist.getId() === id);
     if (artist) {
       return artist;
@@ -115,7 +115,7 @@ export class UNQfy {
 
   }
 
-  getAlbumById(id: string): Album {
+  getAlbumById(id: number): Album {
     const album = this.getAlbums().find(album => album.getId() === id);
     if (album) {
       return album;
@@ -124,7 +124,7 @@ export class UNQfy {
 
   }
 
-  getTrackById(id: string): Track {
+  getTrackById(id: number): Track {
     const track = this.getTracks().find(track => track.getId() === id);
     if (track) {
       return track;
@@ -133,7 +133,7 @@ export class UNQfy {
 
   }
 
-  getPlaylistById(id: string): Playlist {
+  getPlaylistById(id: number): Playlist {
     const playlist = this.playlists.find(playlist => playlist.getId() === id);
     if (playlist) {
       return playlist;
@@ -256,7 +256,7 @@ export class UNQfy {
     return this.filterByName(this.getTracks(), name);
   }
 
-  deleteArtist(artistId: string): void  {
+  deleteArtist(artistId: number): void  {
     const artist = this.getArtistById(artistId);
     const index = this.artists.indexOf(artist);
     const tracksToDeleteFromArtist = this.getTracksOfArtist(artist);
@@ -267,7 +267,7 @@ export class UNQfy {
   getTracksOfArtist(artist : Artist): Track[] {
     return artist.getTracks();
   }
-  deleteAlbum(albumId: string): void {
+  deleteAlbum(albumId: number): void {
     const album = this.getAlbumById(albumId);
     const artist = this.findArtistByName(album.getArtistName());
     artist.deleteAlbum(album);
@@ -277,7 +277,7 @@ export class UNQfy {
     this.playlists.forEach((playList : Playlist) => playList.deleteTracks(tracksToDelete));
   }
 
-  deleteTrack(trackId: string):void  {
+  deleteTrack(trackId: number):void  {
     const track = this.getTrackById(trackId);
     const album = this.findAlbumByName(track.getAlbumName());
     // @ts-ignore
@@ -313,7 +313,8 @@ export class UNQfy {
 
   async populateAlbumsForArtist(artistName: string): Promise<void> {
     const albumsData: Album[] = await this.administradorSpotify.getAlbumsDataForArtist(artistName);
-    albumsData.forEach(albumData => this.addAlbum(artistName, albumData));
+    const artist = this.findArtistByName(artistName)
+    albumsData.forEach(albumData => this.addAlbum(artist.getId(), albumData));
   }
 
 }

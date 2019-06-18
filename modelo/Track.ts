@@ -1,12 +1,12 @@
-import uniqid from 'uniqid';
 import { AdministradorMusixmatch } from './AdministradorMusixmatch';
+import {UniqueIdGenerator} from "./UniqueIdGenerator";
 
 export class Track {
   genres: string[];
   name: string;
   duration: number; // in seconds
   albumName: string;
-  id: string;
+  id: number;
   lyrics: string;
   administradorMusixmatch: AdministradorMusixmatch;
 
@@ -15,7 +15,7 @@ export class Track {
     this.name = newName;
     this.duration = newDuration;
     this.albumName = newAlbumName;
-    this.id = uniqid();
+    this.id = UniqueIdGenerator.get();
     this.lyrics = '';
     this.administradorMusixmatch = new AdministradorMusixmatch();
   }
@@ -29,7 +29,7 @@ export class Track {
   getGenres(): string[] {
     return this.genres;
   }
-  getId(): string {
+  getId(): number {
     return this.id;
   }
   getAlbumName(): string {
