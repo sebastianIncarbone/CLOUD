@@ -19,6 +19,9 @@ app.use((error: Error, req: any, res: any, next: () => void) => {
   }
 });
 
+const cors = require('cors');
+app.use(cors());
+
 /*
 ============================= RUTAS ARTISTA ============================================
  */
@@ -142,6 +145,18 @@ app.get('/api/artists', (req, res) => {
   res.status(200);
   res.send(artists);
 });
+
+app.post('/api/populate', async (req, res) => {
+  try {
+    const artistName = req.query.name;
+    await unqfy.populateAlbumsForArtist(artistName);
+    res.status(200);
+    res.send();
+  } catch (e) {
+    res.status(500);
+    res.send(e);
+  }
+})
 
 /*
 ============================= RUTAS ALBUM ============================================

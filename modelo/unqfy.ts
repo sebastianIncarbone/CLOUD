@@ -314,7 +314,7 @@ export class UNQfy {
   async populateAlbumsForArtist(artistName: string): Promise<void> {
     const albumsData: Album[] = await this.administradorSpotify.getAlbumsDataForArtist(artistName);
     const artist = this.findArtistByName(artistName)
-    albumsData.forEach(albumData => this.addAlbum(artist.getId(), albumData));
+    albumsData.forEach(albumData => artist.addAlbum(albumData));
   }
 
 }
