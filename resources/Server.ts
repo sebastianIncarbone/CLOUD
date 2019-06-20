@@ -322,6 +322,23 @@ app.get('/api/tracks/:id/lyrics', async (req, res) => {
   res.send({ name: track!.getName(), lyrics });
 });
 
+
+  /*
+  ============================= RUTA SPOTIFY ============================================
+  */
+
+app.post('/api/spotify', async (req, res) => {
+  try {
+    const artistName = req.body.name;
+    await unqfy.populateAlbumsForArtist(artistName);
+    res.status(200);
+    res.send();
+  } catch (e) {
+    res.status(500);
+    res.send(e);
+  }
+});
+
   /*
   ======================================================================================
   */
