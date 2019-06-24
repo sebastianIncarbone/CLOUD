@@ -6,6 +6,7 @@ import { NotFoundError } from '../modelo/Errores/NotFoundError';
 import { Track } from '../modelo/Track';
 import {Album} from "../modelo/Album";
 
+
 const PORT = 3030;
 const unqfy = new UNQfy();
 
@@ -26,7 +27,7 @@ app.use(cors());
 ============================= RUTAS ARTISTA ============================================
  */
 
-app.post('/api/artists', (req, res) => {
+app.post('/api/artists', (req:any, res:any) => {
   const nameOfArtist: string = req.body.name;
   const countryOfArtist: string = req.body.country;
 
@@ -60,7 +61,7 @@ app.post('/api/artists', (req, res) => {
   }
 });
 
-app.get('/api/artists/:id', (req, res) => {
+app.get('/api/artists/:id', (req:any, res:any) => {
 
   try {
     const artist =  unqfy.getArtistById(parseInt(req.params.id, 10));
@@ -84,9 +85,9 @@ app.get('/api/artists/:id', (req, res) => {
   }
 });
 
-app.put('/api/artists/:id', (req, res) => {
-  const newName = req.body.name;
-  const newCountry = req.body.country;
+app.put('/api/artists/:id', (req:any, res:any) => {
+  const newName: string = req.body.name;
+  const newCountry: string = req.body.country;
 
   if (!newName || !newCountry) {
     res.status(400);
@@ -118,7 +119,7 @@ app.put('/api/artists/:id', (req, res) => {
   }
 });
 
-app.delete('/api/artists/:id', (req, res) => {
+app.delete('/api/artists/:id', (req:any, res:any) => {
   try {
     unqfy.deleteArtist(parseInt(req.params.id, 10));
     res.status(204);
@@ -134,8 +135,8 @@ app.delete('/api/artists/:id', (req, res) => {
   }
 });
 
-app.get('/api/artists', (req, res) => {
-  const artistName = req.query.name;
+app.get('/api/artists', (req:any, res:any) => {
+  const artistName:string  = req.query.name;
   let artists;
   if (!artistName) {
     artists = unqfy.getArtists();
@@ -146,23 +147,23 @@ app.get('/api/artists', (req, res) => {
   res.send(artists);
 });
 
-app.post('/api/populate', async (req, res) => {
+app.post('/api/populate', async (req:any, res:any) => {
   try {
     const artistName = req.query.name;
     await unqfy.populateAlbumsForArtist(artistName);
     res.status(200);
     res.send();
-  } catch (e) {
+  } catch (error) {
     res.status(500);
-    res.send(e);
+    res.send(error);
   }
-})
+});
 
 /*
 ============================= RUTAS ALBUM ============================================
  */
 
-app.post('/api/albums', (req, res) => {
+app.post('/api/albums', (req:any, res:any) => {
   const artistID: number = parseInt(req.body.artistId, 10);
   const albumName: string = req.body.name;
   const albumRealeaseDate: number = parseInt(req.body.year, 10);
@@ -202,7 +203,7 @@ app.post('/api/albums', (req, res) => {
   }
 });
 
-app.get('/api/albums/:id', (req, res) => {
+app.get('/api/albums/:id', (req: any, res: any) => {
 
   try {
     const album = unqfy.getAlbumById(parseInt(req.params.id, 10));
@@ -222,7 +223,7 @@ app.get('/api/albums/:id', (req, res) => {
   }
 });
 
-app.patch('/api/albums/:id', (req, res) => {
+app.patch('/api/albums/:id', (req: any, res: any) => {
   const newYear = parseInt(req.body.year, 10);
 
   if (!newYear) {
@@ -255,7 +256,7 @@ app.patch('/api/albums/:id', (req, res) => {
   }
 });
 
-app.delete('/api/albums/:id', (req, res) => {
+app.delete('/api/albums/:id', (req: any, res: any) => {
   try {
     unqfy.deleteAlbum(parseInt(req.params.id, 10));
     res.status(204);
@@ -271,7 +272,7 @@ app.delete('/api/albums/:id', (req, res) => {
 
 });
 
-app.get('/api/albums', (req, res) => {
+app.get('/api/albums', (req: any, res: any) => {
   const albumName = req.query.name;
   let albums: Album[];
   if (!albumName) {
@@ -289,14 +290,14 @@ app.get('/api/albums', (req, res) => {
   ============================= RUTAS TRACK ============================================
   */
 
-app.get('/api/tracks/:id/lyrics', async (req, res) => {
+app.get('/api/tracks/:id/lyrics', async (req: any, res: any) => {
   const trackId = parseInt(req.params.id, 10);
   let track: Track;
 
   try {
     track = unqfy.getTrackById(trackId);
-  } catch (e) {
-    if (e instanceof NotFoundError) {
+  } catch (error) {
+    if (error instanceof NotFoundError) {
       res.status(404);
       res.send({
         status: 404,
@@ -327,15 +328,15 @@ app.get('/api/tracks/:id/lyrics', async (req, res) => {
   ============================= RUTA SPOTIFY ============================================
   */
 
-app.post('/api/spotify', async (req, res) => {
+app.post('/api/spotify', async (req:any, res:any) => {
   try {
-    const artistName = req.body.name;
+    const artistName: string = req.body.name;
     await unqfy.populateAlbumsForArtist(artistName);
     res.status(200);
     res.send();
-  } catch (e) {
+  } catch (error) {
     res.status(500);
-    res.send(e);
+    res.send(error);
   }
 });
 
@@ -343,7 +344,7 @@ app.post('/api/spotify', async (req, res) => {
   ======================================================================================
   */
 
-app.all('*', (req, res) => {
+app.all('*', (req: any, res: any) => {
   res.status(404);
   res.send({
     status: 404,

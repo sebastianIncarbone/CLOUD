@@ -313,9 +313,9 @@ export class UNQfy {
 
   async populateAlbumsForArtist(artistName: string): Promise<void> {
     const albumsData: Album[] = await this.administradorSpotify.getAlbumsDataForArtist(artistName);
-    const artist = this.findArtistByName(artistName)
+    const artist = this.findArtistByName(artistName);
     albumsData.forEach(albumData => artist.addAlbum(albumData));
   }
 
 }
-// COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
+
