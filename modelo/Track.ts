@@ -41,6 +41,7 @@ export class Track {
       return this.lyrics;
     }
     const lyricsResponse = await this.administradorMusixmatch.getLyrics(this.getName());
+    
     if (lyricsResponse.length === 0) {
       throw new NotFoundError('Lyrics not found');
     }
