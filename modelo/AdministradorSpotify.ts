@@ -3,7 +3,8 @@ import { Album } from './Album';
 import { Track } from './Track';
 
 export class AdministradorSpotify {
-  private accessToken = 'BQAGyjcmSnHvBc2-khy5v1BjpTlHzEZaGpYssaeMcQhrEEOYgGhvOWxbGjQVZfbbVt-6gO106rq0QEHRvG9kYJtxdY7-ZbbWYq2e0g91_RkLuD3UOEFR3s5dJTWZlcD9G75kZ3ZtIFVmeRJxhHf4dePkUikznPhHoA';
+  private accessToken = 'BQBG_TWotLPwUNhoAeSpVoVHiyOeraT0wpnO0yGRQpzaehYAPEpF5KRvhzxbfRvZGfxAdQ0HbrkLlmX_p5FSGVTyx9S9ghNPdKf2S-CMVyHw_QSRenpGDq4gJ0otgcqnhnl6zTG54e5sigb3MbshNY73pnElTxk';
+  private baseUrl = 'https://api.spotify.com/v1';
 
   getOptions(url: string) {
     return {
@@ -22,7 +23,7 @@ export class AdministradorSpotify {
   }
 
   private async getAlbumsForArtist(artistId: number) {
-    const albumsResponse = await requestPromise.get(this.getOptions(`https://api.spotify.com/v1/artists/${artistId}/albums`));
+    const albumsResponse = await requestPromise.get(this.getOptions(`${this.baseUrl}/artists/${artistId}/albums`));
     return albumsResponse;
   }
 
@@ -40,13 +41,13 @@ export class AdministradorSpotify {
 
   private async getTracksForAlbums(albumsIds: string[]) {
     let trackPromises: any[] = [];
-    albumsIds.forEach((id: string) => trackPromises.push(requestPromise.get(this.getOptions(`https://api.spotify.com/v1/albums/${id}/tracks`))));
+    albumsIds.forEach((id: string) => trackPromises.push(requestPromise.get(this.getOptions(`${this.baseUrl}/albums/${id}/tracks`))));
     trackPromises = await Promise.all(trackPromises);
     return trackPromises;
   }
 
   private async getArtistIdAndName(artistName: string): Promise<{artistId:number, artistName: string}> {
-    const artistResponse = await requestPromise.get(this.getOptions(`https://api.spotify.com/v1/search?q=${artistName}&type=artist`));
+    const artistResponse = await requestPromise.get(this.getOptions(`${this.baseUrl}/search?q=${artistName}&type=artist`));
     const artistId = artistResponse.artists.items[0].id;
     return {
       artistId,
