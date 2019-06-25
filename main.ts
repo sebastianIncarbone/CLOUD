@@ -69,21 +69,21 @@ function main(): void {
       return writeOperation((unqfy: UNQfy) => unqfy.addArtist({ name: commandArgs[0], country: commandArgs[1] }));
     }
     if (commandName === 'addAlbum') {
-      return writeOperation((unqfy: UNQfy) => unqfy.addAlbum(commandArgs[0], { name: commandArgs[1], year: parseInt(commandArgs[2], 10) }));
+      return writeOperation((unqfy: UNQfy) => unqfy.addAlbum(parseInt(commandArgs[0], 10), { name: commandArgs[1], year: parseInt(commandArgs[2], 10) }));
     }
     if (commandName === 'addTrack') {
-      return writeOperation((unqfy: UNQfy) => unqfy.addTrack(commandArgs[0], { name: commandArgs[1], duration: parseInt(commandArgs[2], 10), genres: convertToArray(commandArgs[3]) }));
+      return writeOperation((unqfy: UNQfy) => unqfy.addTrack(parseInt(commandArgs[0], 10), { name: commandArgs[1], duration: parseInt(commandArgs[2], 10), genres: convertToArray(commandArgs[3]) }));
     }
   }
   if (commandName.includes('delete')) {
     if (commandName === 'deleteArtist') {
-      return writeOperation((unqfy: UNQfy) => unqfy.deleteArtist(commandArgs[0]));
+      return writeOperation((unqfy: UNQfy) => unqfy.deleteArtist(parseInt(commandArgs[0], 10)));
     }
     if (commandName === 'deleteAlbum') {
-      return writeOperation((unqfy: UNQfy) => unqfy.deleteAlbum(commandArgs[0]));
+      return writeOperation((unqfy: UNQfy) => unqfy.deleteAlbum(parseInt(commandArgs[0], 10)));
     }
     if (commandName === 'deleteTrack') {
-      return writeOperation((unqfy: UNQfy) => unqfy.deleteTrack(commandArgs[0]));
+      return writeOperation((unqfy: UNQfy) => unqfy.deleteTrack(parseInt(commandArgs[0], 10)));
     }
   }
   if (commandName.includes('print')) {
@@ -105,16 +105,16 @@ function main(): void {
   }
   if (commandName.includes('search')) {
     if (commandName === 'searchTrackByID') {
-      return printOperation((unqfy: UNQfy) => unqfy.getTrackById(commandArgs[0]));
+      return printOperation((unqfy: UNQfy) => unqfy.getTrackById(parseInt(commandArgs[0], 10)));
     }
     if (commandName === 'searchPlaylistByID') {
-      return printOperation((unqfy: UNQfy) => unqfy.getPlaylistById(commandArgs[0]));
+      return printOperation((unqfy: UNQfy) => unqfy.getPlaylistById(parseInt(commandArgs[0], 10)));
     }
     if (commandName === 'searchAlbumByID') {
-      return printOperation((unqfy: UNQfy) => unqfy.getAlbumById(commandArgs[0]));
+      return printOperation((unqfy: UNQfy) => unqfy.getAlbumById(parseInt(commandArgs[0], 10)));
     }
     if (commandName === 'searchArtistByID') {
-      return printOperation((unqfy: UNQfy) => unqfy.getArtistById(commandArgs[0]));
+      return printOperation((unqfy: UNQfy) => unqfy.getArtistById(parseInt(commandArgs[0], 10)));
     }
   }
   if (commandName === 'createPlaylistcreatePlaylist') {
