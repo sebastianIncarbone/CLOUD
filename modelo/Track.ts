@@ -1,5 +1,6 @@
 import { AdministradorMusixmatch } from './AdministradorMusixmatch';
 import { UniqueIdGenerator } from './UniqueIdGenerator';
+import { NotFoundError } from './errores/NotFoundError';
 
 export class Track {
   genres: string[];
@@ -40,6 +41,9 @@ export class Track {
       return this.lyrics;
     }
     const lyricsResponse = await this.administradorMusixmatch.getLyrics(this.getName());
+    if (!lyricsResponse) {
+      throw new NotFoundError('Lyrics not found');
+    }
     this.lyrics = lyricsResponse.lyrics.lyrics_body;
     return this.lyrics;
   }
