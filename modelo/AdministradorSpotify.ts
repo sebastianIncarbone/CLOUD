@@ -1,6 +1,6 @@
 import requestPromise from 'request-promise';
-import {Album} from "./Album";
-import {Track} from "./Track";
+import { Album } from './Album';
+import { Track } from './Track';
 
 export class AdministradorSpotify {
   private accessToken = 'BQAGyjcmSnHvBc2-khy5v1BjpTlHzEZaGpYssaeMcQhrEEOYgGhvOWxbGjQVZfbbVt-6gO106rq0QEHRvG9kYJtxdY7-ZbbWYq2e0g91_RkLuD3UOEFR3s5dJTWZlcD9G75kZ3ZtIFVmeRJxhHf4dePkUikznPhHoA';
@@ -48,6 +48,9 @@ export class AdministradorSpotify {
   private async getArtistIdAndName(artistName: string): Promise<{artistId:number, artistName: string}> {
     const artistResponse = await requestPromise.get(this.getOptions(`https://api.spotify.com/v1/search?q=${artistName}&type=artist`));
     const artistId = artistResponse.artists.items[0].id;
-    return {artistId, artistName: artistResponse.artists.items[0].name};
+    return {
+      artistId,
+      artistName: artistResponse.artists.items[0].name,
+    };
   }
 }

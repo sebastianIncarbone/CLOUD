@@ -1,5 +1,5 @@
 import { AdministradorMusixmatch } from './AdministradorMusixmatch';
-import {UniqueIdGenerator} from "./UniqueIdGenerator";
+import { UniqueIdGenerator } from './UniqueIdGenerator';
 
 export class Track {
   genres: string[];

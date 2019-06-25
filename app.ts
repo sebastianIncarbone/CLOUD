@@ -1,14 +1,14 @@
-import { app } from './App';
-import { UNQfy } from '../modelo/unqfy';
+import { UNQfy } from './modelo/unqfy';
+import express from 'express';
 import bodyParser from 'body-parser';
-import { DuplicatedError } from '../modelo/Errores/DuplicatedError';
-import { NotFoundError } from '../modelo/Errores/NotFoundError';
-import { Track } from '../modelo/Track';
-import {Album} from "../modelo/Album";
-
+import { DuplicatedError } from './modelo/Errores/DuplicatedError';
+import { NotFoundError } from './modelo/Errores/NotFoundError';
+import { Track } from './modelo/Track';
+import { Album } from './modelo/Album';
 
 const PORT = 3030;
 const unqfy = new UNQfy();
+const app = express();
 
 app.use(bodyParser());
 
@@ -322,7 +322,6 @@ app.get('/api/tracks/:id/lyrics', async (req: any, res: any) => {
     // tslint:disable-next-line:object-shorthand-properties-first
   res.send({ name: track!.getName(), lyrics });
 });
-
 
   /*
   ============================= RUTA SPOTIFY ============================================

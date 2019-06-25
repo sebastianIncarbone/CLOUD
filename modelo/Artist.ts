@@ -1,6 +1,6 @@
 import { Track } from './Track';
-import {Album} from './Album';
-import {UniqueIdGenerator} from './UniqueIdGenerator';
+import { Album } from './Album';
+import { UniqueIdGenerator } from './UniqueIdGenerator';
 
 export class Artist{
   id: number;

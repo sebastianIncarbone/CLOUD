@@ -1,5 +1,5 @@
 import { Track } from './Track';
-import {UniqueIdGenerator} from "./UniqueIdGenerator";
+import { UniqueIdGenerator } from './UniqueIdGenerator';
 
 export class Playlist {
 

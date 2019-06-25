@@ -1,5 +1,5 @@
 import { Track } from './Track';
-import {UniqueIdGenerator} from './UniqueIdGenerator';
+import { UniqueIdGenerator } from './UniqueIdGenerator';
 
 export class Album {
   id: number;
@@ -51,4 +51,3 @@ export class Album {
     return this.getName().toLowerCase().includes(albumName.toLowerCase());
   }
 }
-
