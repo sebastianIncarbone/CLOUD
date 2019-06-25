@@ -293,9 +293,11 @@ app.get('/api/albums', (req: any, res: any) => {
 app.get('/api/tracks/:id/lyrics', async (req: any, res: any) => {
   const trackId = parseInt(req.params.id, 10);
   let track: Track;
+  let lyrics: any;
 
   try {
     track = unqfy.getTrackById(trackId);
+    lyrics = await track!.getLyrics();
   } catch (error) {
     if (error instanceof NotFoundError) {
       res.status(404);
@@ -306,8 +308,6 @@ app.get('/api/tracks/:id/lyrics', async (req: any, res: any) => {
       return;
     }
   }
-
-  const lyrics = await track!.getLyrics();
 
   if (!lyrics) {
     res.status(404);
