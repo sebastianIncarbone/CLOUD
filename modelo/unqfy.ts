@@ -6,8 +6,8 @@ import { Artist } from './Artist';
 import { Album } from './Album';
 import { Playlist } from './Playlist';
 import { AdministradorSpotify } from './AdministradorSpotify';
-import { DuplicatedError } from './Errores/DuplicatedError';
-import { NotFoundError } from './Errores/NotFoundError';
+import { DuplicatedError } from './errores/DuplicatedError';
+import { NotFoundError } from './errores/NotFoundError';
 
 export class UNQfy {
   artists: Artist[];

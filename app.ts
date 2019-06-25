@@ -1,8 +1,8 @@
 import { UNQfy } from './modelo/unqfy';
 import express from 'express';
 import bodyParser from 'body-parser';
-import { DuplicatedError } from './modelo/Errores/DuplicatedError';
-import { NotFoundError } from './modelo/Errores/NotFoundError';
+import { DuplicatedError } from './modelo/errores/DuplicatedError';
+import { NotFoundError } from './modelo/errores/NotFoundError';
 import { Track } from './modelo/Track';
 import { Album } from './modelo/Album';
 
