@@ -1,21 +1,21 @@
-import uniqid from 'uniqid';
 import { Track } from './Track';
-import {Album} from './Album';
+import { Album } from './Album';
+import { UniqueIdGenerator } from './UniqueIdGenerator';
 
 export class Artist{
-  id: string;
+  id: number;
   name: string;
   country: string;
   albums: Album[];
 
   constructor(newName: string, newCountry: string) {
-    this.id = uniqid();
+    this.id = UniqueIdGenerator.get();
     this.name = newName;
     this.country = newCountry;
     this.albums = [];
   }
 
-  getId(): string {
+  getId(): number {
     return this.id;
   }
   getName(): string {
@@ -30,11 +30,11 @@ export class Artist{
   addAlbum(newAlbum: Album): void {
     this.albums.push(newAlbum);
   }
-  deleteAlbum(album: Album) {
+  deleteAlbum(album: Album): void {
     const index = this.getAlbums().indexOf(album);
     this.albums.splice(index, 1);
   }
-  hasPartOfName(name: string) {
+  hasPartOfName(name: string): boolean {
     return this.getName().toLowerCase().includes(name.toLowerCase());
   }
 

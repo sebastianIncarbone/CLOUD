@@ -11,11 +11,11 @@ function createAndAddArtist(unqfy: UNQfy, artistName: string, country: string): 
   return artist;
 }
 
-function createAndAddAlbum(unqfy: UNQfy, artistId: string, albumName: string, albumYear: number): Album {
+function createAndAddAlbum(unqfy: UNQfy, artistId: number, albumName: string, albumYear: number): Album {
   return unqfy.addAlbum(artistId, { name: albumName, year: albumYear });
 }
 
-function createAndAddTrack(unqfy: UNQfy, albumId: string, trackName: string, trackDuraction: number, trackGenres: string[]): Track {
+function createAndAddTrack(unqfy: UNQfy, albumId: number, trackName: string, trackDuraction: number, trackGenres: string[]): Track {
   return unqfy.addTrack(albumId, { name: trackName, duration: trackDuraction, genres: trackGenres });
 }
 

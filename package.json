@@ -11,12 +11,12 @@
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "chai": "^4.1.2",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.5.12",
     "picklify": "github:lwoites/picklify",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4",
-    "uniqid": "^5.0.3"
+    "request-promise": "^4.2.4"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
@@ -42,7 +42,7 @@
   },
   "scripts": {
     "test": "mocha --require ts-node/register test/**/*.ts",
-    "lint": "tslint --project tsconfig.json --config tslint.json --format codeFrame modelo/**/*.ts",
+    "lint": "tslint --project tsconfig.json --config tslint.json --format codeFrame **/*.ts",
     "watch": "npm-watch"
   },
   "pre-commit": [
