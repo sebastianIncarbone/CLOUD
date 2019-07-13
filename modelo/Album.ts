@@ -19,18 +19,15 @@ export class Album {
   getId(): string {
     return this.id;
   }
-
   getName(): string {
     return this.name;
   }
-
   getYear(): number {
     return this.year;
   }
   getTracks() : Track[] {
     return this.tracks;
   }
-
   getArtistName(): string {
     return this.artistName;
   }
@@ -51,7 +48,7 @@ export class Album {
   }
 
   hasPartOfName(albumName: string): boolean {
-    return this.getName().includes(albumName);
+    return this.getName().toLowerCase().includes(albumName.toLowerCase());
   }
 }
 

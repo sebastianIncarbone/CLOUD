@@ -48,15 +48,15 @@ describe('playlist', () => {
     assert.equal(nvaPlaylist.tracks.length, 0);
   });
   it('al borrar un artista tambien se borran sus track de las playlist', () => {
-    const artist = new Artist('Bad Bunny', 'Puerto Rico');
-    const album = new Album('BadBunny hits', 2018, 'Bad Bunny');
+    let artist = new Artist('Bad Bunny', 'Puerto Rico');
+    let album = new Album('BadBunny hits', 2018, 'Bad Bunny');
     const genres: string[] = ['trap', 'rap', 'hip hop'];
     const track: Track = new Track('mia', 230, genres, album.getName());
     const unqfy = new UNQfy();
 
-    unqfy.addArtist({ name: artist.getName(), country: artist.getCountry() });
-    unqfy.addAlbum(artist.getName(), { name: album.getName() , year: album.getYear() });
-    unqfy.addTrack(album.getName(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenres() });
+    artist = unqfy.addArtist({ name: artist.getName(), country: artist.getCountry() });
+    album = unqfy.addAlbum(artist.getId(), { name: album.getName() , year: album.getYear() });
+    unqfy.addTrack(album.getId(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenres() });
     unqfy.createPlaylist('PlayList_Test', ['rap'], 800);
 
     unqfy.deleteArtist(unqfy.findArtistByName(artist.getName()).getId());
@@ -64,15 +64,15 @@ describe('playlist', () => {
   });
 
   it('al borrar un album tambien se borran sus tracks de las playlist', () => {
-    const artist = new Artist('Bad Bunny', 'Puerto Rico');
-    const album = new Album('BadBunny hits', 2018, 'Bad Bunny');
+    let artist = new Artist('Bad Bunny', 'Puerto Rico');
+    let album = new Album('BadBunny hits', 2018, 'Bad Bunny');
     const genres: string[] = ['trap', 'rap', 'hip hop'];
     const track: Track = new Track('mia', 230, genres, album.getName());
     const unqfy = new UNQfy();
 
-    unqfy.addArtist({ name: artist.getName(), country: artist.getCountry() });
-    unqfy.addAlbum(artist.getName(), { name: album.getName() , year: album.getYear() });
-    unqfy.addTrack(album.getName(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenres() });
+    artist = unqfy.addArtist({ name: artist.getName(), country: artist.getCountry() });
+    album = unqfy.addAlbum(artist.getId(), { name: album.getName() , year: album.getYear() });
+    unqfy.addTrack(album.getId(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenres() });
     unqfy.createPlaylist('PlayList_Test', ['rap'], 800);
 
     unqfy.deleteAlbum(unqfy.findAlbumByName(album.getName()).getId());

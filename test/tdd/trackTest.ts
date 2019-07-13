@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import { Track } from '../../modelo/Track';
 import { UNQfy } from '../../modelo/unqfy';
 import  { Album } from '../../modelo/Album';
-import {Artist } from '../../modelo/Artist';
+import { Artist } from '../../modelo/Artist';
 
 describe('track' , () => {
   const compararArreglos = (array1: any[], array2: any[]) =>
@@ -52,15 +52,15 @@ describe('track' , () => {
     assert.throws(() => unqfy.getTrackById(track.getId()), Error, 'Track not found');
   });
   it('can be erase from the application', () => {
-    const artist = new Artist('Bad Bunny', 'Puerto Rico');
-    const album = new Album('BadBunny hits', 2018, 'Bad Bunny');
+    let artist = new Artist('Bad Bunny', 'Puerto Rico');
+    let album = new Album('BadBunny hits', 2018, 'Bad Bunny');
     const genres: string[] = ['trap', 'rap', 'hip hop'];
     const track: Track = new Track('mia', 230, genres, album.getName());
     const unqfy = new UNQfy();
 
-    unqfy.addArtist({ name: artist.getName(), country: artist.getCountry() });
-    unqfy.addAlbum(artist.getName(), { name: album.getName() , year: album.getYear() });
-    unqfy.addTrack(album.getName(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenres() });
+    artist = unqfy.addArtist({ name: artist.getName(), country: artist.getCountry() });
+    album = unqfy.addAlbum(artist.getId(), { name: album.getName() , year: album.getYear() });
+    unqfy.addTrack(album.getId(), { name: track.getName(), duration: track.getDuration() , genres: track.getGenres() });
     unqfy.deleteTrack(unqfy.findTrackByName(track.getName()).getId());
 
     assert.equal(unqfy.getTracks().length, 0);

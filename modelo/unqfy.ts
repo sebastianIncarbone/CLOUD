@@ -7,6 +7,7 @@ import { Album } from './Album';
 import { Playlist } from './Playlist';
 import { AdministradorSpotify } from './AdministradorSpotify';
 import { DuplicatedError } from './Errores/DuplicatedError';
+import { NotFoundError } from './Errores/NotFoundError';
 
 export class UNQfy {
   artists: Artist[];
@@ -19,6 +20,10 @@ export class UNQfy {
     this.playlists = [];
     this.listeners = [];
     this.administradorSpotify = new AdministradorSpotify();
+  }
+
+  getArtists(): Artist[] {
+    return this.artists;
   }
 
   getAlbums(): Album[] {
@@ -41,6 +46,7 @@ export class UNQfy {
   //   artistData.name (string)
   //   artistData.country (string)
   // retorna: el nuevo artista creado
+
   addArtist(artistData: { name: string, country: string }): Artist {
     /* Crea un artista y lo agrega a unqfy.
     El objeto artista creado debe soportar (al menos):
@@ -51,7 +57,9 @@ export class UNQfy {
     if (this.artists.some((artist: Artist) => artist.getName() === newArtist.getName())) {
       throw new DuplicatedError('That artist already exists');
     }else {
+      // @ts-ignore
       this.artists.push(newArtist);
+      // @ts-ignore
       return newArtist;
     }
   }
@@ -60,16 +68,21 @@ export class UNQfy {
   //   albumData.name (string)
   //   albumData.year (number)
   // retorna: el nuevo album creado
-  addAlbum(artistName: string, albumData: { name: string, year: number }): Album {
+
+  addAlbum(artistId: string, albumData: { name: string, year: number }): Album {
     /* Crea un album y lo agrega al artista con id artistId.
       El objeto album creado debe tener (al menos):
        - una propiedad name (string)
        - una propiedad year (number)
     */
-    const artist = this.findArtistByName(artistName);
+    const artist = this.getArtistById(artistId);
     const newAlbum = new Album(albumData.name, albumData.year, artist.name);
 
-    artist.addAlbum(newAlbum);
+    if (this.getAlbums().some((album: Album) => album.getName() === newAlbum.getName())) {
+      throw new DuplicatedError('That album already exists');
+    }else {
+      artist.addAlbum(newAlbum);
+    }
 
     return newAlbum;
   }
@@ -79,14 +92,14 @@ export class UNQfy {
   //   trackData.duration (number)
   //   trackData.genres (lista de strings)
   // retorna: el nuevo track creado
-  addTrack(albumName: string, trackData: { name: string, duration: number, genres: string[] }): Track {
+  addTrack(albumId: string, trackData: { name: string, duration: number, genres: string[] }): Track {
     /* Crea un track y lo agrega al album con id albumId.
     El objeto track creado debe tener (al menos):
         - una propiedad name (string),
         - una propiedad duration (number),
         - una propiedad genres (lista de strings)
     */
-    const album = this.findAlbumByName(albumName);
+    const album = this.getAlbumById(albumId);
     const newTrack = new Track(trackData.name, trackData.duration, trackData.genres, album.name);
     album.addTrack(newTrack);
 
@@ -98,7 +111,7 @@ export class UNQfy {
     if (artist) {
       return artist;
     }
-    throw new Error('Artist not found');
+    throw new NotFoundError('Artist not found');
 
   }
 
@@ -107,7 +120,7 @@ export class UNQfy {
     if (album) {
       return album;
     }
-    throw new Error('Album not found');
+    throw new NotFoundError('Album not found');
 
   }
 
@@ -116,7 +129,7 @@ export class UNQfy {
     if (track) {
       return track;
     }
-    throw new Error('Track not found');
+    throw new NotFoundError('Track not found');
 
   }
 
@@ -125,7 +138,7 @@ export class UNQfy {
     if (playlist) {
       return playlist;
     }
-    throw new Error('Playlist not found');
+    throw new NotFoundError('Playlist not found');
 
   }
 
@@ -140,7 +153,15 @@ export class UNQfy {
     if (artist) {
       return artist;
     }
-    throw new Error('Artist not found');
+    throw new NotFoundError('Artist not found');
+  }
+
+  findArtistsByName(artistName: string): Artist[] {
+    const artists = this.artists.filter(artist => artist.hasPartOfName(artistName));
+    if (artists) {
+      return artists;
+    }
+    throw new NotFoundError('No artist found');
   }
 
   findAlbumByName(albumName: string): Album {
@@ -148,7 +169,15 @@ export class UNQfy {
     if (album) {
       return album;
     }
-    throw new Error('Album not found');
+    throw new NotFoundError('Album not found');
+  }
+
+  findAlbumsByName(albumName: string): Album[] {
+    const albums = this.getAlbums().filter(album => album.hasPartOfName(albumName));
+    if (albums) {
+      return albums;
+    }
+    throw new NotFoundError('No album found');
   }
 
   findTrackByName(trackName: string): Track {
@@ -156,7 +185,7 @@ export class UNQfy {
     if (track) {
       return track;
     }
-    throw new Error('Track not found');
+    throw new NotFoundError('Track not found');
   }
 
   // artistName: nombre de artista(string)
@@ -183,6 +212,7 @@ export class UNQfy {
      */
     const playList = new Playlist(name, genresToInclude, maxDuration);
     let variableDuration = maxDuration;
+    // @ts-ignore
     this.getTracks().forEach((track: Track) => {
       if (track.fitsIntoDuration(variableDuration) && track.hasSomeOfGenders(genresToInclude)) {
         playList.addTrack(track);
@@ -250,6 +280,7 @@ export class UNQfy {
   deleteTrack(trackId: string):void  {
     const track = this.getTrackById(trackId);
     const album = this.findAlbumByName(track.getAlbumName());
+    // @ts-ignore
     album.deleteTrack(track);
     this.playlists.forEach((playlist: Playlist) => {
       if (playlist.hasTrack(track)) {
