@@ -5,7 +5,7 @@ import { DuplicatedError } from './modelo/errores/DuplicatedError';
 import { NotFoundError } from './modelo/errores/NotFoundError';
 import { Track } from './modelo/Track';
 import { Album } from './modelo/Album';
-import { DBConection, artistDB, albumDB, trackDB, playlistDB } from './AdministradorMongoDB';
+import { DBConection, artistDB, albumDB, trackDB, playlistDB } from './modelo/AdministradorMongoDB';
 
 const mongoConector: DBConection = new DBConection();
 const PORT = 3030;
@@ -199,10 +199,8 @@ app.post('/api/albums', (req:any, res:any) => {
     // Creación del album como modelo de mongo.
     const albumM = new albumDB({ _id: album.getId(), name: albumName, year: albumRealeaseDate,
       artistName: unqfy.getArtistById(artistID).getName() });
-    // Guardado del album en mongo.
-    albumM.save()
-    .then(() => console.log('Album added'))
-    .catch(err => console.log(err));
+    // Guardado del album en mongo y actualización del artista.
+    mongoConector.saveAlbum(albumM, artistID);
 
   } catch (error) {
     if (error instanceof DuplicatedError) {

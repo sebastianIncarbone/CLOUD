@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import { albumDB } from '../AdministradorMongoDB';
+
 const schema = mongoose.Schema;
 
 const artistSchemaJSON = {
@@ -16,7 +18,7 @@ const artistSchemaJSON = {
     require: true,
   },
   albums: {
-    type: [schema.Types.ObjectId],
+    type: [albumDB],
     ref: 'Album',
   },
 };

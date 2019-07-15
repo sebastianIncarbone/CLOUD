@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import { trackDB } from '../AdministradorMongoDB';
+
 const schema = mongoose.Schema;
 
 const playlistSchemaJSON = {
@@ -20,7 +22,7 @@ const playlistSchemaJSON = {
     require: true,
   },
   tracks: {
-    type: [schema.Types.ObjectId],
+    type: [trackDB],
     ref: 'Track',
   },
 };
