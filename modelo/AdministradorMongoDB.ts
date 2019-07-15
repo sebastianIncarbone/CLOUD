@@ -26,7 +26,7 @@ export class DBConection {
     .then(console.log('Album added'))
     .catch((err: any) => console.log(err));
 
-    artistDB.findByIdAndUpdate(artistID, { albums: [albumM] },
+    artistDB.findByIdAndUpdate(artistID, { $push: { albums: albumM } },
                                (err: any) => {
                                  if (err) throw err;
                                  console.log('Artist modified');
@@ -34,7 +34,7 @@ export class DBConection {
   }
 }
 
-export const artistDB = mongoose.model('Artist', artistSchema);
-export const albumDB = mongoose.model('Album', albumSchema);
-export const trackDB = mongoose.model('Track', trackSchema);
-export const playlistDB = mongoose.model('Playlist', playlistSchema);
+export const artistDB: mongoose.Model<mongoose.Document> = mongoose.model('Artist', artistSchema);
+export const albumDB: mongoose.Model<mongoose.Document> = mongoose.model('Album', albumSchema);
+export const trackDB: mongoose.Model<mongoose.Document> = mongoose.model('Track', trackSchema);
+export const playlistDB: mongoose.Model<mongoose.Document> = mongoose.model('Playlist', playlistSchema);
