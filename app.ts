@@ -5,11 +5,14 @@ import { DuplicatedError } from './modelo/errores/DuplicatedError';
 import { NotFoundError } from './modelo/errores/NotFoundError';
 import { Track } from './modelo/Track';
 import { Album } from './modelo/Album';
+import { DBConection, artistDB, albumDB, trackDB, playlistDB } from './AdministradorMongoDB';
 
+const mongoConector: DBConection = new DBConection();
 const PORT = 3030;
 const unqfy = new UNQfy();
 const app = express();
 
+mongoConector.connect();
 app.use(bodyParser());
 
 app.use((error: Error, req: any, res: any, next: () => void) => {
@@ -49,6 +52,13 @@ app.post('/api/artists', (req:any, res:any) => {
       country: countryOfArtist,
       albums: [],
     });
+    // Creación del artista como modelo de mongo.
+    const artistM = new artistDB({ _id: unqfy.findArtistByName(nameOfArtist).getId(),
+      name: nameOfArtist, country: countryOfArtist });
+    // Guardado del artista en mongo.
+    artistM.save()
+    .then(() => console.log('Artist added'))
+    .catch(err => console.log(err));
 
   } catch (error) {
     if (error instanceof DuplicatedError) {
@@ -186,6 +196,14 @@ app.post('/api/albums', (req:any, res:any) => {
       year: album.getYear(),
       tracks: album.getTracks(),
     });
+    // Creación del album como modelo de mongo.
+    const albumM = new albumDB({ _id: album.getId(), name: albumName, year: albumRealeaseDate,
+      artistName: unqfy.getArtistById(artistID).getName() });
+    // Guardado del album en mongo.
+    albumM.save()
+    .then(() => console.log('Album added'))
+    .catch(err => console.log(err));
+
   } catch (error) {
     if (error instanceof DuplicatedError) {
       res.status(409);
