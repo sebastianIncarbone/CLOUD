@@ -8,7 +8,7 @@ import { Album } from './modelo/Album';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const PORT = 3030;
+const PORT = process.env.PUERTO;
 const unqfy = new UNQfy();
 const app = express();
 
