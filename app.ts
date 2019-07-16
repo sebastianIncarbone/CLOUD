@@ -72,10 +72,8 @@ app.post('/api/artists', (req:any, res:any) => {
 });
 
 app.get('/api/artists/:id', (req:any, res:any) => {
-
-  try {
-    const artist =  unqfy.getArtistById(parseInt(req.params.id, 10));
-    const albumsWithoutArtistName: Album[] = JSON.parse(JSON.stringify(artist.getAlbums()));
+/*
+const albumsWithoutArtistName: Album[] = JSON.parse(JSON.stringify(artist.getAlbums()));
     albumsWithoutArtistName.forEach(album => delete album.artistName);
     res.send({
       id: artist.getId(),
@@ -83,16 +81,19 @@ app.get('/api/artists/:id', (req:any, res:any) => {
       country: artist.getCountry(),
       albums: albumsWithoutArtistName,
     });
-
-  } catch (error) {
-    if (error instanceof NotFoundError) {
+  */ console.log(req.params.id);
+  artistDB.findById(req.params.id, (err, doc) => {
+    console.log(doc);
+    if (err) {
       res.status(404);
       res.send({
         status: 404,
         errorCode: 'RESOURCE_NOT_FOUND',
       });
     }
-  }
+    res.send(doc);
+    res.status(200);
+  });
 });
 
 app.put('/api/artists/:id', (req:any, res:any) => {
@@ -221,22 +222,17 @@ app.post('/api/albums', (req:any, res:any) => {
 
 app.get('/api/albums/:id', (req: any, res: any) => {
 
-  try {
-    const album = unqfy.getAlbumById(parseInt(req.params.id, 10));
+  albumDB.findById(parseInt(req.params.id, 10), (err, doc) => {
+    if (err) {
+      res.status(404);
+      res.send({
+        status: 404,
+        errorCode: 'RESOURCE_NOT_FOUND',
+      });
+    }
     res.status(200);
-    res.send({
-      id: album.getId(),
-      name: album.getName(),
-      year: album.getYear(),
-      tracks: album.getTracks(),
-    });
-  } catch (error) {
-    res.status(404);
-    res.send({
-      status: 404,
-      errorCode: 'RESOURCE_NOT_FOUND',
-    });
-  }
+    res.send(doc);
+  });
 });
 
 app.patch('/api/albums/:id', (req: any, res: any) => {
