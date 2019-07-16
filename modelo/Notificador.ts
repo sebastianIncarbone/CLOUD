@@ -1,5 +1,4 @@
 import {Artist} from "./Artist";
-import requestPromise from "request-promise";
 import axios from 'axios';
 
 
@@ -14,7 +13,7 @@ export class Notificador {
         };
 
         try{
-            await axios.post('http://localhost:3032/api/notify', mailDelBody);
+            await axios.post(`${process.env.URL_NOTIFICADOR}/api/notify`, mailDelBody);
         }
         catch (error) {
             console.log(error);

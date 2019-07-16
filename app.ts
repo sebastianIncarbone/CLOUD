@@ -5,6 +5,8 @@ import { DuplicatedError } from './modelo/errores/DuplicatedError';
 import { NotFoundError } from './modelo/errores/NotFoundError';
 import { Track } from './modelo/Track';
 import { Album } from './modelo/Album';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const PORT = 3030;
 const unqfy = new UNQfy();
