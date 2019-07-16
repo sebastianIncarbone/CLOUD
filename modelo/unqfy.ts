@@ -8,18 +8,24 @@ import { Playlist } from './Playlist';
 import { AdministradorSpotify } from './AdministradorSpotify';
 import { DuplicatedError } from './errores/DuplicatedError';
 import { NotFoundError } from './errores/NotFoundError';
+import {Notificador} from "./Notificador";
+
+
 
 export class UNQfy {
   artists: Artist[];
   playlists: Playlist[];
   private listeners: any[];
   private administradorSpotify : AdministradorSpotify;
+  private notificador : Notificador;
+
 
   constructor() {
     this.artists = [];
     this.playlists = [];
     this.listeners = [];
     this.administradorSpotify = new AdministradorSpotify();
+    this.notificador = new Notificador();
   }
 
   getArtists(): Artist[] {
@@ -82,6 +88,8 @@ export class UNQfy {
       throw new DuplicatedError('That album already exists');
     }else {
       artist.addAlbum(newAlbum);
+      this.notificador.notificarNuevoAlbumDe(artist, newAlbum.getName());
+
     }
 
     return newAlbum;
