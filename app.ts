@@ -5,7 +5,7 @@ import { DuplicatedError } from './modelo/errores/DuplicatedError';
 import { NotFoundError } from './modelo/errores/NotFoundError';
 import { Track } from './modelo/Track';
 import { Album } from './modelo/Album';
-import { DBConection, artistDB, albumDB, trackDB, playlistDB } from './modelo/AdministradorMongoDB';
+import { DBConection, artistDB, albumDB } from './modelo/AdministradorMongoDB';
 
 const mongoConector: DBConection = new DBConection();
 const PORT = 3030;
@@ -42,48 +42,13 @@ app.post('/api/artists', (req:any, res:any) => {
     });
     return;
   }
-
-  try {
-    unqfy.addArtist({ name: nameOfArtist, country: countryOfArtist });
-    res.status(201);
-    res.send({
-      id: unqfy.findArtistByName(nameOfArtist).getId(),
-      name: nameOfArtist,
-      country: countryOfArtist,
-      albums: [],
-    });
-    // Creación del artista como modelo de mongo.
-    const artistM = new artistDB({ _id: unqfy.findArtistByName(nameOfArtist).getId(),
-      name: nameOfArtist, country: countryOfArtist });
-    // Guardado del artista en mongo.
-    artistM.save()
-    .then(() => console.log('Artist added'))
-    .catch(err => console.log(err));
-
-  } catch (error) {
-    if (error instanceof DuplicatedError) {
-      res.status(409);
-      res.send({
-        status: 409,
-        errorCode: 'RESOURCE_ALREADY_EXISTS',
-      });
-    }
-  }
+  const artistM = mongoConector.createAndSaveArtist(nameOfArtist, countryOfArtist);
+  res.status(201);
+  res.send(artistM);
 });
 
 app.get('/api/artists/:id', (req:any, res:any) => {
-/*
-const albumsWithoutArtistName: Album[] = JSON.parse(JSON.stringify(artist.getAlbums()));
-    albumsWithoutArtistName.forEach(album => delete album.artistName);
-    res.send({
-      id: artist.getId(),
-      name: artist.getName(),
-      country: artist.getCountry(),
-      albums: albumsWithoutArtistName,
-    });
-  */ console.log(req.params.id);
   artistDB.findById(req.params.id, (err, doc) => {
-    console.log(doc);
     if (err) {
       res.status(404);
       res.send({
@@ -148,14 +113,20 @@ app.delete('/api/artists/:id', (req:any, res:any) => {
 
 app.get('/api/artists', (req:any, res:any) => {
   const artistName:string  = req.query.name;
-  let artists;
   if (!artistName) {
-    artists = unqfy.getArtists();
+    artistDB.find((err, doc) => {
+      if (err) throw err;
+      res.send(doc);
+    });
   } else {
-    artists = unqfy.findArtistsByName(artistName);
+    // tslint:disable-next-line: prefer-template
+    const aproximatedName: string = '/' + artistName + '/i';
+    artistDB.find({ name: aproximatedName }, (err, doc) => {
+      if (err) throw err;
+      res.send(doc);
+    });
   }
   res.status(200);
-  res.send(artists);
 });
 
 app.post('/api/populate', async (req:any, res:any) => {
@@ -175,7 +146,7 @@ app.post('/api/populate', async (req:any, res:any) => {
  */
 
 app.post('/api/albums', (req:any, res:any) => {
-  const artistID: number = parseInt(req.body.artistId, 10);
+  const artistID: string = req.body.artistId;
   const albumName: string = req.body.name;
   const albumRealeaseDate: number = parseInt(req.body.year, 10);
 
@@ -188,41 +159,14 @@ app.post('/api/albums', (req:any, res:any) => {
     return;
   }
 
-  try {
-    const album = unqfy.addAlbum(artistID, { name: albumName, year: albumRealeaseDate });
-    res.status(201);
-    res.send({
-      id: album.getId(),
-      name: album.getName(),
-      year: album.getYear(),
-      tracks: album.getTracks(),
-    });
-    // Creación del album como modelo de mongo.
-    const albumM = new albumDB({ _id: album.getId(), name: albumName, year: albumRealeaseDate,
-      artistName: unqfy.getArtistById(artistID).getName() });
-    // Guardado del album en mongo y actualización del artista.
-    mongoConector.saveAlbum(albumM, artistID);
-
-  } catch (error) {
-    if (error instanceof DuplicatedError) {
-      res.status(409);
-      res.send({
-        status: 409,
-        errorCode: 'RESOURCE_ALREADY_EXISTS',
-      });
-    } else if (error instanceof NotFoundError) {
-      res.status(404);
-      res.send({
-        status: 404,
-        errorCode: 'RELATED_RESOURCE_NOT_FOUND',
-      });
-    }
-  }
+  const albumM = mongoConector.createAndSaveAlbum(albumName, albumRealeaseDate, artistID);
+  res.status(201);
+  res.send(albumM);
 });
 
 app.get('/api/albums/:id', (req: any, res: any) => {
 
-  albumDB.findById(parseInt(req.params.id, 10), (err, doc) => {
+  albumDB.findById(req.params.id, (err, doc) => {
     if (err) {
       res.status(404);
       res.send({
@@ -286,16 +230,20 @@ app.delete('/api/albums/:id', (req: any, res: any) => {
 
 app.get('/api/albums', (req: any, res: any) => {
   const albumName = req.query.name;
-  let albums: Album[];
   if (!albumName) {
-    albums = unqfy.getAlbums();
+    albumDB.find((err, doc) => {
+      if (err) throw err;
+      res.send(doc);
+    });
   } else {
-    albums = unqfy.findAlbumsByName(albumName);
+    // tslint:disable-next-line: prefer-template
+    const aproximatedName: string = '/' + albumName + '/i';
+    albumDB.find({ name: aproximatedName }, (err, doc) => {
+      if (err) throw err;
+      res.send(doc);
+    });
   }
-  albums = JSON.parse(JSON.stringify(albums));
-  albums.forEach(album => delete album.artistName);
   res.status(200);
-  res.send(albums);
 });
 
   /*
